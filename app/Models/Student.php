@@ -12,4 +12,15 @@ class Student extends Model
     protected $fillable = [
       'school_id','school_name','student_first_name','student_last_name'  
     ];
+
+    //
+    public function school()
+    {
+        return $this->hasMany(School::class,'id','school_id');
+    }
+
+    public function parent()
+    {
+        return $this->hasMany(Parents::class,'student_id','id');
+    }
 }

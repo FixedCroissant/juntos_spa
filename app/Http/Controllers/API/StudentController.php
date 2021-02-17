@@ -17,7 +17,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::with('school')->get();
+
         return response([ 'students' => StudentResource::collection($students), 'message' => 'Retrieved successfully'], 200);
    
     }
@@ -57,7 +58,10 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        return response([ 'student' => new StudentResource($student), 'message' => 'Retrieved successfully'], 200);
+        //Get student with parent information.
+        //$student
+
+        return response([ 'student' => new StudentResource($student),'parent'=>new StudentResource($student->parent), 'message' => 'Retrieved successfully'], 200);
 
     }
 

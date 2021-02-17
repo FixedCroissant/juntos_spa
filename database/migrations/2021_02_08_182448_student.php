@@ -17,10 +17,16 @@ class Student extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('school_id')->nullable();
-            $table->string('school_name')->nullable();
+            $table->integer('student_id')->nullable();
             $table->string('student_first_name')->nullable();
             $table->string('student_last_name')->nullable();
+            $table->string('address_line_1')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zip')->nullable();
+
+            $table->string('coordinator')->nullable();
+            $table->string('events_id')->nullable();
         });
     }
 
@@ -32,5 +38,6 @@ class Student extends Migration
     public function down()
     {
         //
+        Schema::drop('students');
     }
 }
