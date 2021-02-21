@@ -17,9 +17,17 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with('school')->get();
+        //$students = Student::with('school')->get();
 
-        return response([ 'students' => StudentResource::collection($students), 'message' => 'Retrieved successfully'], 200);
+        //convert to db builder
+        $student = \DB::table('students')
+        ->join('parents', 'students.id', '=', 'parents.student_id')
+        ->join('schools', 'students.school_id', '=', 'schools.id')
+        ->select('schools.*', 'students.student_first_name', 'students.student_last_name','students.address_line_1','students.coordinator')
+        ->get();
+
+
+        return response([ 'students' => $student, 'message' => 'Retrieved successfully'], 200);
    
     }
 
