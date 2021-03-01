@@ -17,6 +17,8 @@ class AdjustStudent extends Migration
         Schema::table('students', function (Blueprint $table) {
             $table->unsignedBigInteger('school_id')->nullable();
             $table->foreign('school_id')->references('id')->on('schools')->onUpdate('cascade')->onDelete('set null');
+            //Add notes field.
+            $table->text('student_notes')->nullable();
         });
         //
  
