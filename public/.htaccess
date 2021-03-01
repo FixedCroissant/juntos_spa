@@ -1,3 +1,19 @@
+# Restrict to NCSU IPs, while using shibboleth
+<RequireAll>
+  <RequireAny>
+    Require ip 152.1.0.0/16
+    Require ip 152.7.0.0/16
+    Require ip 152.14.0.0/16
+    Require ip 10.0.0.0/8
+</RequireAny>
+
+  # Shibboleth config
+  AuthType shibboleth
+  ShibRequestSetting requireSession false
+  Require shibboleth
+</RequireAll>
+
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
