@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/apptestdasa/public_html/apps/DASA/juntos
+    - /bin/rsync -av * $DEPLOYPATH
