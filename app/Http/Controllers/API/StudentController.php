@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\StudentResource;
 
 use App\Models\Student;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -17,17 +18,27 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //$students = Student::with('school')->get();
+        /*$students = Student::with(['school'=>function($query){
+            $query->select('school_name');
+        }
+        ,'parent'
+
+        
+        
+        
+        ,'attendance'])
+        ->get();*/
 
         //convert to db builder
-        $student = \DB::table('students')
-        ->join('parents', 'students.id', '=', 'parents.student_id')
-        ->join('schools', 'students.school_id', '=', 'schools.id')
-        ->select('schools.*', 'students.student_first_name', 'students.student_last_name','students.address_line_1','students.coordinator')
+        $students = \DB::table('students')
+        //->join('parents', 'students.id', '=', 'parents.student_id')
+        ->leftJoin('schools', 'students.school_id', '=', 'schools.id')
+        //->leftJoin('event_attendance','students.id','=','event_attendance.student_id')
+        ->select('students.id',\DB::raw('CONCAT(students.student_first_name, " ", students.student_last_name) AS student_full_name'),'schools.school_name','schools.school_county','students.student_first_name', 'students.student_last_name','students.address_line_1','students.coordinator')
         ->get();
 
 
-        return response([ 'students' => $student, 'message' => 'Retrieved successfully'], 200);
+        return response([ 'students' => $students, 'message' => 'Retrieved successfully'], 200);
    
     }
 
@@ -41,20 +52,24 @@ class StudentController extends Controller
     {
         $data = $request->all();
 
-        $validator = Validator::make($data, [
-            'name' => 'required|max:255',
-            'year' => 'required|max:255',
-            'company_headquarters' => 'required|max:255',
-            'what_company_does' => 'required'
-        ]);
+         $validator = \Validator::make($data, [
+             'student_id' => 'required|max:255',
+             'student_first_name' => 'required|max:255',
+             'student_last_name' => 'required|max:255',
+             'address_line_1' => 'required',
+             'city' => 'required',
+             'state' => 'required',
+             'zip' => 'required'
+         ]);
 
-        if($validator->fails()){
-            return response(['error' => $validator->errors(), 'Validation Error']);
-        }
+        //Validation
+         if($validator->fails()){
+             return response(['error' => $validator->errors(), 'Validation Error']);
+         }
 
-        $ceo = CEO::create($data);
+        $student = student::create($data);
 
-        return response([ 'ceo' => new CEOResource($ceo), 'message' => 'Created successfully'], 200);
+        return response([ 'student' => new StudentResource($student), 'message' => 'Created Student','status'=>200], 200);
     
     }
 
@@ -69,7 +84,10 @@ class StudentController extends Controller
         //Get student with parent information.
         //$student
 
-        return response([ 'student' => new StudentResource($student),'parent'=>new StudentResource($student->parent), 'message' => 'Retrieved successfully'], 200);
+        $eventInformation = $student->attendance;
+
+      
+        return response([ 'student' => new StudentResource($student),'attendance'=>new StudentResource($eventInformation),'parent'=>new StudentResource($student->parent), 'message' => 'Retrieved successfully'], 200);
 
     }
 
@@ -80,11 +98,12 @@ class StudentController extends Controller
      * @param  \App\Models\CEO  $CEO
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $STUDENT)
+    public function update(Request $request, Student $student)
     {
-        $ceo->update($request->all());
+        //Update our student with address information.
+        $student->update($request->all());
 
-        return response([ 'ceo' => new CEOResource($ceo), 'message' => 'Retrieved successfully'], 200);
+        return response([ 'student' => new StudentResource($student), 'message' => 'Retrieved successfully'], 200);
 
     }
 
