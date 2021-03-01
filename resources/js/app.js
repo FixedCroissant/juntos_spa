@@ -1,32 +1,49 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
+import Vue from 'vue';
 
-window.Vue = require('vue');
+//Using Vuetify
+import  vuetify from './src/plugins/vuetify';
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+ //Main App file.
+import App from './App.vue';
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+//Import Components
+import login from './views/Login.vue';
+//End Components
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+//Import moment for dates;
+import moment from 'moment';
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+//Register components
+// Globally register your component(s)
+Vue.component('login', login);
+Vue.component('instructions',instructions);
 
-const app = new Vue({
-    el: '#app',
+
+import VueAxios from 'vue-axios';
+import axios from 'axios';
+//Call my router.
+import { router  }from './router';
+
+//VUEX STORE from separate file.
+import store from './store';
+//import Vuex from 'vuex';
+
+
+Vue.use(VueAxios, axios);
+
+//Add vue filter for formatting dates.
+Vue.filter('formatDate', function(value) {
+  if (value) {
+      return moment(String(value)).format('MM/DD/YYYY')
+  }
 });
+
+
+//Create new Vue Application
+new Vue({
+  store: store,
+  vuetify,
+  router:router,
+  render: h=>h(App),
+}).$mount('#app');
