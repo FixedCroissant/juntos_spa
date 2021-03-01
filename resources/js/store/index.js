@@ -41,13 +41,16 @@ const store = new Vuex.Store({
           token:false,
           drawer:false,
           message:'',
-          myuserInformation:null
+          myuserInformation:null,
+          successMessage:null,
   },
   getters: {
     token: state => state.token,
     message: state=>state.message,
     userid: state=>state.myuserInformation,
-    isAuthenticated: state=>state.isAuthenticated
+    isAuthenticated: state=>state.isAuthenticated,
+    drawer:state=>state.drawer,
+    success:state=>state.successMessage,
     },
   mutations: {
     increment (state) {
@@ -86,6 +89,9 @@ const store = new Vuex.Store({
       },
     reset(state){
         Object.assign(state,reset())
+    },
+    saveSuccess(state){
+      state.successMessage="SavedItem";
     }
     
   },
@@ -100,7 +106,12 @@ const store = new Vuex.Store({
        */
       setAuthenticated({commit}){
           commit('isAuthenticated')
+      },
+
+      setSuccess({commit}){
+        commit('saveSuccess')
       }
+
 
   }
 })
