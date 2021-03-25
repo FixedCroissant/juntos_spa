@@ -39,14 +39,13 @@ offset-md="3"
           required
         >
         </v-text-field>
-              
-          <v-btn elevation="2"  color="primary" large v-on:click="login">Register for Account</v-btn>
 
           <v-btn elevation="2" style="margin-left:100px"  large v-on:click="login">Login</v-btn>
 
+          <v-btn router-link to="/register" elevation="2" color="primary" style="margin-left:40px;" large>Register For Account</v-btn>
+
           <br/>
           <br/>
-          <br/>  
 
         <!----STANDARD BUTTONS-->
         <!--COMMENT OUT-->
@@ -76,7 +75,9 @@ offset-md="3"
 
 <script>
  
-
+  //CASTL We ARE USING VERSION 5; but does not seem to work with VUE 2.X, which is 
+  //what we are using in this application.
+  import { AbilityBuilder } from '@casl/ability';
 
   export default {
     data: () => ({
@@ -100,15 +101,44 @@ offset-md="3"
             console.log(process.env.MIX_API_URL)
             
     },
-
     
-    methods:{
-      //VUEX
+    
+    
+    methods:{  
+    //VUEX
   loginAttempt(){
       //Change the boolean value of isLoggedin.
       this.$store.commit('login');
      
   },
+  //CASTL TEMP
+  //Check role.
+  updateAbility(roles) {
+      const { can, cannot, rules } = new AbilityBuilder();
+
+      //Get role information.
+      console.log(roles);
+
+     //Check if proper role exists.
+     if(roles.map(myROLETOCHECK=>myROLETOCHECK.name).includes('Admin'))
+        {
+          can('read','Admin');
+
+        
+          can('read','CoachAppointment');
+          can('create','CoachAppointment');
+          can('destroy','CoachAppointment');
+        }else{
+           console.log("This person cannot read the admin page.");
+            cannot('read','Admin');
+        }
+
+      this.$ability.update(rules);
+    },
+  //CASTL END TEMP
+
+
+  
 
   increment() {
     //Standard mutation that doesn't have a payload parameter.
@@ -171,19 +201,27 @@ offset-md="3"
 
                  
                  //Save id
-                this.$store.commit('saveUser',result.data.user.id)
-                 
+                //this.$store.commit('saveUser',result.data.user.id)
+                
+                //Save all information about the user.
+                this.$store.commit('saveUser',result.data.user);
 
+                //console.log("This is what is being returned currently: " + result.data.roles);
+                //console.log(result.data.roles);
+
+                //Save information about the role of the logged in person.
+                this.$store.commit('saveRole',result.data.roles);
+
+                //Update my abilities with our ROLES in the system.
+                this.updateAbility(result.data.roles);
                 //End set token.
+
                 //Go ahead and set it as iSAuthenticated
                 //change to action.
-                //this.$store.commit('isAuthenticated')
-                this.$store.dispatch('setAuthenticated')
+                this.$store.dispatch('setAuthenticated');             
 
            }
-            //Testing VUEX.
-            //this.increment();
-          }
+        }
 
          
           

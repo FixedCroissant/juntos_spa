@@ -50,8 +50,11 @@ class AuthController extends Controller
      
         //To-Do -- Only access a token if one doesn't already exist.
         $accessToken = auth()->user()->createToken('accessToken')->accessToken;
+
+        //Get roles associated with our user.
+        $roles = auth()->user()->roles()->orderBy('name')->select('name','slug')->get();
  
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response(['user' => auth()->user(),'roles'=>$roles, 'access_token' => $accessToken]);
     }
 
     public function logout(Request $request)
@@ -67,6 +70,6 @@ class AuthController extends Controller
         ]);
 
         return response()->json(['status' => 200]);
-    } 
+    }
 
 }
