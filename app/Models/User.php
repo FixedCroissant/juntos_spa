@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Role\HasRoleTrait;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoleTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -41,5 +42,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+     //Coaching Appointment
+     //One to Many
+     public function coachingAppointment()
+     {
+         return $this->hasMany(CoachAppointment::class,'user_id','id');
+     }
 
 }
