@@ -1,47 +1,84 @@
 
 <template>
 <v-container>
+        <!--Start Success Message-->
+        <!-- <v-row>
+            <v-col cols="12" md="7" offset-md="2">
+                        <v-alert v-if="this.alert"  type="success">
+                         Saved Record
+                    </v-alert>
+            </v-col>
+        </v-row> -->
+        <!--EndSuccessMessage-->
        <v-row>
-          <v-col cols="12" md="5" offset-md="2">  
-
-                    <div style="float:left; padding-right:50px;">
-                            <!-- <img :src="image"/>   -->
-                            <img width="50" height="50" src="https://ui-avatars.com/api/?name=${student.student_first_name}+${student.student_last_name}"/>
-                    </div>
-                    <div>
-                         <h3>{{ student.student_first_name }} {{student.student_last_name}}</h3>
-                    </div>
-
-                            
-                   
-                   <ul v-for="myschool in student.school">
-                       <li>{{myschool.school_name}} |  {{myschool.school_county}}</li>
-                    </ul>
-                   
-                   <br/>
-                   <h5>Contact Information</h5>
-                   {{student.address_line_1}} <br/>
-                   {{student.city}} <br/>
-                   {{student.state}} <br/>
-                   {{student.zip}}
-
-                   <br/>
+          <v-col cols="12" md="5" offset-md="1">
+            <h4>Student Contact Information</h4>
+            <br>
+                 <StudentContactComponent  @clicked="onClickChild" v-bind:myStudentSelection="student" />
+                <v-btn
+                        elevation="2"
+                        x-small
+                        v-on:click="updateStudentInformation"
+                >
+                Update Student Information
+                </v-btn>  
             </v-col>
             <v-col cols="12" md="5">
-                    <h3>Parent Information Here </h3>
-
-                      <template v-for="theparents in student.parent">
+                    <h4>Parent Guardian Information </h4>
+                    <br>
+                      <!-- <template v-for="theparents in student.parent">
                          {{theparents.parent_first_name}} |  {{theparents.parent_last_name}} <br/>
                          {{theparents.address_line_1}} <br/>
                          {{theparents.city}}, 
                          {{theparents.state}} <br/>
                          {{theparents.zip}}
-                    </template>  
+                    </template>   -->
+                   
+                    <!--Handle Long Parent Lists-->
+                    <template>
+                        <div style="border: 1px solid grey; height:250px; overflow:auto; padding:30px;">
+                            <div v-for="theparents in student.parent">
+                                    <ParentContactComponent v-bind:myParentSelection="theparents" style="height:250px;"/>
+                            </div>
+                        </div>
+                    </template>
+                    <!--End Handle long parent lists-->
+                     <!--NO PARENTS ADD ONE-->
+                    <template>
+                       <CreateNewParentModal 
+                        v-bind:mystudent="student"
+                        v-on:event_parent_creation="eventParentCreation"
+                        style="margin-top:15px;"
+                        />
+                    </template>
+                    <br/>
             </v-col>
         </v-row>
-     <v-row style="padding-top:125px;">
+     <!--Grade Information here?-->
+     <v-row>
+         <v-col cols="12" md="10" offset-md="1">
+                <h4>Student Grades:</h4>
+
+                <ul>
+                    <li>
+                        7th Grade
+                    </li>
+                    <li>
+                        8th Grade
+                    </li>
+                    <li>
+                        9th Grade
+                    </li>
+                    <li>
+                        ...
+                    </li>
+                </ul>
+         </v-col>
+     </v-row>
+
+     <v-row style="padding-top:80px;">
           <v-col cols="12" md="10" offset-md="1">                  
-                     <NoteTabComponent />
+                     <NoteTabComponent  v-bind:myStudentSelection="student" />
             </v-col>
      </v-row>
 
@@ -53,29 +90,101 @@
 
         //Local component registration...
         import NoteTabComponent from '../../components/NoteTabComponent.vue';  
+        import StudentContactComponent from '../../components/StudentContactComponent.vue';  
+        import ParentContactComponent from '../../components/ParentContactComponent.vue';
+        import CreateNewParentModal from '../../components/CreateNewParentModal.vue';  
 
-       export default { 
-
+       export default {
         components:{
-            NoteTabComponent
+            NoteTabComponent,
+            StudentContactComponent,
+            ParentContactComponent,
+            CreateNewParentModal
                 
         },
         data() {
             return {
                 student:[],
-                //image: "https://placekitten.com/200/300"                
-                //image:"https://ui-avatars.com/api/?name=John+Doe"
+                createParent:false,
+                newParent:true,
+                alert:false  
             }
         },
-         created() {
-            this.axios
-                .get('http://localhost:9000/public/index.php/api/students/'+ this.$route.params.id)
-                .then(response => {
-                    this.student = response.data.student;
-                });
-            // this.axios.get('https://ui-avatars.com/api/?name=John+Doe').then(response=>{
-            //     this.image
-            // })    
+        methods:{
+                //Get information back from our child component
+                eventParentCreation: function(id) {
+		            	//Information stored in ID is the data response.
+                        //console.log('Event from parent component emitted', id)
+                        //console.log(this.student.parent);
+                        //update information in parent array.
+                        this.student.parent.push( id );
+                        console.log(this.student.parent);
+		        },
+                onClickChild(){
+                    console.log('we want this to work like above.')
+                },
+                createParentInformationModal(){
+                    this.createParent=true;
+                },
+                async updateStudentInformation(){
+                    try {
+                    let res = 
+                            await axios ({
+                                        url: `${process.env.MIX_API_URL}/public/index.php/api/students/`+ this.$route.params.id,
+                                        method: 'PATCH',
+                                        data: {
+                                                            student_first_name:this.$data.student.student_first_name,
+                                                            student_last_name:this.$data.student.student_last_name,
+                                                            address_line_1:this.$data.student.address_line_1,
+                                                            city:this.$data.student.city,
+                                                            state:this.$data.student.state,
+                                                            zip:this.$data.student.zip,
+                                            
+                                        },
+                                        headers:
+                                        {
+                                            Authorization: `Bearer ${this.$store.getters.token}`,
+                                        }
+                                        }).then(
+                                        //Get Result.
+                                        response=>{
+                                                    if(response.status==200){
+                                                                      //this.alert=true;
+                                                                      //Use overall notification from top of application.
+                                                                      //Set success message.
+                                                                      // Add alert
+                                                                      this.$store.dispatch('setSuccessAlert','Student Record has been updated.')
+                                                            
+                                                                      // Remove alert
+                                                                       setTimeout(() => {
+                                                                                    this.$store.dispatch('removeSuccessAlert')
+                                                                        }, 7000)
+                                                    }
+                                            
+                                        }
+
+                                )
+                        }
+                    catch(err){
+                                alert(err);
+                    }
+                },  
         },
+         created() {
+                                this.axios
+                                .get(`${process.env.MIX_API_URL}/public/index.php/api/students/` + this.$route.params.id,
+                                {
+                                headers:
+                                {
+                                    Authorization: `Bearer ${this.$store.getters.token}`,
+                                }
+                                })
+                                .then(response => {
+                                    this.student = response.data.student;      
+                                    
+                                    
+
+                                });
+                        },
     }
 </script>
