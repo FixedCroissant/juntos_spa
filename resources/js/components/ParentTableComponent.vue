@@ -16,21 +16,33 @@
   </template>
   <template v-slot:item="parents">
         <tr>
-           <td>{{parents.item.student_id}}</td>
-           <td>{{parents.item.parent_first_name}} {{parents.item.parent_last_name}}</td>
+           <td>
+            <v-checkbox
+                 v-model="parents.item.checked"
+                 @change="addToList(parents.item.id,$event)"
+              ></v-checkbox>
+            </td>
+           
+           <td>
+               <div v-if="parents.item.student">
+                     {{parents.item.student.student_full_name}}
+                </div>
+           </td>
+           <td>
+               {{parents.item.parent_full_name}}
+           </td>
            <td>{{parents.item.address_line_1}}</td>
            <td>{{parents.item.city}}</td>
            <td>{{parents.item.state}}</td>
            <td>{{parents.item.zip}}</td>
-           <td>
-             <router-link :to="{name: 'showparent', params: { id: parents.item.id }}" class="btn btn-primary">Details
+           <td style="width:200px">
+             <router-link :to="{name: 'showparent', params: { id: parents.item.id }}" 
+               elevation="2"
+               x-small>
+                Details
              </router-link>
-
-             |
-             <router-link :to="{name: 'edit', params: { id: parents.item.id }}" class="btn btn-primary">Edit
-              </router-link>
               |
-              <button class="btn btn-danger" @click="deleteParent(parents.item.id)">Delete</button>
+              <DeleteConfirmationComponent  style="padding-left:95px;"  v-bind:recordToRemove="parents.item.id" v-on:event_deletion="checkParentDeletion" />
           </td>
         </tr>
   </template>
@@ -38,22 +50,29 @@
 </template>
 
 <script>
+    import DeleteConfirmationComponent from './DeleteConfirmationComponent.vue';
+    
     export default {
+       components:{
+                DeleteConfirmationComponent
+        },
         mounted() {
             console.log('Parent Table Component mounted.')
-            this.overlay = true;
-            console.log(this);
+            this.overlay = true;            
         },
          data() {
             return {
                 headers:[
+                    {
+                    text:'Select'
+                  },
                   {
                   text: 'Associated Student',
                   align: 'start',
-                  sortable: false,
-                  value: 'student_id',
+                  sortable: true,
+                  value: 'student.student_full_name',
                   },
-          { text: 'Parent Name', value: 'name' },
+          { text: 'Parent Full Name', value: 'parent_full_name' },
           { text: 'Address', value: 'address_line_1' },
           { text: 'City', value: 'city' },
           { text: 'State', value: 'state' },
@@ -62,6 +81,7 @@
                   
                 ],
                 parents: [],
+                eventStudentListTotal:[],
                 search:'',
                 overlay:true,
             }
@@ -69,20 +89,62 @@
         //item has middleware on it.       
         created() {
             this.axios
-                .get('http://localhost:9000/public/index.php/api/parents')
+                .get(`${process.env.MIX_API_URL}/public/index.php/api/parents`)
                 .then(response => {
                     this.parents = response.data.parents;
                     this.overlay = false;
                 });
         },
         methods: {
+          checkParentDeletion(value){
+            console.log('From child component, person really wanted to delete a record.' + value);
+
+           //Call our delete method.
+           //Fully delete the parent record.
+           this.deleteParent(value);
+
+          },
+          addToList(id,event){
+                this.parents.forEach(myParent => {
+                        if(myParent.checked && event==true){                           
+                          this.eventStudentListTotal.indexOf(myParent.id)==-1 ? this.eventStudentListTotal.push(myParent.id) : "---"; 
+                        }
+                });
+              
+                //Unchecked Item.
+                if(event==false){
+                  var index = this.eventStudentListTotal.indexOf(id);
+                      this.eventStudentListTotal.splice(index, 1);
+                }
+                
+                //send information back to the parent component using the dummy method below.
+                //Get total list of people select.
+                //See below function.
+                this.addParent(this.eventStudentListTotal);
+          }, 
+            //Send event information back to the main page.
+            addParent(value){
+                //Send to parent component.
+                //Todo -rename function to something more appropriate.
+                this.$emit('event_parent_creation',value)
+            },
             deleteParent(id) {
                 this.axios
-                    .delete(`http://localhost:9000/public/index.php/api/parent/${id}`)
+                    .delete(`${process.env.MIX_API_URL}/public/index.php/api/parents/${id}`)
                     .then(response => {
-                        let item = this.parents.map(item=>item.id).indexOf(id)
-                       
-                       this.parents.splice(item, 1)
+                        //Remove our parents from our table.                        
+                        let itemInTable = this.parents.map(item=>item.id).indexOf(id);
+                        this.parents.splice(itemInTable, 1);
+
+                        if(response.status==200){
+                                                          //Call main success message.
+                                                          this.$store.dispatch('setSuccessAlert','Successfully Deleted Parent Information.')
+                                                          // Remove alert
+                                                          setTimeout(() => {
+                                                                        this.$store.dispatch('removeSuccessAlert')
+                                                          }, 7000)
+                                                  }
+
                     });
             }
         }
