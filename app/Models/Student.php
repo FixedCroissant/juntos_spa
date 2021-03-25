@@ -24,6 +24,12 @@ class Student extends Model
         return $this->hasMany(Parents::class,'student_id','id');
     }
 
+    //Coaches
+    public function coachAppointments(){
+        return $this->hasMany(CoachAppointment::class,'student_id','id');
+    }
+    
+    
     //Event Attendance
     public function attendance()
     {
