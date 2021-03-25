@@ -23,8 +23,6 @@ import moment from 'moment';
 //Register components
 // Globally register your component(s)
 Vue.component('login', login);
-Vue.component('instructions',instructions);
-
 
 import VueAxios from 'vue-axios';
 import axios from 'axios';

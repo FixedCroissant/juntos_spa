@@ -230,8 +230,7 @@
                       </v-row>
               <!--EndSuccessMessage-->
               <router-view></router-view>
-            <!-- <instructions v-show="this.$store.state.isAuthenticated"></instructions>        -->
-    </v-main>
+  </v-main>
 
   
     <!-- FOOTER AREA HERE -->
