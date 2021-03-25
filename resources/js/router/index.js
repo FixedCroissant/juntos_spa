@@ -5,9 +5,6 @@ Vue.use(VueRouter)
 
 
 
-import AllPosts from '../views/AllPosts';
-import AddPost from '../views/AddPost';
-import EditPost from '../views/EditPost';
 
 //Register for Account
 import RegisterPage from '../views/RegisterPage.vue';
@@ -17,36 +14,56 @@ import HomePageContent from '../views/HomePageContent.vue';
 //PageNotFound
 import PageNotFound from '../views/PageNotFound';
 
-
-
 //Dashboard
 import Dashboard from '../views/Dashboard';
 
 //Students
 import AllStudents from '../views/student/AllStudents';
 import ShowStudents from '../views/student/ShowStudents';
-//Have the information on the ShowStudent, will likely just get rid of the EditStudent Page.
-import EditStudent from '../views/student/EditStudent';
 import CreateStudent from '../views/student/CreateStudent';
 
 
 //Parents
 import AllParents from '../views/parents/AllParents';
+//Creating a parent is being done through a modal.
+//ToDo -- This reference needs to be removed.
 import CreateParent from '../views/parents/CreateParent';
+import ShowParent from '../views/parents/ShowParent';
 
 //Events
 import AllEvents from '../views/events/AllEvents';
 import CreateEvent from '../views/events/CreateEvent';
+import ShowEvent from '../views/events/ShowEvent';
+
+
+//List event attendance by Event.
+import ShowEventAttendance from '../views/events/ShowEventAttendance';
+
+//Coaches Appointments.
+import CoachAppointmentIndex from '../views/coachAppointments/CoachAppointmentIndex';
+import CoachAppointmentCreate from '../views/coachAppointments/CoachAppointmentCreate';
+import CoachAppointmentEdit from '../views/coachAppointments/CoachAppointmentEdit';
+
+//Schedule List
+import StudentScheduleIndex from '../views/schedules/StudentScheduleIndex';
 
 
 
 
+//Admin Area
+import AuthIndex from '../views/auth/AuthIndex.vue';
+//UserEdit
+import AdminUserEdit from '../views/auth/users/AdminUserEdit.vue';
 
+//RoleIndex
+import AdminRoleIndex from '../views/auth/roles/AdminRoleIndex.vue';
 
+//End Admin Area
 
 
 //Get store
 import store from '../store/index';
+
 
 
  
@@ -71,16 +88,6 @@ let routes = [
           }        
     },
     {
-        name: 'add',
-        path: '/add',
-        component: AddPost
-    },
-    {
-        name: 'all',
-        path:'/allposts',
-        component: AllPosts
-    },
-    {
         name: 'students',
         path: '/students',
         component: AllStudents,
@@ -95,15 +102,6 @@ let routes = [
         component: CreateStudent,
         beforeEnter: (to, from, next) => {
             if (to.name == 'addStudent' && !store.getters.isAuthenticated) next({ name: 'home' })
-            else next()
-          }
-    },
-    {
-        name: 'editstudent',
-        path: '/student/:id/edit',
-        component: EditStudent,
-        beforeEnter: (to, from, next) => {
-            if (to.name == 'students' && !store.getters.isAuthenticated) next({ name: 'home' })
             else next()
           }
     },
@@ -137,7 +135,7 @@ let routes = [
     {
         name: 'showparent',
         path: '/parents/:id',
-        component:AllPosts
+        component:ShowParent
     },
     {
         name: 'allEvents',
@@ -149,6 +147,96 @@ let routes = [
         path: '/events/create',
         component: CreateEvent
     },
+    {
+        name:'showEvent',
+        path:'/events/:id',
+        component: ShowEvent
+    },
+    //Event Attendance
+    {
+        name: 'eventAttendance',
+        path: '/events/:id/attendance',
+        component: ShowEventAttendance,
+        beforeEnter: (to, from, next) => {
+            if (to.name == 'eventAttendance' && !store.getters.isAuthenticated) next({ name: 'home' })
+            else next()
+          }
+    },
+
+    //Coaching Appointments with Coordinators.
+    //Index
+    {
+        name:'coachAppointments',
+        path:'/coachAppointment/index',
+        component: CoachAppointmentIndex,
+        beforeEnter: (to, from, next) => {
+            if (to.name == 'coachAppointments' && !store.getters.isAuthenticated) next({ name: 'home' })
+            else next()
+          }
+    },
+    //Create
+    {
+        name: 'createCoachAppointment',
+        path: '/coachAppointment/create',
+        component: CoachAppointmentCreate,
+        beforeEnter: (to, from, next) => {
+            if (to.name == 'createCoachAppointment' && !store.getters.isAuthenticated) next({ name: 'home' })
+            else next()
+          }
+    },
+    //Edit
+    {
+        name:'coachAppointmentEdit',
+        path:'/coachAppointment/:id',
+        component: CoachAppointmentEdit,
+        beforeEnter: (to, from, next) => {
+            if (to.name == 'coachAppointmentEdit' && !store.getters.isAuthenticated) next({ name: 'home' })
+            else next()
+          }
+    },
+    //Schedules
+    //Display index of schedules that are limited based on student id.
+    //scheduleList
+    {
+        name:'scheduleList',
+        path:'/schedule/index/:id',
+        component:StudentScheduleIndex,
+        beforeEnter: (to, from, next) => {
+            if (to.name == 'scheduleList' && !store.getters.isAuthenticated) next({ name: 'home' })
+            else next()
+          }
+    },
+
+
+  
+
+
+    //Admin Pages
+    //all start with /admin/ prefix.
+    {
+        name: 'adminIndex',
+        path: '/admin/index',
+        component: AuthIndex,
+        beforeEnter: (to, from, next) => {
+            if (to.name == 'adminIndex' && !store.getters.isAuthenticated) next({ name: 'home' })
+            else next()
+          }
+    },
+    //Edit User
+    //admin/user/#/edit
+    {
+        name:'editUser',
+        path:'/admin/user/:id/edit',
+        component: AdminUserEdit
+    },
+    //List Roles
+    //admin/user/roles/index
+    {
+        name:'rolesIndex',
+        path:'/admin/user/role/index',
+        component:AdminRoleIndex
+    },
+
 
     // ... other routes ...
     { path: "*", 
@@ -162,7 +250,10 @@ let routes = [
 export const router = new VueRouter({
        hashbang: false,
        mode: 'history',
+       //docker everything else, etc.
        base: 'public/index.php',
+       //shared hosting
+       //base: "/apps/DASA/juntos/public/index.php",
        routes: routes
       });
 
