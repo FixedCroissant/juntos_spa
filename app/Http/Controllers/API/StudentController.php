@@ -76,7 +76,7 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\CEO  $CEO
+     * @param  \App\Models\Student $student
      * @return \Illuminate\Http\Response
      */
     public function show(Student $student)
@@ -95,7 +95,7 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CEO  $CEO
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Student $student)
