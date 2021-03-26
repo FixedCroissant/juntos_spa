@@ -5,8 +5,6 @@
       v-if="this.$store.state.isAuthenticated"
       v-model="drawer"
     >
-    <!-- INFORMATION HERE -->
-    <!--COMPONENTS GO HERE-->
         <!--Left side menu bar-->
             <v-list
                     nav
@@ -78,40 +76,7 @@
           <v-list-item-title ><router-link :to=link style="text-decoration: none; color: inherit;" >{{title}}</router-link></v-list-item-title>
           </v-list-item>
         </v-list-group>
-
-
-            <!--END SUBITEM-->
-            <!--PARENT OR GUARDIAN-->
-           <!-- <v-list-item v-if="this.$store.state.isAuthenticated"> 
-              <v-list-item-icon>
-                  <v-icon>mdi-account-circle</v-icon>
-                </v-list-item-icon>
-              <v-list-item-title>
-                        <router-link to="/parents"  style="text-decoration: none; color: inherit;" >Parent/Guardian</router-link>
-              </v-list-item-title>
-            </v-list-item> -->
-
-            <!--ATTENDANCE-->
-            <!--Temporarily Removed-->
-            <!-- <v-list-item class="yellow" v-if="this.$store.state.isAuthenticated"> 
-              <v-list-item-icon>
-                  <v-icon>mdi-calendar</v-icon>
-                </v-list-item-icon>
-              <v-list-item-title>
-                        <router-link to="/attendance"  style="text-decoration: none; color: inherit;" >Attendance</router-link>
-              </v-list-item-title>
-            </v-list-item> -->
-
-            <!--EVENTS-->
-            <!-- <v-list-item v-if="this.$store.state.isAuthenticated"> 
-              <v-list-item-icon>
-                  <v-icon>mdi-train-variant</v-icon>
-                </v-list-item-icon>
-              <v-list-item-title>
-                        <router-link to="/events"  style="text-decoration: none; color: inherit;" >Event</router-link>
-              </v-list-item-title>
-            </v-list-item> -->
-          <!--Events broken down into separate items-->
+          <!--END SUBITEM-->
           <!--BEGIN SUB ITEMS FOR EVENTS-->
            <v-list-group
             :value="false"
@@ -239,7 +204,7 @@
                 class="text-center"
                 cols="12"
               >
-               <strong>Organization</strong> {{ new Date().getFullYear() }}
+               <strong>&nbsp;</strong> {{ new Date().getFullYear() }}
             </v-col>
       </v-footer>
 
@@ -249,8 +214,6 @@
 
  
 <script>
-  //import HomePageContent from './views/HomePageContent.vue';
-
      export default {
     components:{
         
@@ -294,12 +257,8 @@
           }).then(
               //Get Result.
             result=>{
-                //End set token.
-                //Go ahead and set it as iSAuthenticated
-                //this.$store.commit('isAuthenticated')
                 //Remove things from the store.
-                this.$store.commit('isLoggedOut');              
-                
+                this.$store.commit('isLoggedOut');
               }
 
           )
