@@ -14,8 +14,11 @@ offset-md="3"
       <v-row>
           <v-col
           cols="8"
-          md="5"
+          md="6"
+          sm="6"
+          xs="6"
           offset-md="3"
+          offset-sm="2"
         >
           <v-text-field
             v-model="email"
@@ -28,8 +31,11 @@ offset-md="3"
       <v-row>
         <v-col
         cols="8"
-        md="5"
+        md="6"
+        sm="6"
+        xs="6"
         offset-md="3"
+        offset-sm="2"
         >
         <v-text-field
           label="Password"
@@ -41,32 +47,16 @@ offset-md="3"
         </v-text-field>
 
           <v-btn elevation="2" style="margin-left:100px"  large v-on:click="login">Login</v-btn>
-
+          
           <v-btn router-link to="/register" elevation="2" color="primary" style="margin-left:40px;" large>Register For Account</v-btn>
-
-          <br/>
-          <br/>
-
-        <!----STANDARD BUTTONS-->
-        <!--COMMENT OUT-->
-          <!-- <button type="button" v-on:click="increment">Increment</button>
-          <br/>
-          <br/>
-          <button type="button" v-on:click="decrement">Decrement</button> -->
-
-          <!--TRY LOGGING IN-->
-          <!-- <button type="button" v-on:click="loginAttempt">ChangeLoginValue</button>
-           -->
         </v-col>
       </v-row>
 
-      <!--DEBUG INFORMATION HERE-->
-      <!-- This is the count:
-      {{ this.$store.state.count }}
-
-      Is the individual currently logged into the application:?
-      {{this.$store.state.isLoggedIn}} -->
-      
+      <v-row>
+        <v-col cols="12" lg="6" md="6" sm="6" xs="6" offset-md="4" offset-sm="3" offset-xs="5" >
+          <button v-on:click="loginGoogle" type="button" ><img style="margin-left:15px;" width="250" height="60" src="/images/google_sign_in_button.gif" title="Sign In With Google" /></button>
+        </v-col>
+      </v-row>
     </v-container>    
   </v-form>
 
@@ -82,6 +72,7 @@ offset-md="3"
   export default {
     data: () => ({
       valid: false,
+      errors:[],
       email: '',
       password:'',
       results:null,
@@ -96,16 +87,55 @@ offset-md="3"
         v=>!!v || 'Password is required.'
       ]
     }),
+    
     mounted() {
             console.log('Login Component mounted!!')
             console.log(process.env.MIX_API_URL)
-            
+
+            //Allow popup to happen for Google.
+             window.addEventListener('message', this.onMessage, false);            
     },
-    
-    
-    
+    beforeDestroy () {
+              window.removeEventListener('message', this.onMessage);
+    },
     methods:{  
-    //VUEX
+    //The popup is launched.
+    openWindow (url, title, options = {}) 
+    {
+      if (typeof url === 'object') {
+                options = url
+                url = ''
+      }
+
+      //Minimum options.
+      options = { url, title, width: 600, height: 720, ...options }
+
+      //Set screen
+      const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : window.screen.left
+      const dualScreenTop = window.screenTop !== undefined ? window.screenTop : window.screen.top
+      const width = window.innerWidth || document.documentElement.clientWidth || window.screen.width
+      const height = window.innerHeight || document.documentElement.clientHeight || window.screen.height
+
+      options.left = ((width / 2) - (options.width / 2)) + dualScreenLeft
+      options.top = ((height / 2) - (options.height / 2)) + dualScreenTop
+
+      const optionsStr = Object.keys(options).reduce((acc, key) => 
+      {
+                  acc.push(`${key}=${options[key]}`)
+                  return acc
+      }, []).join(',')
+
+       //Create Window with constraints.
+      const newWindow = window.open(url, title, optionsStr)
+
+      if (window.focus) {
+        newWindow.focus()
+      }
+
+      return newWindow
+    },
+  
+  //VUEX
   loginAttempt(){
       //Change the boolean value of isLoggedin.
       this.$store.commit('login');
@@ -115,9 +145,6 @@ offset-md="3"
   //Check role.
   updateAbility(roles) {
       const { can, cannot, rules } = new AbilityBuilder();
-
-      //Get role information.
-      console.log(roles);
 
      //Check if proper role exists.
      if(roles.map(myROLETOCHECK=>myROLETOCHECK.name).includes('Admin'))
@@ -138,19 +165,44 @@ offset-md="3"
   //CASTL END TEMP
 
 
-  
+  // This method call the function to launch the popup and makes the request to the controller. 
+  loginGoogle () {
+            const newWindow = this.openWindow('', 'message');
+            
+            this.axios.get(`${process.env.MIX_API_URL}/public/index.php/api/googleRedirect`,                               
+                {
+                  headers:
+                  {
+                  }
+                }).then(result => 
+                {
+                      newWindow.location.href = result.data.url;
+                    })
+                    .catch(function (error) {
+                      console.error(error);
+                    });
+              },
+              // This method save the new token and username
+              onMessage (e) {
+                if (e.origin !== window.origin || !e.data.token) {
+                    return
+                 }
 
-  increment() {
-    //Standard mutation that doesn't have a payload parameter.
-    //this.$store.commit('increment')
+                //Check if we have a token in the system.
+                if(e.data.token!=undefined){
 
-    //Increment with a payload.
-    this.$store.commit('increment', 10)
-    //console.log(this.$store.state.count)
+                      //Parse Information
+                      let userParsed = JSON.parse(e.data.user.replace(/&quot;/g,'"'));
+                      let rolesParsed = JSON.parse(e.data.roles.replace(/&quot;/g,'"'));
+                  
+                      //Allow user to progress through application. 
+                      this.$store.commit('saveUser',userParsed);
+                      this.$store.commit('saveRole',rolesParsed);
+                      this.updateAbility(rolesParsed);
+                      this.$store.dispatch('setAuthenticated');  
+                  }
+
   },
-  decrement(){
-    this.$store.commit('decrement')
-  },  
   //END VUEX
       async login(){
         try {
@@ -164,73 +216,37 @@ offset-md="3"
                     }
           }).then(           
 
-            /*COMMENT OUT WHILE TRYING OUT VUEX.*/
-            result=>{
-
-               
-                //Get response.
-                //console.log(result);
-               
-               //Store results the variable.
-               //.then(response => (this.info = response))
-
-              //Error Message.
-              // this.results = result.data.message;
-              //this.results = result.data;
-
-              //this.accesstoken = result.data.access_token;
-              
-
-         
-             //Provide a message
-              if(result.data.message){
-                //this.message = 'You have provided invalid credentials. Please try again.'; 
-                this.$store.commit('saveMessage',"You have provided invalid credentials. Please try again.")             
-                
-                
-              }else if(result.data.access_token)
-              {
-                //Set token.
-                //axios.defaults.headers.common["Authorization"] = "Bearer " + result.data.access_token;
-                //window.axios.defaults.headers.common['Authorization']= "Bearer " + result.data.access_token;
-                //axios.defaults.headers.common["Accept"] = "application/json";
-
-                //Save token in cookie on page refresh.
-                //Save cookie in VUEX
-                this.$store.commit('saveToken',result.data.access_token)
-
-                 
-                 //Save id
-                //this.$store.commit('saveUser',result.data.user.id)
-                
-                //Save all information about the user.
-                this.$store.commit('saveUser',result.data.user);
-
-                //console.log("This is what is being returned currently: " + result.data.roles);
-                //console.log(result.data.roles);
-
-                //Save information about the role of the logged in person.
-                this.$store.commit('saveRole',result.data.roles);
-
-                //Update my abilities with our ROLES in the system.
-                this.updateAbility(result.data.roles);
-                //End set token.
-
-                //Go ahead and set it as iSAuthenticated
-                //change to action.
-                this.$store.dispatch('setAuthenticated');             
-
-           }
-        }
-
-         
-          
-          )
-        }
-        catch(err){
-          alert(err);
-        }
+            response=>{
+                 //Set any errors.
+               this.errors= response.data.error;
+              if(response.status=200 && response.data.error===undefined && response.data.access_token){
+                                        
+                     //Allow progress throught the application
+                    this.$store.commit('saveToken',response.data.access_token)
+                    this.$store.commit('saveUser',response.data.user);
+                    this.$store.commit('saveRole',response.data.roles);
+                    this.updateAbility(response.data.roles);
+                    this.$store.dispatch('setAuthenticated');
+                    }
+                                else if(response.data.message){
+                                              this.$store.dispatch('setErrorAlert',response.data.message)
+                                                setTimeout(() => {
+                                                        this.$store.dispatch('removeErrorAlert')
+                                                }, 5000);
+                                }
+                                else
+                                {
+                                                this.$store.dispatch('setErrorAlert','You are missing required fields (email & password), please retry again.')
+                                                setTimeout(() => {
+                                                        this.$store.dispatch('removeErrorAlert')
+                                                }, 5000);
+                                }
+                            })}
+              catch(err){
+                alert(err);
+              }
       }
     }
   }
-</script>
+</script>	
+	
