@@ -18,6 +18,7 @@ class CreateEventAttendanceTable extends Migration
             $table->timestamps();
             $table->integer('event_id')->unsigned();
             $table->integer('student_id')->unsigned();
+            $table->integer('parent_id')->unsigned();
         });
     }
 
