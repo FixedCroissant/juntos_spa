@@ -45,7 +45,8 @@ class StudentFactory extends Factory
                 'state'=>$this->faker->state,
                 'zip'=>$this->faker->postcode,
                 'coordinator'=>$this->faker->name,
-                'events_id'=>'1'
+                'events_id'=>'1',
+                'student_notes'=>'Notes about student.'
         ];
     }
 }

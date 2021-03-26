@@ -15,7 +15,7 @@ class ParentsSeeder extends Seeder
      */
     public function run()
     {
-        //
-        Parents::factory()->count(25)->create();
+        //Parents are created within the StudentSeeder.
+        //Parents::factory()->count(25)->create();
     }
 }

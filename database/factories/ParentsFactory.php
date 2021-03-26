@@ -28,7 +28,7 @@ class ParentsFactory extends Factory
                 'parent_last_name'=>$this->faker->lastName,
                 'address_line_1'=>$this->faker->streetAddress,
                 'city'=>$this->faker->city,
-                'state'=>$this->faker->state,
+                'state'=>"NC",
                 'zip'=>$this->faker->postcode,
 
         ];

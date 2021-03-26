@@ -15,7 +15,13 @@ class StudentSeeder extends Seeder
      */
     public function run()
     {
-        //Call student factory.
-        Student::factory()->count(150)->create();
+        //Twenty-five students with 1 parents a piece and 1 default school attached.
+        Student::factory()->count(25)->create(['school_id'=>1])->each(function ($studentRecord){
+                //Create one parent.
+                $myParent = \App\Models\Parents::factory()->make();
+               //Attach to student.
+               $studentRecord->parent()->save($myParent);
+              
+        });
     }
 }
