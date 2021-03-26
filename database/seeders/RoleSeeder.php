@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use DB;
 
 class RoleSeeder extends Seeder
 {
@@ -13,6 +14,25 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        //
+        //Standard Permissions
+        DB::table('roles')->insert([
+            'name' => 'Admin',
+            'slug' => 'Admin',
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'Coordinator',
+            'slug' => 'Coordinator',
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'Staff',
+            'slug' => 'Staff',
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'Guest',
+            'slug' => 'Guest',
+        ]);
+
+        
+        
     }
 }
