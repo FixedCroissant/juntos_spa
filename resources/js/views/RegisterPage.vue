@@ -94,6 +94,12 @@ offset-md="3"
           <v-btn elevation="2" style="margin-left:100px"  large v-on:click="reset">Reset</v-btn>
         </v-col>
       </v-row>
+
+      <v-row>
+        <v-col cols="8" md="4" offset-md="5">
+            <router-link to="/">Homepage</router-link>
+          </v-col>
+      </v-row>
     </v-container>    
   </v-form>
 </template>
@@ -103,6 +109,7 @@ offset-md="3"
   export default {
      data: () => ({
       valid: false,
+      errors:[],
       firstName:'',
       lastName:'',
       email: '',
@@ -166,18 +173,32 @@ offset-md="3"
                         password: this.password,                        
                     }
           }).then(
-                        result=>{
+                        response=>{
                             
                             //For testing only.
                             //console.log(result.data);
 
-                        
-                        
-                            }
+                            this.errors= response.data.error;
+                                if(response.status=200 && response.data.error===undefined){
+                                        this.$store.dispatch('setSuccessAlert','New account created! Redirecting to login page...')
+                                        // Remove banner.
+                                        setTimeout(() => {
+                                                this.$store.dispatch('removeSuccessAlert')
+                                        }, 2000)
 
-         
-          
-          )
+                                        //Reroute page to the home page/login prompt after 2 seconds.
+                                        setTimeout(() => {
+                                                this.$router.push({name: "home"});
+                                        }, 2000)
+                                }
+                                else
+                                {
+                                                this.$store.dispatch('setErrorAlert','You are missing required fields (email, password, etc), please retry submitting.')
+                                                setTimeout(() => {
+                                                        this.$store.dispatch('removeErrorAlert')
+                                                }, 5000);
+                                }
+                            })
         }
         catch(err){
           alert(err);
