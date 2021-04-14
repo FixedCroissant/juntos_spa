@@ -251,21 +251,28 @@
             url: `${process.env.MIX_API_URL}/public/index.php/api/logout`,
                     method: 'POST',
                     data: {
-                        user_id: this.$store.getters.userid,
-                        
+                        user_id: this.$store.getters.userid,                        
                     }
           }).then(
               //Get Result.
             result=>{
                 //Remove things from the store.
                 this.$store.commit('isLoggedOut');
-              }
+
+                //Logout Of Google (Client Call for Signing out Doesn't appropriately work with Socialite.)
+                this.logoutOfGoogle();
+
+            }
 
           )
         }
         catch(err){
           alert(err);
         }
+      },
+      //Logout of google.
+      logoutOfGoogle(){
+                document.location.href = `https://accounts.google.com/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://juntos.dasa.ncsu.edu/`;
       },
       showAdmin(){
         //Go to the admin page.

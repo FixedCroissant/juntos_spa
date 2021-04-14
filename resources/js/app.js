@@ -48,11 +48,17 @@ Vue.component('Can', Can);
 //using local storage.
 const user = JSON.parse(localStorage.getItem('vuex'));
 
+
 //Check if null, if so redirect to login.
-if(user==null){
+if(user==null || user==undefined){
   //Go back to the homepage to login.
   router.push({name: 'home'});
-}else
+}
+else if(user.ROLES==null || user.ROLES==undefined){
+  router.push({name:'home'});
+}
+
+else
 {
   const ability = defineAbilityFor(user.ROLES);
   //Utilize our abilities that we setup in /config/ability.js
