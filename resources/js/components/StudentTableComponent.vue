@@ -43,19 +43,24 @@
            </td>
            <td>{{students.item.coordinator}}</td>
            <td>
+             <v-col class="text-center">
              <router-link :to="{name: 'showstudent', params: { id: students.item.id }}" class="btn btn-primary">Details
              </router-link>
-              <div v-if="$can('create', 'Post')">
-              |
-              <button class="btn btn-danger" @click="deleteStudent(students.item.id)">Delete</button>
-              </div>
+                |
+                <DeleteConfirmationComponent  style="padding-left:95px;"  v-bind:recordToRemove="students.item.id" v-on:event_deletion="checkStudentDeletion" />
+              </v-col>
           </td>
         </tr>
   </template>
   </v-data-table>
 </template>
 <script>
+   import DeleteConfirmationComponent from './DeleteConfirmationComponent.vue';
+
     export default {
+       components:{
+                DeleteConfirmationComponent
+        },
         mounted() {
             console.log('Student Table Component mounted.')
             this.overlay = true;
@@ -105,6 +110,10 @@
            
         },
         methods: {
+          checkStudentDeletion(value){
+           //Fully delete the student record.
+           this.deleteStudent(value);
+           },
            addToList(id,event){
                 this.students.forEach(myStudent => {
                         if(myStudent.checked && event==true){
@@ -117,12 +126,7 @@
                       this.eventStudentListTotal.splice(index, 1);
                 }
 
-                //See what's in my list.
-                //console.log(this.eventStudentListTotal);
-                //How many people are selected to be added?
-                //console.log(this.eventStudentListTotal.length);
-
-
+                
                 //send information back to the parent component using the dummy method below.
                 //Get total list of people select.
                 //See below function.

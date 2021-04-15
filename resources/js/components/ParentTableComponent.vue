@@ -36,6 +36,7 @@
            <td>{{parents.item.state}}</td>
            <td>{{parents.item.zip}}</td>
            <td style="width:200px">
+               <v-col class="text-center">
              <router-link :to="{name: 'showparent', params: { id: parents.item.id }}" 
                elevation="2"
                x-small>
@@ -43,6 +44,7 @@
              </router-link>
               |
               <DeleteConfirmationComponent  style="padding-left:95px;"  v-bind:recordToRemove="parents.item.id" v-on:event_deletion="checkParentDeletion" />
+              </v-col>
           </td>
         </tr>
   </template>
@@ -99,10 +101,8 @@
           checkParentDeletion(value){
             console.log('From child component, person really wanted to delete a record.' + value);
 
-           //Call our delete method.
            //Fully delete the parent record.
            this.deleteParent(value);
-
           },
           addToList(id,event){
                 this.parents.forEach(myParent => {

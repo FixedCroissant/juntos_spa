@@ -24,20 +24,24 @@
            <td>{{events.item.event_city}}</td>
            <td>{{events.item.event_state}}</td>
            <td>
-             <router-link :to="{name: 'showEvent', params: { id: events.item.id }}" class="btn btn-primary">Event Details
-             </router-link>
-              |
-              <router-link :to="{name: 'eventAttendance', params: { id: events.item.id }}" class="btn btn-primary">Attendance
-             </router-link>
-              |
-              <button class="btn btn-danger" @click="deleteEvent(events.item.id)">Delete</button>
-          </td>
+              <v-col>
+                 <router-link :to="{name: 'showEvent', params: { id: events.item.id }}">Event Details</router-link>
+                |
+                 <router-link :to="{name: 'eventAttendance', params: { id: events.item.id }}">Attendance</router-link>
+                  |
+                   <DeleteConfirmationComponent v-bind:recordToRemove="events.item.id" v-on:event_deletion="checkEventDeletion" />
+              </v-col>
+            </td>
         </tr>
   </template>
   </v-data-table>
 </template>
 <script>
+  import DeleteConfirmationComponent from './DeleteConfirmationComponent.vue';
     export default {
+      components:{
+                DeleteConfirmationComponent
+        },
         mounted() {
             console.log('Event Table Component mounted.')
         },
@@ -74,13 +78,16 @@
                 });
         },
         methods: {
+           checkEventDeletion(value){
+           //Fully delete the event record.
+           this.deleteEvent(value);
+          },
             deleteEvent(id) {
                 this.axios
                     .delete(`${process.env.MIX_API_URL}/public/index.php/api/events/${id}`)
                     .then(response => {
                         let event = this.events.map(event=>event.id).indexOf(id)                      
-                        this.events.splice(event, 1)
-
+                        this.events.splice(event, 1);
                         //Notify user of success.
                         this.$store.dispatch('setSuccessAlert','Event Deleted')
                                         //Remove success alert.
