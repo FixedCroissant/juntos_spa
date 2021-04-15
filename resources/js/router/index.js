@@ -70,7 +70,7 @@ import store from '../store/index';
 let routes = [
     {
         name: 'home',
-        path: '/',
+        path: '',
         component: HomePageContent,
     },
     {
