@@ -1,5 +1,4 @@
 <template>
-  <v-row>
     <v-dialog
       v-model="dialog"
       persistent
@@ -42,7 +41,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-row>
+
 </template>
 
 <script>
@@ -55,9 +54,6 @@
     },
     methods:{
         deleteConfirmation(value){
-                //console.log('child component hit... they want to delete something!');
-                 //Send to parent component...
-                //Value they want deleted is passed as a prop.
                 this.$emit('event_deletion', this.$props.recordToRemove);
                 this.$data.dialog=false;
             },
