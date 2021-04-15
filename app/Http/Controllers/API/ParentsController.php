@@ -19,10 +19,11 @@ class ParentsController extends Controller
     {
              $parents = Parents::with(['student' => function($query) {
                  return $query->select(['id','student_first_name','student_last_name',DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name')]);
-                 }])->select(
+                         
+                }])->select(
                     'id',DB::raw('CONCAT(parents.parent_first_name, " ", parents.parent_last_name) AS parent_full_name'),
                     'city','student_id','address_line_1','city','state','zip',
-                 )->get();
+                 )->orderBy('student_id','ASC')->get();
 
         return response([ 'parents' => ParentsResource::collection($parents), 'message' => 'Retrieved successfully'], 200);
     }
