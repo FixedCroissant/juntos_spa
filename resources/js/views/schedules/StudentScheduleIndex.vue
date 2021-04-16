@@ -6,30 +6,22 @@
                         <h3>Student Schedule List</h3>
                            
                         <p>
-                            For Year 
-
-                            <!-- Things to think about:
-                            <ul>
-                                    <li>
-                                        Will need to think about state selection/district/
-                                    </li>
-                                    <li>
-                                        Academic year (9th/10th/11/12) or calendar year.
-                                    </li>
-                                    <li>
-                                    Currently will show calendar year when no grade level is provided. 
-                                    </li>
-                            </ul> -->
                         </p>
                     </v-col>
         </v-row>
+        <br/>
+        <br/>
+        
+        
         <v-row>
             <!-- {{this.schedules}} -->
             <v-col cols="6" md="3" offset-md="1">
                     <h4>{{studentName.student_first_name}} {{studentName.student_last_name}}</h4>
 
 
-                            Year: {{this.year}}
+                            Year: {{this.year}} <br/>
+                            <br/>
+                            
             </v-col>
                     
             <!-- <v-col cols="6" md="5">
@@ -37,14 +29,28 @@
             </v-col> -->
         </v-row>
         <!--Data-->
+        <!--Handle if nothing exists-->
+        <v-row v-if="this.schedules.length==0">
+            <v-col cols="6" md="3" offset-md="1">
+                        No Schedule Exists for student.
+                                    <v-select
+                                            :items="yearSchedule"
+                                            v-model="newYearSchedule"
+                                            label="Create Schedule with Year:"
+                                            :selected="2020"
+                                            item-text="year_date"
+                                            item-value="year_date"
+                                        ></v-select>
+                                        <br/>
+                                          <v-btn elevation="2" v-on:click="addSchedule()">Create New Schedule</v-btn>
+            </v-col>    
+        </v-row>
         <v-row 
         v-for="(mySchedule,mainIndex,myKey) in schedules"
         :key="mySchedule.id"
         >
         <!-- My main index here for each parts of the array. -->
         <!-- {{mainIndex}} -->
-     
-        
 <v-col cols="12" md="12" offset-md="0">
  <v-simple-table dense>
     <template v-slot:default>
@@ -92,6 +98,7 @@
                              </th>
                         </thead>
                         <tbody>
+                       
                         <tr
                         v-for="(val,key,index) of mySchedule"
                         :key="val.id"
@@ -251,7 +258,33 @@
                                   </span>
                             </td>
                             <td>
-                                Grades coming soon.
+                                <span v-if="val.newItem==true">
+                                       <v-form v-model="isFormValid">
+                                            <v-text-field
+                                            v-model="newAcademicGrade[val.id]"
+                                            label="Academic Grade"
+                                             :rules="academicGradeRules"
+                                            type="number"
+                                            min="1"
+                                            max="100"
+                                            ></v-text-field>
+                                        </v-form>
+                                 </span>
+                                <span v-if="val.editable==true">
+                                    <v-form v-model="isFormValid">
+                                            <v-text-field
+                                                v-model="val.academic_grade"
+                                                :rules="academicGradeRules"
+                                                type="number"
+                                                min="1"
+                                                max="100"
+                                            >   
+                                            </v-text-field>
+                                    </v-form>
+                                 </span>
+                                  <span v-else>
+                                  {{val.academic_grade}}
+                                </span>
                             </td>
                             <td style="text-align:right;">
 
@@ -269,7 +302,7 @@
                                         </span> -->
                                 <span v-if="val.newItem==true" >
                                     <!-- {{val.semester_year}} -->
-                                        <v-btn v-on:click="createClass(key,val.id,val.semester_year)">Create</v-btn>
+                                        <v-btn :disabled="!isFormValid" v-on:click="createClass(key,val.id,val.semester_year)">Create</v-btn>
                                         
                                             <!-- array is:
                                             {{key}}
@@ -278,18 +311,17 @@
                                             {{val.id}} -->
                                         
                                 </span>
-                                <span v-if="val.editable==true">
-                                            <v-btn v-on:click="updateClass(val.id,mainIndex,key)">Update Class</v-btn>
+                                <span v-if="val.editable==true && val.newItem!=true">
+                                            <v-btn :disabled="!isFormValid" v-on:click="updateClass(val.id,mainIndex,key)">Update Class</v-btn>
                                 </span>
-                                <span v-else>
-                                            <a v-on:click="addClass(mainIndex,val.id)">Add</a>
-
-                                            |
+                                <span v-if="val.editable!=true && val.newItem!=true">
+                                            <a v-on:click="addClass(mainIndex,val.id)">Add</a> |
                                             <a v-on:click="editClass(val.id,mainIndex,key)">Edit</a> |
-                                            <a v-on:click="deleteClass(val.id,mainIndex,key)">Remove</a>
+                                            <DeleteConfirmationComponent v-bind:recordToRemove="[val.id,mainIndex,key]" v-on:event_deletion="checkClassDeletion" />
+             
                                 </span>
-                                
-                                {{key}}
+                                <!-- For Debug
+                                {{key}} -->
                                 
                             </td>
                         </tr>
@@ -306,7 +338,11 @@
 </template>
 
 <script>
+import DeleteConfirmationComponent from '../../components/DeleteConfirmationComponent.vue';
     export default {
+         components:{
+                DeleteConfirmationComponent
+        },
         created() {
             this.axios
                 .get(`${process.env.MIX_API_URL}/public/index.php/api/schedule/index/` + this.$route.params.id,                               
@@ -318,18 +354,22 @@
                 })
                 .then(response => {
                     this.schedules = response.data.schedules;
+                    console.log(this.schedules);
                     this.year = response.data.year;
                     this.studentName=response.data.studentInformation;
                 });
         },
         methods:{
+            checkClassDeletion(value){
+               this.deleteClass(value[0],value[1],value[2]);
+            },
             //Update our selected class in the table.
             async updateClass(id,mainIndex,key){
 
                          let itemInTable = this.schedules[mainIndex].map(item=>item.id).indexOf(id);
                          //Let's make sure we're adjusting the class we need in our table.
                          //Array Number.
-                         console.log(itemInTable);
+                         //console.log(itemInTable);
 
                          //Remove editable.
                
@@ -350,18 +390,14 @@
                                                 teacher_name:this.schedules[mainIndex][itemInTable].teacher_name,
                                                 room_number:this.schedules[mainIndex][itemInTable].room_number,
                                                 notes_lunch_period:this.schedules[mainIndex][itemInTable].notes_lunch_period,
+                                                academic_grade:this.schedules[mainIndex][itemInTable].academic_grade
                                               },
                                     }).then(
                         response=>{
                                                     this.errors= response.data.error;
                                                     if(response.status=200 && response.data.error===undefined){
-                                                            this.$store.dispatch('setSuccessAlert','Updated Class Information')
-                                                            
-                                                            
-                                                            //Remove editable flag....
+                                                            this.$store.dispatch('setSuccessAlert','Updated Class Information');
                                                             this.schedules[mainIndex][itemInTable].editable=false;
-                                                            
-                                                            // Remove banner.
                                                             setTimeout(() => {
                                                                     this.$store.dispatch('removeSuccessAlert')
                                                             }, 3000)
@@ -445,12 +481,14 @@
                                                             period_id:this.$data.newPeriod[currentID],
                                                             semester_year: year,
                                                             semester_number: this.$data.newSemester[currentID],
-                                                            schedule_type:null,
+                                                            schedule_type:"Block",
                                                             grade:this.$data.newGrade[currentID].abbr,
                                                             class_name:this.$data.newClassName[currentID],
                                                             teacher_name:this.$data.newTeacherName[currentID],
                                                             room_number:this.$data.newRoomName[currentID],
                                                             notes_lunch_period:this.$data.newNotes[currentID],
+                                                            academic_grade:this.$data.newAcademicGrade[currentID]
+                                         
                                         },
                                         headers:
                                         {
@@ -464,9 +502,10 @@
                                                 if(response.status=200 && response.data.error===undefined){
                                                             this.$store.dispatch('setSuccessAlert','Created new class.')
                                                             setTimeout(() => {
-                                                                                  this.$store.dispatch('removeSuccessAlert')
+                                                                        this.$store.dispatch('removeSuccessAlert')
                                                             }, 4000)
                                                         }
+                                                
                                                 //repull data, so that hey have it after the update.
                                                 this.repullInformation();
                                         }
@@ -487,7 +526,7 @@
                 //Our current row
                 let currentRow = key;
 
-                console.log("ID passed: " + id);
+                //console.log("ID passed: " + id);
                
                  //let itemInTable = this.schedules[mainIndex].map(item=>item.id).indexOf(id);
                  //working  
@@ -497,7 +536,7 @@
                  //console.log(itemInTable);
             
                 //Our specific item record clicked.
-                console.log(this.schedules[mainIndex][itemInTable]);
+               // console.log(this.schedules[mainIndex][itemInTable]);
 
                 
                 //Correctly update field with reactivity in VUE.
@@ -507,7 +546,7 @@
             },
             //Temporary add a class in the list before actually saving it.       
             addClass(key,currentID){
-                console.log("key, index should follow: " +"key is :" + key + "currentID is  " + currentID);
+                //console.log("key, index should follow: " +"key is :" + key + "currentID is  " + currentID);
 
                
                 
@@ -523,7 +562,7 @@
                 let contentsOfLastItem = this.schedules[currentRow][lastItem-1];
 
                 //Spit out our contents.
-                console.log(contentsOfLastItem);
+                //console.log(contentsOfLastItem);
 
                 //currentRow++;
 
@@ -544,6 +583,12 @@
                 //this.newRecord=true;
 
             },//end addClass
+            //Add new schedule if none exists, using the same addClass Functionality.
+            addSchedule(){
+                    const newSchedule = [{newItem:true, semester_year: this.newYearSchedule}] 
+                    this.$set(this.schedules, 0, newSchedule);
+
+            },
         },  
         computed: {
         semesters() {
@@ -558,8 +603,7 @@
         },
         data() {
             return {
-                //CSS class for row.
-                isActive: false,
+                isFormValid: false,
                 schedules:[],
                 year:[],
                 studentName:[],
@@ -571,6 +615,7 @@
                 //with the unique.id held as key.
                 newYear:[],
                 newNotes:[],
+                newAcademicGrade:[],
                 newGrade:[],
                 newSemester:[],
                 newPeriod:[],
@@ -578,11 +623,34 @@
                 newTeacherName:[],
                 newRoomName:[],
                 //end creating new grades
-
+                newYearSchedule:'2020',
                 //Dropdowns.
+                yearSchedule:[
+                    {year_date:'2020'},
+                    {year_date:'2021'},
+                    {year_date:'2022'},
+                    {year_date:'2023'},
+                    {year_date:'2024'},
+                    {year_date:'2025'},
+                    {year_date:'2026'},
+                    {year_date:'2027'},
+                    {year_date:'2028'},
+                    {year_date:'2029'},
+                    {year_date:'2030'},
+                    {year_date:'2031'},
+                ],
+
+                academicGradeRules: [ 
+                          v => !!v || "This field is required",
+                          v => ( v && v >= 1 ) || "Min should be above 1",
+                         v => ( v && v <= 100 ) || "Max should not be above 100",
+                ],
+                
+                
                 semester:[1,2],
                 period:[1,2,3,4,5,6,7],
                 grades: [
+                                { grade: '8th', abbr: '8' },
                                 { grade: '9th', abbr: '9' },
                                 { grade: '10th', abbr: '10' },
                                 { grade: '11th', abbr: '11' },
