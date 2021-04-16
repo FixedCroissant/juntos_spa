@@ -22,20 +22,17 @@ class CoachAppointmentController extends Controller
     {
         
         //ToDo - Get only people that have the coordinator role.
-
         //Get all appointments, with student information.
-        //Limit records.
-        $appointments = CoachAppointment::with(['student' => function($query) {
-            return $query->select(['id','student_first_name','student_last_name',DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name')]);
-            }, 'coach' => function($query) {
-                return $query->select(['id','name']);
-               
-            }
-            ])->select(
-               'id','created_at','student_id','user_id','appointment_date',
-            )->get();
+           $appointments = Student::select('id','student_first_name','student_last_name',
+           DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'))->whereHas('coachAppointments',
+           function($q){
+                            })->with('coachAppointments',
+                    function($q){
+                             $q->with('coach')->select(['id','appointment_date','created_at','student_id','user_id']);
+                    })->get();
 
-        return response(['appointments'=>$appointments,'message' => 'Roles Retrieved','status'=>200], 200);
+
+        return response(['appointments'=>$appointments,'message' => 'Coaching Appointments Retrieved','status'=>200], 200);
     }
 
     /**
@@ -143,8 +140,12 @@ class CoachAppointmentController extends Controller
      * @param  \App\Models\CoachAppointment  $coachAppointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CoachAppointment $coachAppointment)
-    {
-        //To-Do--- Add Destroy method for an appointment.
+    public function destroy($id)
+    {   
+        $coachAppointment = CoachAppointment::find($id);
+
+        $coachAppointment->delete();
+
+        return response(['message' => 'Coach Appointment Deleted'],200);
     }
 }
