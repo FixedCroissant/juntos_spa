@@ -1,20 +1,11 @@
 
 <template>
 <v-container>
-        <!--Start Success Message-->
-        <!-- <v-row>
-            <v-col cols="12" md="7" offset-md="2">
-                        <v-alert v-if="this.alert"  type="success">
-                         Saved Record
-                    </v-alert>
-            </v-col>
-        </v-row> -->
-        <!--EndSuccessMessage-->
        <v-row>
           <v-col cols="12" md="5" offset-md="1">
             <h4>Student Contact Information</h4>
             <br>
-                 <StudentContactComponent  @clicked="onClickChild" v-bind:myStudentSelection="student" />
+                 <StudentContactComponent  v-bind:myStudentSelection="student" />
                 <v-btn
                         elevation="2"
                         x-small
@@ -26,14 +17,6 @@
             <v-col cols="12" md="5">
                     <h4>Parent Guardian Information </h4>
                     <br>
-                      <!-- <template v-for="theparents in student.parent">
-                         {{theparents.parent_first_name}} |  {{theparents.parent_last_name}} <br/>
-                         {{theparents.address_line_1}} <br/>
-                         {{theparents.city}}, 
-                         {{theparents.state}} <br/>
-                         {{theparents.zip}}
-                    </template>   -->
-                   
                     <!--Handle Long Parent Lists-->
                     <template>
                         <div style="border: 1px solid grey; height:250px; overflow:auto; padding:30px;">
@@ -113,16 +96,8 @@
         methods:{
                 //Get information back from our child component
                 eventParentCreation: function(id) {
-		            	//Information stored in ID is the data response.
-                        //console.log('Event from parent component emitted', id)
-                        //console.log(this.student.parent);
-                        //update information in parent array.
-                        this.student.parent.push( id );
-                        console.log(this.student.parent);
+		                this.student.parent.push( id );
 		        },
-                onClickChild(){
-                    console.log('we want this to work like above.')
-                },
                 createParentInformationModal(){
                     this.createParent=true;
                 },
@@ -149,18 +124,11 @@
                                         //Get Result.
                                         response=>{
                                                     if(response.status==200){
-                                                                      //this.alert=true;
-                                                                      //Use overall notification from top of application.
-                                                                      //Set success message.
-                                                                      // Add alert
                                                                       this.$store.dispatch('setSuccessAlert','Student Record has been updated.')
-                                                            
-                                                                      // Remove alert
                                                                        setTimeout(() => {
                                                                                     this.$store.dispatch('removeSuccessAlert')
-                                                                        }, 7000)
+                                                                        }, 5000)
                                                     }
-                                            
                                         }
 
                                 )
