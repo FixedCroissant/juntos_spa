@@ -15,64 +15,45 @@
 
           <v-tab
             v-for="item in items"
-            :key="item"
-            
+           :to="item.href"
+           :key="item.name"
           >
-            {{ item }}
+            {{ item.name }}
           </v-tab>
         </v-tabs>
       </template>
     </v-toolbar>
-
-    <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="item in items"
-        :key="item"
-      >
-        <v-card flat>
-          <v-card-text
-            v-if="item=='Users'"
-          >
-
-          <p>
-            <v-btn
-              elevation="2"
-              small
-             >Create New User
-             </v-btn>
-              <br/>
-              <br/>
-            
-            This is the admin area.
-            
-          </p>
-
-
-          <AdminUserTableComponent users="users"/>
-          </v-card-text>
-          
-          <!--ROLE LIST-->
-          <v-card-text
-          v-if="item=='Roles'"
-          >
-          <br/>
-          <br/>
-          <AdminRoleIndex />
-          </v-card-text>
-          <!--End Roles-->
-          
-          
-          <v-card-text
-            v-if="item=='Notes'"
-          >
-          <ul>
-                    <li>
-                    
-                    </li>
-          </ul>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
+<v-tabs-items v-model="tab">
+                <div class="tab-content">
+                      <div :class="['tab-pane', { 'active': $route.hash === '#users' }]">
+                            <p v-if="$route.hash=='#users'" >
+                                 <AdminUserTableComponent users="users"/>
+                            </p>
+                      </div>
+                      <div :class="['tab-pane', { 'active': $route.hash === '#roles' }]">
+                          <p v-if="$route.hash=='#roles'" >
+                                  <AdminRoleIndex />
+                          </p>
+                      </div>
+                      <div :class="['tab-pane', { 'active': $route.hash === '#states' }]">
+                          <p v-if="$route.hash=='#states'" >
+                                   <v-btn style="margin:10px" elevation="2" small :to="{name: 'createState'}">Create State</v-btn>
+                                   <AdminStateIndex />
+                          </p>
+                      </div>
+                      <div :class="['tab-pane', { 'active': $route.hash === '#counties' }]">
+                          <p v-if="$route.hash=='#counties'" >
+                                  <v-btn  style="margin:10px" elevation="2" small :to="{name: 'createCounty'}">Create County</v-btn>
+                                  <AdminCountyIndex />
+                          </p>
+                      </div>
+                      <div :class="['tab-pane', { 'active': $route.hash === '#sites' }]">
+                          <p v-if="$route.hash=='#sites'" >
+                                   <v-btn  style="margin:10px" elevation="2" small :to="{name: 'createSite'}" > Create Site</v-btn>
+                                   <AdminSiteIndex />
+                          </p>
+                      </div>
+              </div>
     </v-tabs-items>
   </v-card>
 </template>
@@ -80,6 +61,10 @@
 <script>
   import AdminUserTableComponent from './AdminUserTableComponent.vue';
   import AdminRoleIndex from '../views/auth/roles/AdminRoleIndex.vue';
+  import AdminStateIndex from '../views/auth/states/AdminStateIndex.vue';
+  import AdminCountyIndex from '../views/auth/counties/AdminCountyIndex.vue';
+  import AdminSiteIndex from '../views/auth/sites/AdminSiteIndex.vue';
+
 
     export default {
         mounted() {
@@ -87,20 +72,42 @@
         },
         components:{
             AdminUserTableComponent,
-            AdminRoleIndex
+            AdminRoleIndex,
+            AdminStateIndex,
+            AdminCountyIndex,
+            AdminSiteIndex
         },
       props: [],
+
+      //href="/" router
       data () {
       return {
         tab: null,
-        items: [
-          'Users','Roles', 'District/Counties','Sites','Etc. TBD'
-        ],
-        itemText:[
-          'item1',
-          'item2',
-          'item3'
-        ]        
+        /*items: [
+          'Users','Roles', 'States','Counties','Sites'
+        ],*/
+        items:[
+              {
+                  name:'Users',
+                  href:'#users'
+              },
+              {
+                  name:'Roles',
+                  href:'#roles'
+              },
+              {
+                 name:'States',
+                 href:'#states'
+              },
+              {
+                 name:'Counties',
+                 href:'#counties'
+              },
+              {
+                 name:'Sites',
+                 href:'#sites'
+              }
+          ],    
       }
     },
     }
