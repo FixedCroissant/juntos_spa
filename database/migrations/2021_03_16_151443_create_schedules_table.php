@@ -35,6 +35,8 @@ class CreateSchedulesTable extends Migration
             $table->string('teacher_name')->nullable();
             $table->string('room_number')->nullable();
             $table->text('notes_lunch_period')->nullable();
+            //Academic Grade
+            $table->text('academic_grade')->nullable();
         });
     }
 
