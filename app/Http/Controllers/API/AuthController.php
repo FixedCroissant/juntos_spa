@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -83,7 +84,7 @@ class AuthController extends Controller
        ->where('user_id',$request->user_id)       
         ->update([
             'revoked' => true
-        ]);
+        ]);       
 
         return response()->json(['status' => 200]);
     }
@@ -106,6 +107,9 @@ public function googleCallback(Request $request){
     //Get Google user through Socialite.
     $provider = 'google';
     $google_user = Socialite::driver($provider)->stateless()->user();
+
+    //Get google user from token.
+    $GoogleUser =  Socialite::driver($provider)->userFromToken($googleUserToken);
 
     //Create user using separate method.
     $user = $this->findOrCreate($google_user->email,$google_user->user['given_name'],$google_user->user['family_name']);
@@ -143,7 +147,7 @@ private function findOrCreate($email, $firstName, $lastName){
     $user = User::create(
     [       'email'=>$email,
             'name'=>$firstName . " " . $lastName,
-            'password'=>bcrypt(str_random(9)),   
+            'password'=>bcrypt(Str::random(9)),   
     ]);
     
     //Apply roles.  
