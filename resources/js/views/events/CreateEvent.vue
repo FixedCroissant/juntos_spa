@@ -1,5 +1,10 @@
 <template>
 <v-container>
+     <v-row>
+        <v-col cols="12" md="11" offset-md="1">
+                           <h2>Create Event</h2>
+        </v-col>
+    </v-row>
     <v-row>
         <v-col cols="12" md="11" offset-md="1">
                            <CreateEventComponent/>
@@ -9,7 +14,6 @@
 </template>
 
 <script>
-    //Local component registration...
     import CreateEventComponent from '../../components/CreateEventComponent.vue';
     
     export default {
