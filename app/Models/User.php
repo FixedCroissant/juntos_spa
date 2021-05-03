@@ -50,4 +50,9 @@ class User extends Authenticatable
          return $this->hasMany(CoachAppointment::class,'user_id','id');
      }
 
+     //Coordinator Access
+    public function studentAccess(){
+         return $this->belongsToMany(Sites::class,'coordinator_site','user_id','site_id')->withTimestamps();
+    }
+
 }
