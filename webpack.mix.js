@@ -11,7 +11,12 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').vue()
+/*mix.js('resources/js/app.js', 'public/js').vue()
     .postCss('resources/css/app.css', 'public/css', [
         //
-    ]).disableNotifications();
+    ]).disableNotifications();*/
+
+//Just mix the files we need.
+//mix.js('resources/js/')
+mix.js('resources/js/app.js', 'public/js').vue();
+
