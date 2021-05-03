@@ -10,10 +10,13 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'event_start_date','event_end_date','event_type','event_city','event_state','event_zip','event_name','event_notes' 
+        'event_start_date','event_end_date','event_type','event_city','event_state','event_zip','event_name','event_notes'
       ];
 
-    //Student Attendance  
+    protected $dates = ['event_start_date','event_end_date'];
+
+
+    //Student Attendance
     public function attendance()
     {
         return $this->belongsToMany(Student::class,'event_attendance','event_id','student_id')->withTimestamps();

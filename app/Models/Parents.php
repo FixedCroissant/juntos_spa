@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Parents extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'student_id','parent_first_name','parent_last_name','address_line_1','city','state','zip' 
+        'student_id','parent_first_name','parent_last_name','address_line_1','city','state','zip',
+        'phone_number',
+        'emailaddress'
       ];
-    
-    
+
+
     /**
      * Inverse of Student/Parent relationship
      */

@@ -10,13 +10,30 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-      'student_id','student_first_name','student_last_name','address_line_1','city','state','zip' 
+      'student_id','student_first_name','student_last_name','address_line_1','city','state','zip',
+      //New fields
+       'ethnicity','school_name','age','phone_number','dob',
+       //Need to add these items.
+        'email_address',
+        'active_student',
+        'academic_year',
+        'pre_survey_completed',
+        'post_survey_completed'
+
     ];
 
-    //
+    protected $dates = ['dob'];
+
+    //ToDo-Address this so that it works with sites.
     public function school()
     {
         return $this->hasMany(School::class,'id','school_id');
+    }
+
+
+    public function notes()
+    {
+        return $this->hasMany(StudentNote::class,'student_id','id');
     }
 
     public function parent()
@@ -28,8 +45,13 @@ class Student extends Model
     public function coachAppointments(){
         return $this->hasMany(CoachAppointment::class,'student_id','id');
     }
-    
-    
+
+    //May be temporary
+    //Get user information of the coaching appointment
+    public function coach(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
     //Event Attendance
     public function attendance()
     {
