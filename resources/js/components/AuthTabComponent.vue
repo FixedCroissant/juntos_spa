@@ -53,6 +53,11 @@
                                    <AdminSiteIndex />
                           </p>
                       </div>
+                      <div :class="['tab-pane', { 'active': $route.hash === '#coordassign' }]">
+                          <p v-if="$route.hash=='#coordassign'" >
+                                   <AdminCoordinatorTableComponent users="users"/>
+                          </p>
+                      </div>
               </div>
     </v-tabs-items>
   </v-card>
@@ -60,6 +65,7 @@
 
 <script>
   import AdminUserTableComponent from './AdminUserTableComponent.vue';
+  import AdminCoordinatorTableComponent from './AdminCoordinatorTableComponent.vue';
   import AdminRoleIndex from '../views/auth/roles/AdminRoleIndex.vue';
   import AdminStateIndex from '../views/auth/states/AdminStateIndex.vue';
   import AdminCountyIndex from '../views/auth/counties/AdminCountyIndex.vue';
@@ -72,6 +78,7 @@
         },
         components:{
             AdminUserTableComponent,
+            AdminCoordinatorTableComponent,
             AdminRoleIndex,
             AdminStateIndex,
             AdminCountyIndex,
@@ -106,6 +113,10 @@
               {
                  name:'Sites',
                  href:'#sites'
+              },
+              {
+                name:'Coordinator Assignment',
+                href: '#coordassign'
               }
           ],    
       }

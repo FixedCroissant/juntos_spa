@@ -28,6 +28,12 @@ class Student extends Model
     public function coachAppointments(){
         return $this->hasMany(CoachAppointment::class,'student_id','id');
     }
+
+    //May be temporary
+    //Get information of the coaching appointment
+    public function coach(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
     
     
     //Event Attendance

@@ -10,6 +10,6 @@ class Schedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id','period_id','semester_year','semester_number','grade','schedule_type','class_name','teacher_name','room_number','notes_lunch_period' 
+        'student_id','period_id','semester_year','semester_number','grade','schedule_type','class_name','teacher_name','room_number','notes_lunch_period','academic_grade' 
       ];
 }

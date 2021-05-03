@@ -52,11 +52,32 @@ import StudentScheduleIndex from '../views/schedules/StudentScheduleIndex';
 
 //Admin Area
 import AuthIndex from '../views/auth/AuthIndex.vue';
+
+
 //UserEdit
 import AdminUserEdit from '../views/auth/users/AdminUserEdit.vue';
 
 //RoleIndex
 import AdminRoleIndex from '../views/auth/roles/AdminRoleIndex.vue';
+
+//State Creation
+import AdminStateCreate from '../views/auth/states/AdminStateCreate.vue';
+
+//StateEdit
+import AdminStateEdit from '../views/auth/states/AdminStateEdit.vue';
+
+//County Creation
+import AdminCountyCreate from '../views/auth/counties/AdminCountyCreate.vue';
+//County Edit
+import AdminCountyEdit from '../views/auth/counties/AdminCountyEdit.vue';
+
+//Site Creation
+import AdminSiteCreate from '../views/auth/sites/AdminSiteCreate.vue';
+//Site Edit
+import AdminSiteEdit from '../views/auth/sites/AdminSiteEdit.vue';
+
+
+
 
 //End Admin Area
 
@@ -236,6 +257,43 @@ let routes = [
         path:'/admin/user/role/index',
         component:AdminRoleIndex
     },
+    {
+        name:'createState',
+        path:'/admin/state/create',
+        component: AdminStateCreate
+    },
+    //Edit State
+    //admin/state/#/edit
+    {
+        name:'editState',
+        path:'/admin/state/:id/edit',
+        component: AdminStateEdit
+    },
+    //Create Counties
+    {
+        name:'createCounty',
+        path:'/admin/state/county/create',
+        component: AdminCountyCreate
+    },
+    //EditCounty
+    {
+        name:'editCounty',
+        path:'/admin/state/county/:id/edit',
+        component: AdminCountyEdit
+    },
+    //Site Create
+    {
+        name: 'createSite',
+        path:'/admin/state/county/site/create',
+        component:AdminSiteCreate
+    },
+    //Site Edit
+    {
+        name:'editSite',
+        path:'/admin/state/county/site/:id/edit',
+        component:AdminSiteEdit
+    },
+
 
 
     // ... other routes ...

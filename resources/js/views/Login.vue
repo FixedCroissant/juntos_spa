@@ -54,7 +54,7 @@ offset-md="3"
 
       <v-row>
         <v-col cols="12" lg="6" md="6" sm="6" xs="6" offset-md="4" offset-sm="3" offset-xs="5" >
-          <button v-on:click="loginGoogle" type="button" ><img style="margin-left:15px;" width="250" height="60" src="/images/google_sign_in_button.gif" title="Sign In With Google" /></button>
+          <v-btn style="margin-left:15px" v-on:click="loginGoogle" type="button">Login with Google</v-btn>
         </v-col>
       </v-row>
     </v-container>    

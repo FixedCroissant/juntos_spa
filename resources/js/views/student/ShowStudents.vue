@@ -5,12 +5,15 @@
           <v-col cols="12" md="5" offset-md="1">
             <h4>Student Contact Information</h4>
             <br>
-                 <StudentContactComponent  v-bind:myStudentSelection="student" />
+                 <v-form v-model="isFormValid">   
+                    <StudentContactComponent  v-bind:rulesFromParent="myRules" v-bind:myStudentSelection="student" />
+                 </v-form>  
                 <v-btn
                         elevation="2"
                         x-small
                         v-on:click="updateStudentInformation"
                 >
+                <br/><br/>
                 Update Student Information
                 </v-btn>  
             </v-col>
@@ -87,10 +90,21 @@
         },
         data() {
             return {
+                isFormValid:false,
                 student:[],
                 createParent:false,
                 newParent:true,
-                alert:false  
+                alert:false,
+                myRules:[
+                        v => !!v || 'StudentID is required',
+                       v => v.length <= 10 || 'StudentID must be less than 10 characters',
+                ],
+                /*myRules:[
+                    {
+                     maximum:   v => v.length <= 10 || 'StudentID must be less than 10 characters',         
+                     required:  v => !!v || 'StudentID is required',
+                     }
+                ]*/ 
             }
         },
         methods:{

@@ -22,23 +22,24 @@
                 
               ></v-checkbox>
           </td>
-           <td> {{students.item.id}}</td>
+           <!-- <td> {{students.item.id}}</td> -->
+            <td> {{students.item.student_id}}</td>
            <td>{{students.item.student_full_name}}</td>
-           <td>{{students.item.student_email}}</td>
-           <td>
+           <td>{{students.item.email_address}}</td>
+           <!-- <td>
               <div v-if="students.item.school_county">
               {{students.item.school_county}}
              </div>
              <div v-else>
                No school.
               </div>
-           </td>
+           </td> -->
            <td>
-             <div v-if="students.item.school_name">
-              {{students.item.school_name}}
+             <div v-if="students.item.site_name">
+              {{students.item.site_name}}
              </div>
              <div v-else>
-               No school.
+               No site assigned.
               </div>
            </td>
            <td>{{students.item.coordinator}}</td>
@@ -74,14 +75,13 @@
                   },
                   {
                   text: 'Student ID',
-                  align: 'start',
                   sortable: false,
-                  value: 'stu_id',
+                  value: 'student_id',
                   },
                 { text: 'Student Name', value: 'student_full_name' },
-                 {text:'Email',value:'student_email'},  
-                { text: 'County', value: 'school_county' },
-                { text: 'School Name', value: 'school_name' },
+                 {text:'Email',value:'email_address'},  
+                //{ text: 'County', value: 'school_county' },
+                { text: 'Site Name', value: 'school_name' },
                 { text: 'Coordinator', value: 'coordinator' },
                 { text: 'Actions', value: 'actions' },
                   
