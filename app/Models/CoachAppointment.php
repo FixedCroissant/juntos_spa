@@ -9,7 +9,7 @@ class CoachAppointment extends Model
 {
     use HasFactory;
 
-    
+
     protected $fillable = [
         'student_id',
         'user_id',
@@ -19,15 +19,18 @@ class CoachAppointment extends Model
         'StudentCounselor',
         'EducationalGoals',
         'appointment_date',
-        'appointment_follow_up_date', 
-        'method_of_contact', 
-        'follow_up_notes', 
-        'actions_needed',  
+        'appointment_duration',
+        'appointment_follow_up_date',
+        'method_of_contact',
+        'follow_up_notes',
+        'actions_needed',
         'actions_made',
         'results'
       ];
-    
-    
+
+    protected $dates = ['appointment_date','appointment_follow_up_date'];
+
+
     //Inverse of has many.
     public function student()
     {
