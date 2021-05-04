@@ -31,7 +31,9 @@ class SiteController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.sites.create');
+        $countyOptions = County::pluck('county_name','id');
+
+        return view('pages.admin.sites.create')->with(['countyOptions'=>$countyOptions]);
     }
 
     /**
@@ -50,9 +52,8 @@ class SiteController extends Controller
             'site_name' => 'required'
         ]);
 
-        //Validation
         if($validator->fails()){
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            return back()->withErrors($validator)->withInput();
         }
 
         $site = Sites::create(['county_id'=>$request->county,'site_name'=>$request->site_name]);

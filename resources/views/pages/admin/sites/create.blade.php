@@ -88,40 +88,31 @@
                         <!-- Tabs navs -->
                         <div class="card-body">
                             <p>
-                                <a class="btn btn-primary" href="{{route('admin.sites.create')}}">Create New Site</a>
-                                <br/>
-
-                                Please select a site:
+                                Please create a new site to be used.
                             </p>
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-2">
-                                <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                    <thead>
-                                    <tr>
-                                        <th class="th-sm">County
-                                        </th>
-                                        <th class="th-sm">Site Name
-                                        </th>
-                                        <th class="th-sm">Action
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($sites as $mysites)
-                                        <tr>
-                                            <td>
-                                                {{$mysites->county->county_name}}
-                                            </td>
-                                            <td>
-                                                {{$mysites->site_name}}
-                                            </td>
-                                            <td>
-                                                {!! link_to_route('admin.sites.edit','Edit',$mysites) !!}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                                <!--End Table-->
+                                {!! Form::open(array('route'=>'admin.sites.store')) !!}
+                                <div class="form-group">
+                                    <div class="row">
+                                        {!! Form::label('site_county', 'Site County:')  !!}
+                                        {!! Form::select('county', $countyOptions, null, ['class'=>'form-control col-lg-6 col-md-6','placeholder' => 'Pick a county...']); !!}
+                                    </div>
+                                    <div class="row">
+                                            &nbsp;
+                                    </div>
+                                    <div class="row">
+                                        &nbsp;
+                                    </div>
+                                    <div class="row">
+                                        {!! Form::label('site_name', 'Site Name:')  !!}
+                                        {!! Form::text('site_name',Request::old('site_name'),array('class'=>'col-lg-6 col-md-6','maxlength'=>'150')) !!}
+                                    </div>
+                                    <div class="row">
+                                        {!! Form::submit('Create Site',array('class'=>'btn btn-primary')) !!}
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+
                             </div>
                         </div>
                     </div>
