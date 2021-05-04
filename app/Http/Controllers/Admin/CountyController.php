@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\County;
+use App\Models\States;
 use Illuminate\Http\Request;
 
 
@@ -30,7 +31,9 @@ class CountyController extends Controller
      */
     public function create()
     {
-        return view('pages.admin.states.create');
+        $stateOptions = States::pluck('state_name','id');
+
+        return view('pages.admin.counties.create')->with(['stateOptions'=>$stateOptions]);
     }
 
     /**
@@ -50,7 +53,7 @@ class CountyController extends Controller
         ]);
 
         if($validator->fails()){
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            return back()->withErrors($validator)->withInput();
         }
 
         $county = County::create(['state_id'=>$request->state,'county_name'=>$request->county_name]);

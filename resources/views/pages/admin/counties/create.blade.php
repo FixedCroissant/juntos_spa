@@ -7,9 +7,8 @@
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">Admin Area/County Management</h4>
                         <p class="card-category">
-                            Counties that can be set up can be seen below.
-                        </p>
 
+                        </p>
                     </div>
                     <div class="card">
                         <!--Start Nav tabs-->
@@ -19,7 +18,7 @@
                                     class="nav-link"
                                     id="ex1-tab-1"
                                     data-mdb-toggle="tab"
-                                    href="#ex1-tabs-1"
+                                    href="{{route('admin.backend.index')}}"
                                     role="tab"
                                     aria-controls="ex1-tabs-1"
                                     aria-selected="false"
@@ -31,7 +30,7 @@
                                     class="nav-link"
                                     id="ex1-tab-2"
                                     data-mdb-toggle="tab"
-                                    href="#ex1-tabs-2"
+                                    href="{{route('admin.backend.index')}}"
                                     role="tab"
                                     aria-controls="ex1-tabs-2"
                                     aria-selected="false"
@@ -73,59 +72,56 @@
                                 >SITES</a
                                 >
                             </li>
+                            <li class="#" role="presentation">
+                                <a
+                                    class="nav-link"
+                                    id="ex1-tab-4"
+                                    data-mdb-toggle="tab"
+                                    href={{route('admin.sites.index')}}
+                                        role="tab"
+                                    aria-controls="ex1-tabs-5"
+                                    aria-selected="false"
+                                >SETTINGS</a
+                                >
+                            </li>
                         </ul>
                         <!-- Tabs navs -->
                         <div class="card-body">
                             <p>
-                                <a class="btn btn-primary"href="{{route('admin.counties.create')}}">Create New County</a>
-                                <br/>
-
-                                Please select a county:
+                                Please create a new county to be used.
                             </p>
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-2">
-                                <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                                    <thead>
-                                    <tr>
-                                        <th class="th-sm">State Name
-                                        </th>
-                                        <th class="th-sm">County Name
-                                        </th>
-                                        <th class="th-sm">Action
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($counties as $mycounty)
-                                        <tr>
-                                            <td>
-                                                {{$mycounty->state->state_name}}
-                                            </td>
-                                            <td>
-                                                {{$mycounty->county_name}}
-                                            </td>
-                                            <td>
-                                               {!! link_to_route('admin.counties.edit','Edit',$mycounty->id) !!}
-                                           </td>
-                                     </tr>
-                                   @endforeach
-                                    </tbody>
-                                </table>
-                                <!--End Table-->
+                                {!! Form::open(array('route'=>'admin.counties.store')) !!}
+                                <div class="form-group">
+                                    <div class="row">
+                                        {!! Form::label('site_county', 'Site State:')  !!}
+                                        {!! Form::select('state', $stateOptions, null, ['class'=>'form-control col-lg-6 col-md-6','placeholder' => 'Pick a state...']); !!}
+                                    </div>
+                                    <div class="row">
+                                        &nbsp;
+                                    </div>
+                                    <div class="row">
+                                        &nbsp;
+                                    </div>
+                                    <div class="row">
+                                        {!! Form::label('county_name', 'County Name:')  !!}
+                                        {!! Form::text('county_name',Request::old('county_name'),array('class'=>'col-lg-6 col-md-6','maxlength'=>'150')) !!}
+                                    </div>
+                                    <div class="row">
+                                        &nbsp;
+                                    </div>
+                                    <div class="row">
+                                        {!! Form::submit('Create County',array('class'=>'btn btn-primary')) !!}
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+
                             </div>
                         </div>
                     </div>
                     <!--Tabs Content-->
-
                 </div>
             </div>
         </div>
     </div>
 @endsection
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script>
-    $(document).ready(function () {
-        $('#dtBasicExample').DataTable();
-        $('.dataTables_length').addClass('bs-select');
-    });
-</script>
-
