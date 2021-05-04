@@ -31,7 +31,7 @@ use App\Http\Controllers\StudentNotesController;
 
 Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 	//Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
