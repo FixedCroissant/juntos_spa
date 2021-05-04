@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Juntos</title>
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('material') }}/img/apple-icon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('/') }}/favicon.ico">
     <link rel="icon" type="image/x-icon" href="{{ asset('/') }}/favicon.ico">
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!--     Fonts and icons     -->
@@ -67,6 +67,6 @@
         <script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
         @stack('js')
         <!--Build Script-->
-        <script src="{{asset('js/app.js')}}"></script>
+{{--        <script src="{{asset('js/app.js')}}"></script>--}}
     </body>
 </html>
