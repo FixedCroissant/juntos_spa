@@ -51,7 +51,7 @@ class StateController extends Controller
 
         //Validation
         if($validator->fails()){
-            return response(['error' => $validator->errors(), 'Validation Error']);
+            return back()->withErrors($validator)->withInput();
         }
         $state = States::create(['state_name'=>$request->state_name,'state_abbreviation'=>$request->state_abbreviation]);
         return redirect()->route('admin.states.index')->with('flash_success','New State Successfully Created!');
@@ -80,7 +80,6 @@ class StateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $state = States::find($id);
         $state = States::find($id);
         $state->update($request->all());
 

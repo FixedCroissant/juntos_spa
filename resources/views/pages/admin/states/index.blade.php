@@ -87,8 +87,14 @@
                             </li>
                         </ul>
                         <!-- Tabs navs -->
-                        <div class="card-body">
+                        <p class="card-body">
+                            <p>
+                            <a class="btn btn-primary"  href="{{route('admin.states.create')}}">Create New State</a>
+                            <br/>
+
                             Please select a state:
+                            </p>
+
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-2">
                                 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
