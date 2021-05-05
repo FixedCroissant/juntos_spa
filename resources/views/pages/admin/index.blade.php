@@ -19,7 +19,7 @@
                                     class="nav-link active"
                                     id="ex1-tab-1"
                                     data-mdb-toggle="tab"
-                                    href="#ex1-tabs-1"
+                                    href={{route('admin.backend.index')}}
                                     role="tab"
                                     aria-controls="ex1-tabs-1"
                                     aria-selected="false"
@@ -31,7 +31,7 @@
                                     class="nav-link"
                                     id="ex1-tab-2"
                                     data-mdb-toggle="tab"
-                                    href="#ex1-tabs-2"
+                                    href="{{route('admin.backend.rolesindex')}}"
                                     role="tab"
                                     aria-controls="ex1-tabs-2"
                                     aria-selected="false"

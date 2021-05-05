@@ -31,7 +31,7 @@
                                     class="nav-link"
                                     id="ex1-tab-2"
                                     data-mdb-toggle="tab"
-                                    href="{{route('admin.backend.index')}}"
+                                    href="{{route('admin.backend.rolesindex')}}"
                                     role="tab"
                                     aria-controls="ex1-tabs-2"
                                     aria-selected="false"
@@ -91,7 +91,7 @@
 
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-2">
                                <ul>
-                                   <li>Assign coordinator to site</li>
+                                   <li><a href="{{route('admin.settings.coordinator.assign')}}">Assign coordinator to site</a></li>
                                </ul>
 
                             </div>
