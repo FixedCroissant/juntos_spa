@@ -29,7 +29,7 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <label for="event_type" class="col-form-label">Event Type</label><span class="required">*</span>
-                                            {!! Form::select('event_type', ['4H'=>'4H','Field Trip'=>'Field Trip','Family Night'=>'Family Night','Civic Engagement'=>'Civic Engagement','Other'=>'Other'], null, ['class'=>'form-control','placeholder' => 'Select Type...']); !!}
+                                            {!! Form::select('event_type', ['4H'=>'4H Club','Field Trip'=>'Field Trip','Family Night'=>'Family Night','Civic Engagement'=>'Civic Engagement','Other'=>'Other'], null, ['class'=>'form-control','placeholder' => 'Select Type...']); !!}
                                         </div>
                                     </div>
                                    <div class="row">
