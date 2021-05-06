@@ -1,7 +1,5 @@
 @extends('layouts.app', ['activePage' => 'editEvent', 'titlePage' => __('')])
-
 @section('content')
-
     <div class="content">
         <div class="container-fluid">
             <div class="container-fluid">
@@ -16,7 +14,7 @@
                         <div class="row">
                             <div class="col-md-5 offset-1">
                                 <b>Event Information</b>
-                                {!! Form::open(array('route'=>'event.store')) !!}
+                                {!!   Form::model($event, ['route' => ['event.update', $event->id],'class'=>'form-horizontal','method'=>'PATCH']) !!}
                                     <div class="row">
                                         &nbsp;
                                     </div>
@@ -29,7 +27,7 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <label for="event_type" class="col-form-label">Event Type</label><span class="required">*</span>
-                                            {!! Form::select('event_type', ['4H'=>'4H','Field Trip'=>'Field Trip','Family Night'=>'Family Night','Civic Engagement'=>'Civic Engagement','Other'=>'Other'], null, ['class'=>'form-control','placeholder' => 'Select Type...']); !!}
+                                            {!! Form::select('event_type', ['4H Club'=>'4H Club','Field Trip'=>'Field Trip','Family Night'=>'Family Night','Civic Engagement'=>'Civic Engagement','Other'=>'Other'], null, ['class'=>'form-control','placeholder' => 'Select Type...']); !!}
                                         </div>
                                     </div>
                                    <div class="row">
@@ -66,8 +64,14 @@
                                         {!! Form::text('event_end_date',null,['class'=>'form-control','id'=>'eventEndDate']) !!}
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a  href="{{route('event.index')}}">Go back.</a>
+                                    </div>
 
-                                {!! Form::submit('Edit Event',array('class'=>'btn btn-sm btn-primary')) !!}
+                                </div>
+
+                                {!! Form::submit('Update Event',array('class'=>'btn btn-sm btn-primary')) !!}
 
 
                                 {!! Form::close() !!}

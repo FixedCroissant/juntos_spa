@@ -71,4 +71,20 @@ class EventController extends Controller
         return view('pages.events.edit')->with(['stateOptions'=>$stateOptions,'event'=>$event]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Event $event
+     */
+    public function update(Request $request, Event $event)
+    {
+        $event->update($request->all());
+
+        return redirect()->route('event.index')->with('flash_success','Event Updated!');
+
+    }
+
+
+
 }
