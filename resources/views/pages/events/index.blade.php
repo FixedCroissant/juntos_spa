@@ -13,8 +13,8 @@
                     <div class="row">
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
-                                <table id="eventList" class="table table-striped table-bordered" width="100%">
-                                    <thead>
+                                <table id="events" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
                                     <tr>
                                         <th class="th-sm">Event Name
                                         </th>
@@ -61,8 +61,8 @@
 @endsection
 @push('js')
     <script>
-        $(document).ready(function () {
-            $('#eventList').DataTable();
-        });
+        $(document).ready( function () {
+            $('#events').DataTable();
+        } );
     </script>
 @endpush
