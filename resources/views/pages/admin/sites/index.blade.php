@@ -77,7 +77,7 @@
                                     class="nav-link"
                                     id="ex1-tab-4"
                                     data-mdb-toggle="tab"
-                                    href={{route('admin.sites.index')}}
+                                    href={{route('admin.settings.index')}}
                                         role="tab"
                                     aria-controls="ex1-tabs-5"
                                     aria-selected="false"
