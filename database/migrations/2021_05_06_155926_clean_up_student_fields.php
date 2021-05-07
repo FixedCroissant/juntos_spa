@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AdjustStudent extends Migration
+class CleanUpStudentFields extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,10 @@ class AdjustStudent extends Migration
      */
     public function up()
     {
-
         Schema::table('students', function (Blueprint $table) {
-            $table->unsignedBigInteger('school_id')->nullable();
-            $table->foreign('school_id')->references('id')->on('schools')->onUpdate('cascade')->onDelete('set null');
-            //Add notes field.
-            $table->text('student_notes')->nullable();
+            //Student note no longer exists.
+            $table->dropColumn(['events_id','coordinator']);
         });
-        //
- 
-        
     }
 
     /**
@@ -32,11 +26,9 @@ class AdjustStudent extends Migration
      */
     public function down()
     {
-        //
         Schema::table('students', function (Blueprint $table) {
-                $table->dropForeign('students_school_id_foreign');
-
+            $table->string('coordinator')->nullable();
+            $table->string('events_id')->nullable();
         });
-
     }
 }

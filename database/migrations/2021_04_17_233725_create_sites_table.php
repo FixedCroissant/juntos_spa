@@ -31,6 +31,7 @@ class CreateSitesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('sites');
     }
 }

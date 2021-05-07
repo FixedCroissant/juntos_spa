@@ -16,7 +16,8 @@ class CreateEventAttendanceTable extends Migration
         Schema::create('event_attendance', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('event_id')->unsigned();
+            $table->unsignedBigInteger('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->integer('student_id')->unsigned()->default(0);
             $table->integer('parent_id')->unsigned()->default(0);
         });

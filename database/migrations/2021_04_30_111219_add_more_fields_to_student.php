@@ -15,11 +15,12 @@ class AddMoreFieldsToStudent extends Migration
     {
         Schema::table('students', function (Blueprint $table) {
             $table->string('grade')->nullable();
-            //rename school_id to site_it
-            $table->renameColumn('school_id', 'site_id');
+            $table->unsignedBigInteger('site_id')->nullable();
+            $table->foreign('site_id')->references('id')->on('sites')->onUpdate('cascade')->onDelete('cascade');
             //Archive student
             $table->string('active_student')->nullable();
             //Student Academic Year.
+            //ToDo-ReferenceAnotherTable
             $table->string('academic_year')->nullable();
             //Survey Information
             //Pre Survey Completed? Y/N
