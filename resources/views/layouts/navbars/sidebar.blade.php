@@ -28,7 +28,6 @@
             </li>
             <li>
               <a class="nav-link" href="{{ route('students.create') }}">
-{{--                <span class="sidebar-mini">NS</span>--}}
                   <i class="material-icons">perm_identity</i>
                  <span class="sidebar-normal">New Student</span>
               </a>
@@ -44,7 +43,7 @@
     <div class="collapse hide" id="parentList">
         <ul class="nav">
             <li>
-                <a class="nav-link" href="{{ route('profile.edit') }}">
+                <a class="nav-link" href="{{route('parents.index')}}">
                     <i class="material-icons">perm_identity</i>
                     <span class="sidebar-normal">List Parents/Guardians</span>
                 </a>
@@ -52,6 +51,28 @@
         </ul>
     </div>
     <!--End Parents-->
+    <!--Volunteers-->
+          <a class="nav-link" data-toggle="collapse" href="#volunteerList" aria-expanded="false">
+              <p> <b class="caret"></b> Volunteers
+              </p>
+          </a>
+          <div class="collapse hide" id="volunteerList">
+              <ul class="nav">
+                  <li>
+                      <a class="nav-link" href="{{ route('volunteer.index') }}">
+                          <i class="material-icons">perm_identity</i>
+                          <span class="sidebar-normal">List Volunteers</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a class="nav-link" href="{{ route('volunteer.create') }}">
+                          <i class="material-icons">perm_identity</i>
+                          <span class="sidebar-normal">New Volunteer</span>
+                      </a>
+                  </li>
+              </ul>
+          </div>
+    <!--End Volunteers-->
     <!--Events-->
     <a class="nav-link" data-toggle="collapse" href="#eventList" aria-expanded="false">
         <p> <b class="caret"></b> Events
@@ -108,7 +129,7 @@
     <div class="collapse hide" id="reportingList">
         <ul class="nav">
             <li>
-                <a class="nav-link" href="{{ route('profile.edit') }}">
+                <a class="nav-link" href="{{ route('reporting.index') }}">
                     <i class="material-icons">analytics</i>
                     <span class="sidebar-normal">List Reports</span>
                 </a>
