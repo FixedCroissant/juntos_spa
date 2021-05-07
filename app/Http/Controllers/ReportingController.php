@@ -14,38 +14,19 @@ class ReportingController extends Controller
 {
     public function index()
     {
-
-
+        return view('pages.reports.index');
     }
+
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
-    public function create()
-    {
+    public function show(Request $request,$type){
 
+
+
+        return view('pages.reports.students.index');
     }
 
-    public function store(Request $request){
-
-    }
-
-    /**
-     * Edit a new resource.
-     */
-    public function edit($id){
-
-    }
-
-    //Additional methods
-
-    /*
-     * @param $studentID - studentID
-     */
-    public function seeAllStudentsAppointments($studentID){
-
-    }
 
 }
