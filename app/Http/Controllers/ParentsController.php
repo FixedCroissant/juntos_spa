@@ -6,10 +6,35 @@ use Illuminate\Http\Request;
 
 use App\Models\Student;
 use App\Models\Parents;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ParentsController extends Controller
 {
+
+    public function index(){
+
+        $user = Auth::user();
+
+        $userSites=[];
+
+        foreach($user->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+
+        $parents = DB::table('students')
+            ->leftJoin('sites', 'students.site_id', '=', 'sites.id')
+            ->leftJoin('parents','students.id','=','parents.student_id')
+            ->select('parents.id','parents.parent_first_name','parents.parent_last_name','parents.phone_number','parents.emailaddress','students.student_first_name',
+               'students.student_last_name','students.site_id','sites.site_name')
+            ->whereIn('site_id', $userSites)
+            ->orderBy('parents.student_id','ASC')
+            ->get();
+
+        return view('pages.parents.index')->with(['parents'=>$parents,'userSites'=>$userSites]);
+    }
+
 
     /**
     * Create a new parent in the system
@@ -27,7 +52,7 @@ class ParentsController extends Controller
      */
     public function edit($id){
         $parents = Parents::find($id);
-        $student = Students::find($parents->student_id);
+        $student = Student::find($parents->student_id);
         $stateOptions = ['NC'=>'North Carolina'];
         return view('pages.parents.edit')->with(['student'=>$student,'parent'=>$parents,'stateOptions'=>$stateOptions]);
     }
