@@ -93,91 +93,52 @@
                                <div class="row">
                                    <div class="col-md-12">
                                        <p>
-                                           From this page you are able to assign coordinators to a particular site. These sites are based on the counties you have created earlier.
-                                           <br/>
-                                           Please first select the state, the the county, then select the "sites" that each coordinator should have access.
-                                           <br/>
-                                           Remember, this has an impact on the events, volunteers in the system. Only coordinators assigned to these areas will be able to access these specific areas.
-                                           <br/>
-                                           <br/>
-
-                                           Assignment Area:
-                                           {!! $assignmentArea !!}
-                                           <br/>
-                                           Current list of assignments can be found on the following page:
-                                           ToDo -- Add Link
+                                           Below are all the assignments that currently exist in the system.
                                        </p>
                                    </div>
                                </div>
-                                <div class="row">
-                                   <div class="col-md-4">
-                                            <h4>Step 1 - State</h4>
-                                       {!! Form::open(['route' => 'admin.settings.coordinator.assign','method'=>'get']) !!}
-                                       {!! Form::select('state_picked', $states, null, ['class'=>'form-control','placeholder' => 'Pick a state...']); !!}
-                                       {!! Form::submit('Select State',['class'=>'btn btn-sm']) !!}
-                                       {!! Form::close() !!}
-                                   </div>
-                                   <div class="col-md-4">
-                                            <h4>Step 2 - County</h4>
-                                       {!! Form::open(['route' => 'admin.settings.coordinator.assign','method'=>'get']) !!}
 
-                                       <select name='county_picked' class="form-control">
-                                               @foreach($countyOptions as $theCountiesInState)
-                                                   <option class="form-control" value="{!! $theCountiesInState->id !!}">{!! $theCountiesInState->county_name !!}</option>
-                                               @endforeach
-                                           </select>
-                                       {!! Form::submit('Select County',['class'=>'btn btn-sm']) !!}
-                                       {!! Form::close() !!}
-                                   </div>
-                                   <div class="col-md-4">
-                                            <h4>Step 3 - Site</h4>
-                                       {!! Form::open(['route' => 'admin.settings.coordinator.assign','method'=>'get']) !!}
-
-                                       <select name='site_picked' class="form-control">
-                                           @foreach($siteOptions as $theSiteInCounty)
-                                               <option class="form-control" value="{!! $theSiteInCounty->id !!}">{!! $theSiteInCounty->site_name !!}</option>
-                                           @endforeach
-                                       </select>
-                                       {!! Form::submit('Select Site',['class'=>'btn btn-sm']) !!}
-                                       {!! Form::close() !!}
-                                   </div>
-                               </div>
                                <div style="margin-top:50px;" class="row">
-                                   <div class="col-md-6">
-                                       <h4>Site Name:</h4>
+                                    <table class="table table-condesed">
+                                        <thead>
+                                        <th>
+                                            User
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Site Access
+                                        </th>
+                                        </thead>
+                                        @foreach($users as $myUsers)
+                                        <tr>
+                                            <td>
+                                                {{$myUsers->name}}
+                                            </td>
+                                            <td>
+                                                {{$myUsers->email}}
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                @foreach($myUsers->studentAccess as $studentAccess)
+                                                    <li>
+                                                        {{$studentAccess->site_name}} |
 
-                                       Assigning
+                                                        {!!  Form::open(array('route' => array('admin.settings.coordinator.removeaccess',$myUsers->id,$studentAccess->id),'style'=>'display:inline-block', 'method' => 'delete','style'=>'display:inline','onsubmit' => "return confirm('Are you sure you want to remove access?')",))  !!}
+                                                        <button type="submit"  class="button-link btn btn-sm">Remove Access</button>
+                                                        {!! Form::close()  !!}
 
-                                       @if($assignmentDetails==NULL)
-                                        No Site found, please narrow down search to progress.
-                                       @else
-                                           {!! $assignmentDetails->site_name !!}
-                                       @endif
-                                   </div>
-                                   <div class="col-md-6">
-                                        <h4>Step 4 - User List</h4>
-
-                                       Assign the following user to the above site:
-                                       <br/>
-                                       <br/>
-                                    @if($assignmentDetails==NULL)
-                                           Narrow Down Site Please.
-                                    @else
-                                           {!! Form::open(['route' => 'admin.settings.coordinator.assign.confirm','method'=>'post']) !!}
-                                           <div>
-                                               @foreach($userList as $theUserList)
-                                                   {!! Form::checkbox('assignmentUser', $theUserList->id); !!} {!! $theUserList->name !!}
-                                               @endforeach
-                                               {!! Form::hidden('assignmentSite',$assignmentDetails->id) !!}
-                                           </div>
-                                           {!! Form::submit('Assign Site to User',['class'=>'btn btn-sm']) !!}
-                                           {!! Form::close() !!}
-                                   @endif
-                                   </div>
-
-
+                                                    </li>
+                                                @endforeach
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </table>
                                </div>
                             </div>
+                            <a class='btn btn-primary' href="{{route('admin.settings.coordinator.assign')}}">Go Back</a>
                         </div>
                     </div>
                     <!--Tabs Content-->

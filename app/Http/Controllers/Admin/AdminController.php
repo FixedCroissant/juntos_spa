@@ -41,22 +41,40 @@ class AdminController extends Controller
         $siteOptions = Sites::query();
         $siteOptions->where('county_id',$request->county_picked);
         $assignmentArea = $request->site_picked;
-        $assignmentInformation = $request->has('site_picked');
-        $assignmentDetails = Sites::find($assignmentInformation);
+        $assignmentDetails = Sites::find($request->site_picked);
 
         //User list (ToDo-Narrow down to just coordinators)
         $userList = User::all();
 
-        return view('pages.admin.settings.coordinator_assignment.index')->with(['userList'=>$userList,'assignmentDetails'=>$assignmentDetails,'assignmentArea'=>$assignmentArea,'states'=>$states,'countyOptions'=>$countyOptions->get(),'siteOptions'=>$siteOptions->get()]);
+        return view('pages.admin.settings.coordinator_assignment.assign')->with(['userList'=>$userList,'assignmentDetails'=>$assignmentDetails,'assignmentArea'=>$assignmentArea,'states'=>$states,'countyOptions'=>$countyOptions->get(),'siteOptions'=>$siteOptions->get()]);
     }
 
     /**
      *
      */
     public function assignedUser(Request $request){
+        $user = User::find($request->assignmentUser);
+        $user->studentAccess()->attach($request->assignmentSite);
 
-        $userToAssign = $request->assignmentUser;
+        return back()->with('flash_success','Successfully Added Access');
+
+    }
+
+    public function assignmentIndex(){
+        $users = User::has('studentAccess')->get();
+
+        return view('pages.admin.settings.coordinator_assignment.index')->with(['users'=>$users]);
+    }
+
+    /*
+     * Remove access of a particular site from a user.
+     */
+    public function removeAccess($userID,$siteID){
+        //Remove access
+        $user = User::find($userID);
+        $user->studentAccess()->detach($siteID);
 
 
+        return back()->with('flash_success','Successfully Removed Access');
     }
 }
