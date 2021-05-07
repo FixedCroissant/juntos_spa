@@ -23,9 +23,9 @@ class ParentsController extends Controller
             $userSites[]=$siteAccess->pivot->site_id;
         }
 
-        $parents = DB::table('students')
+        $parents = DB::table('parents')
+            ->leftJoin('students','parents.student_id','=','students.id')
             ->leftJoin('sites', 'students.site_id', '=', 'sites.id')
-            ->leftJoin('parents','students.id','=','parents.student_id')
             ->select('parents.id','parents.parent_first_name','parents.parent_last_name','parents.phone_number','parents.emailaddress','students.student_first_name',
                'students.student_last_name','students.site_id','sites.site_name')
             ->whereIn('site_id', $userSites)
