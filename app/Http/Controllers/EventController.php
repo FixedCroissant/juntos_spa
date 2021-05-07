@@ -33,6 +33,11 @@ class EventController extends Controller
         return view('pages.events.create')->with(['stateOptions'=>$stateOptions]);
     }
 
+    public function show($id){
+        $event = Event::find($id);
+        return view('pages.events.show')->with(['event'=>$event]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -82,9 +87,21 @@ class EventController extends Controller
         $event->update($request->all());
 
         return redirect()->route('event.index')->with('flash_success','Event Updated!');
-
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Event  $event
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Event $event)
+    {
+        $event->delete();
+
+
+        return redirect()->route('event.index')->with('flash_success','Event Deleted!');
+    }
 
 
 }
