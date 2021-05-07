@@ -123,10 +123,22 @@
                                         {!! Form::select('post_survey_completed', ["Y"=>"Yes","N"=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
                                     </div>
                                 </div>
-                                <!--End New Fields-->
-                                {!! Form::submit('Update Student',array('class'=>'btn btn-sm btn-primary')) !!}
-                                {!! Form::close() !!}
+                                <div class="row">
+                                    &nbsp;
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {!! Form::submit('Update Student',array('class'=>'btn btn-sm btn-primary')) !!}
+                                    </div>
+                                </div>
 
+                                <div class="row" style="margin-top:25px;">
+                                    <div class="col-md-3">
+                                        <a href="{{route('students.index')}}">Go back to student list.</a>
+                                    </div>
+                                </div>
+                                <!--End New Fields-->
+                                {!! Form::close() !!}
                             </div>
                             <div class="col-md-1">
                                 <!-- Content -->
