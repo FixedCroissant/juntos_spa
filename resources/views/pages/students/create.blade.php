@@ -78,6 +78,10 @@
                                         <label for="dob" class="col-form-label">Date of Birth</label>
                                         {!! Form::text('dob', null, ['class'=>'form-control','id'=>'dob']); !!}
                                     </div>
+                                    <div class="col-md-3">
+                                        <label for="age" class="col-form-label">Age</label>
+                                        {!! Form::selectRange('age', 1, 25,null,['class'=>'form-control','id'=>'age']); !!}
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -87,8 +91,46 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="phonenumber" class="col-form-label">Phone Number</label>
-                                        {!! Form::text('phonenumber',null,['class'=>'form-control','id'=>'phonenumber','maxlength'=>'11']) !!}
+                                        <label for="phone_number" class="col-form-label">Phone Number</label>
+                                        {!! Form::text('phone_number',null,['class'=>'form-control','id'=>'phone_number','maxlength'=>'11']) !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="county" class="col-form-label">County</label>
+                                        {!! Form::text('county',null,['class'=>'form-control','id'=>'county','maxlength'=>'60']) !!}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="school_name" class="col-form-label">School Name</label>
+                                        {!! Form::text('school_name',null,['class'=>'form-control','id'=>'school_name','maxlength'=>'60']) !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="site" name="site_id" class="col-form-label">Site Association</label><span class="required">*</span>
+                                        <select class="form-control" name="site_id">
+                                        <option value="" class="form-control">Please select a site:</option>
+                                            @foreach($siteOption as $siteOptionsAvailable)
+                                                <option value="{{$siteOptionsAvailable->id}}">{{$siteOptionsAvailable->site_name}}</option>
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="ethnicity" class="col-form-label">Ethnicity</label>
+                                        {!! Form::select('ethnicity', ['White'=>"White",'Black or African American'=>"Black or African American",'American Indian'=>'American Indian','Asian'=>'Asian','Native Hawaiian or Other Pacific Islander'=>'Native Hawaiian or Other Pacific Islander'], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="pre_survey_completed" class="col-form-label">Pre Survey Complete?</label>
+                                        {!! Form::select('pre_survey_completed', ['Y'=>"Yes",'N'=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="post_survey_completed" class="col-form-label">Post Survey Complete?</label>
+                                        {!! Form::select('post_survey_completed', ["Y"=>"Yes","N"=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
                                     </div>
                                 </div>
                                 <div class="row">

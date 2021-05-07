@@ -13,7 +13,6 @@
                     <div class="row">
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
-                                <p>
                                     Selected students:
                                     <ul>
                                         @foreach($selectedStudents as $mySelectedStudents)
@@ -22,12 +21,31 @@
                                         </li>
                                           @endforeach
                                     </ul>
-                                </p>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
+                                    {!!   Form::open(['route' => ['students.completeAttendance'],'class'=>'form-horizontal','method'=>'POST']) !!}
+                                    {!! Form::select('eventOptions', $eventOptions, null, ['class'=>'form-control','placeholder' => 'Pick an event...']); !!}
+                                    {!! Form::hidden('students',$selectedStudents) !!}
+                                    {!! Form::hidden('type','student') !!}
+                                    {!! Form::submit('Add Student to Event Attendance',array('class'=>'btn btn-sm btn-primary')) !!}
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                            <div class="row">
+                                &nbsp;
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-sm-8 col-lg-8 offset-1 ">
+                                    <a href="{{route('students.index')}}">Go back.</a>
+                                </div>
+                            </div>
 
-                            {!! Form::select('eventOptions', $eventOptions, null, ['class'=>'form-control','placeholder' => 'Pick an event...']); !!}
+
+
 
                             <!--End Table-->
-                            </div>
+
                         </div>
                     </div>
                 </div>

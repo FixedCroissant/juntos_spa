@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -44,7 +45,7 @@ class StudentController extends Controller
         $students = \DB::table('students')
             //Using Sites instead.
             ->leftJoin('sites', 'students.site_id', '=', 'sites.id')
-            ->select('students.id','students.site_id','students.phone_number','students.student_id',\DB::raw('CONCAT(students.student_first_name, " ", students.student_last_name) AS student_full_name'),'sites.site_name','students.student_first_name', 'students.student_last_name','students.address_line_1','students.email_address','students.coordinator')
+            ->select('students.id','students.site_id','students.phone_number','students.student_id',\DB::raw('CONCAT(students.student_first_name, " ", students.student_last_name) AS student_full_name'),'sites.site_name','students.student_first_name', 'students.student_last_name','students.address_line_1','students.email_address')
             ->whereIn('site_id', $userSites)
             ->get();
 
@@ -54,7 +55,9 @@ class StudentController extends Controller
     public function create(){
              $stateOptions = ['NC'=>'North Carolina'];
              $gradeOptions = ['8'=>'8th Grade','9'=>'9th Grade','10'=>'10th Grade','11'=>'11th Grade','12'=>'12th Grade'];
-             return view('pages.students.create')->with(['gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions]);
+             $user = Auth::user();
+             $siteOption = $user->studentAccess()->select('sites.id','site_name')->get();
+             return view('pages.students.create')->with(['siteOption'=>$siteOption,'gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions]);
     }
 
     /**
@@ -64,7 +67,9 @@ class StudentController extends Controller
         $student = Student::find($id);
         $stateOptions = ['NC'=>'North Carolina'];
         $gradeOptions = ['8'=>'8th Grade','9'=>'9th Grade','10'=>'10th Grade','11'=>'11th Grade','12'=>'12th Grade'];
-        return view('pages.students.edit')->with(['student'=>$student,'gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions]);
+        $user = Auth::user();
+        $siteOption = $user->studentAccess()->select('sites.id','site_name')->get();
+        return view('pages.students.edit')->with(['siteOption'=>$siteOption,'student'=>$student,'gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions]);
     }
 
     /**
@@ -85,7 +90,8 @@ class StudentController extends Controller
             'city' => 'required',
             'state' => 'required',
             'zip' => 'required',
-            'grade'=>'required'
+            'grade'=>'required',
+            'site_id'=>'required'
         ]);
 
         //Validation
@@ -132,8 +138,7 @@ class StudentController extends Controller
         //Update our student with address information.
         $student->update($request->all());
 
-        //ToDo -- Go back to view.
-        return redirect()->route('student')->with('flash_success','Student Updated!');
+        return redirect()->route('students.index')->with('flash_success','Student Updated!');
 
     }
 
@@ -148,7 +153,6 @@ class StudentController extends Controller
         $student = Student::find($id);
         $student->delete();
 
-        //return response(['message' => 'Student Deleted'],200);
 
         return back()->with('flash_success','Student Deleted!');
     }
@@ -164,23 +168,29 @@ class StudentController extends Controller
         //Remove our duplicates.
         $attendees  = array_unique($request->id);
 
-        //Get our list of students.
         $selectedStudentInformation = Student::whereIn('id',$attendees)->select('id','student_first_name','student_last_name')->get();
 
-        //Are these the students we selected?
-        //Debug
-        /*
-        foreach($selectedStudentInformation as $myStudents){
-            echo $myStudents->id . "|" . $myStudents->student_first_name . "|". $myStudents->student_last_name;
-            echo "<br/>";
-            echo "<br/>";
-        }*/
-
-        //Get Events
-        //$eventOptions = Event::select('id','event_name','event_start_date','event_end_date')->get();
         $eventOptions = Event::pluck('event_name','id');
 
 
         return view('pages.students.eventadd')->with(['selectedStudents'=>$selectedStudentInformation,'eventOptions'=>$eventOptions]);
+    }
+
+    /**
+     *
+     */
+    public function addEventAttendnaceComplete(Request $request){
+
+        $MyEvent = Event::find($request->eventOptions);
+
+        $attendees = json_decode($request->students);
+
+        if($request->type=="student"){
+            foreach($attendees as $studentAttendees){
+                $MyEvent->attendance()->attach($studentAttendees->id);
+            }
+        }
+
+        return redirect()->route('students.index')->with('flash_success','Student Attendance Added!');
     }
 }

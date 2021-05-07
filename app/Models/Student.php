@@ -11,15 +11,14 @@ class Student extends Model
 
     protected $fillable = [
       'student_id','student_first_name','student_last_name','address_line_1','city','state','zip',
-      //New fields
        'ethnicity','school_name','age','phone_number','dob',
-       //Need to add these items.
         'email_address',
         'active_student',
         'academic_year',
         'pre_survey_completed',
-        'post_survey_completed'
-
+        'post_survey_completed',
+        'county',
+        'site_id'
     ];
 
     protected $dates = ['dob'];

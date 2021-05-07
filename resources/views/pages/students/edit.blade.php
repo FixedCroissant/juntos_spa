@@ -83,12 +83,48 @@
                                         {!! Form::select('active_student',['Y'=>'Yes','N'=>'No'],['class'=>'form-control','id'=>'activeStudent']) !!}
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="academicYear" class="col-form-label">Academic Year</label>
-                                        {!! Form::text('academic_year',null,['class'=>'form-control','id'=>'academicYear']) !!}
+                                        Academic Year Reference Here.
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="county" class="col-form-label">County</label>
+                                        {!! Form::text('county',null,['class'=>'form-control','id'=>'county','maxlength'=>'60']) !!}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="school_name" class="col-form-label">School Name</label>
+                                        {!! Form::text('school_name',null,['class'=>'form-control','id'=>'school_name','maxlength'=>'60']) !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="site" name="site_id" class="col-form-label">Site Association</label>
+                                        <select class="form-control" name="site_id">
+                                            <option value="" class="form-control">Please select a site:</option>
+                                            @foreach($siteOption as $siteOptionsAvailable)
+                                                <option value="{{$siteOptionsAvailable->id}}" {{ $siteOptionsAvailable->id == $student->site_id ? 'selected' : '' }}>{{$siteOptionsAvailable->site_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="ethnicity" class="col-form-label">Ethnicity</label>
+                                        {!! Form::select('ethnicity', ['White'=>"White",'Black or African American'=>"Black or African American",'American Indian'=>'American Indian','Asian'=>'Asian','Native Hawaiian or Other Pacific Islander'=>'Native Hawaiian or Other Pacific Islander'], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="pre_survey_completed" class="col-form-label">Pre Survey Complete?</label>
+                                        {!! Form::select('pre_survey_completed', ['Y'=>"Yes",'N'=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="post_survey_completed" class="col-form-label">Post Survey Complete?</label>
+                                        {!! Form::select('post_survey_completed', ["Y"=>"Yes","N"=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
                                     </div>
                                 </div>
                                 <!--End New Fields-->
-                                {!! Form::submit('Edit Student',array('class'=>'btn btn-sm btn-primary')) !!}
+                                {!! Form::submit('Update Student',array('class'=>'btn btn-sm btn-primary')) !!}
                                 {!! Form::close() !!}
 
                             </div>
