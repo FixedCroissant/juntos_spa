@@ -14,8 +14,9 @@
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
 
+                                {!! Form::open(array('route' => 'parents.addeventattendance','method'=>'POST', 'id' => 'parent-attendance')) !!}
                                 <p>
-{{--                                    {!! Form::submit('Add to Event Attendance',array('class'=>'btn btn-sm btn-primary')) !!}--}}
+                                    {!! Form::submit('Add to Event Attendance',array('class'=>'btn btn-sm btn-primary')) !!}
                                 </p>
 
                                 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -66,7 +67,7 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                               {{--</form>--}}
+                               </form>
                                 {!! Form::close() !!}
                                 <!--End Table-->
                             </div>
@@ -105,6 +106,22 @@
                     },
                     'order': [[1, 'asc']]
                 });
+
+            $('#parent-attendance').on('submit', function(e){
+                var form = this;
+                var rows_selected = table.column(0).checkboxes.selected();
+
+                // Iterate over all selected checkboxes
+                $.each(rows_selected, function(index, rowId){
+                    // Create a hidden element
+                    $(form).append(
+                        $('<input>')
+                            .attr('type', 'hidden')
+                            .attr('name', 'id[]')
+                            .val(rowId)
+                    );
+                });
+            });
             });
     </script>
 @endpush

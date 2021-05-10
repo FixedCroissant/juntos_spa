@@ -50,6 +50,11 @@ Route::resource('students',StudentController::class);
 //Adjust parents so that it expects a parameter of our student.
 //Route::get('/parents/create/{id}',['as'=>'parents.create','uses'=>'ParentsController@create']);
 //Parents
+Route::post('/parents/attendance',['as'=>'parents.addeventattendance','uses'=>'App\Http\Controllers\ParentsController@addEventAttendance']);
+Route::post('/parents/attendance/complete',['as'=>'parents.completeAttendance','uses'=>'App\Http\Controllers\ParentsController@addEventAttendanceComplete']);
+Route::get('/parents/attendance/remove/{eventID}/{studentID}',['as'=>'parents.removeAttendance','uses'=>'App\Http\Controllers\ParentsController@removeEventAttendanceComplete']);
+
+
 Route::resource('parents',ParentsController::class);
 //Student Notes
 Route::resource('studentnotes',StudentNotesController::class)->except('show','index','show');

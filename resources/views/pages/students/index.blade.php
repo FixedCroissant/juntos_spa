@@ -12,16 +12,7 @@
                     </div>
                     <div class="row">
                         <div class="card">
-                            <!--VUE IS ON THE MAIN PAGE-->
-{{--                            <div id="app">--}}
-{{--                                <v-app>--}}
-{{--                                    <v-main>--}}
-{{--                                        <all-students-page></all-students-page>--}}
-{{--                                    </v-main>--}}
-{{--                                </v-app>--}}
-{{--                            </div>--}}
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
-{{--                                <form id="frm-example" action="/path/to/your/script.php" method="POST">--}}
                                {!! Form::open(array('route' => 'students.addeventattendance','method'=>'POST', 'id' => 'frm-example')) !!}
 
                                 <p>

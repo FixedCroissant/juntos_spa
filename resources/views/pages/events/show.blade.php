@@ -90,10 +90,10 @@
                                         @foreach($event->parentAttendance as $myParentsEventAttendance)
                                             <tr>
                                                 <td>
-                                                    {{$myParentsEventAttendance->student_first_name}} {{$myStudentEventAttendance->student_last_name}}
+                                                    {{$myParentsEventAttendance->parent_first_name}} {{$myParentsEventAttendance->parent_last_name}}
                                                 </td>
                                                 <td>
-                                                    Remove Attendance
+                                                    <a href="{{route('parents.removeAttendance',[$event->id,$myParentsEventAttendance->id])}}" class="btn btn-sm btn-primary">Remove Attendance</a>
                                                 </td>
                                             </tr>
                                         @endforeach

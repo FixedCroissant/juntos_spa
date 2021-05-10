@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 use App\Models\Student;
@@ -95,6 +96,47 @@ class ParentsController extends Controller
         $myParent->delete();
 
         return back()->with('flash_success','Parent Deleted!');
+    }
+
+    /**
+     * Additional methods.
+     */
+    public function addEventAttendance(Request $request){
+        $attendees  = array_unique($request->id);
+
+        $selectedParentInformation = Parents::whereIn('id',$attendees)->select('id','parent_first_name','parent_last_name')->get();
+
+        $eventOptions = Event::pluck('event_name','id');
+
+        return view('pages.parents.eventadd')->with(['selectedParents'=>$selectedParentInformation,'eventOptions'=>$eventOptions]);
+    }
+
+    /**
+     * Add event attendance for a Parent or Guardian.
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addEventAttendanceComplete(Request $request){
+
+        $MyEvent = Event::find($request->eventOptions);
+
+        $attendees = json_decode($request->parents);
+
+        foreach($attendees as $parentAttendees){
+                $MyEvent->parentAttendance()->attach($parentAttendees->id);
+            }
+
+        return redirect()->route('parents.index')->with('flash_success','Parent Attendance Added!');
+    }
+
+    /*
+     * Remove a parental record from our attendance list.
+     */
+    public function removeEventAttendanceComplete($event,$id)
+    {
+        $myEvent = Event::find($event);
+        $myEvent->parentAttendance()->detach($id);
+        return redirect()->route('parents.index')->with('flash_success','Parent Attendance Removed!');
     }
 
 
