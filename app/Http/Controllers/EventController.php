@@ -55,6 +55,7 @@ class EventController extends Controller
             'event_type' => 'required',
             'event_city' => 'required',
             'event_state' => 'required',
+            'contact_hours'=>'required'
 
         ]);
 

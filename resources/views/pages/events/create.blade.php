@@ -26,6 +26,12 @@
                                             {!! Form::text('event_name',null,['class'=>'form-control','id'=>'eventName']) !!}
                                         </div>
                                     </div>
+                                   <div class="row">
+                                       <div class="col-md-8">
+                                           <label for="contact_hours" class="col-form-label">Total Contact Hours</label><span class="required">*</span>
+                                           {!! Form::selectRange('contact_hours',0,12,null,['class'=>'form-control','id'=>'contact_hours']) !!}
+                                       </div>
+                                   </div>
                                     <div class="row">
                                         <div class="col-md-8">
                                             <label for="event_type" class="col-form-label">Event Type</label><span class="required">*</span>
@@ -61,15 +67,18 @@
                                         <label for="eventDate" class="col-form-label">Event Date Begin</label>
                                         {!! Form::text('event_start_date',null,['class'=>'form-control','id'=>'eventStartDate']) !!}
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <label for="eventDate" class="col-form-label">Event Date End</label>
                                         {!! Form::text('event_end_date',null,['class'=>'form-control','id'=>'eventEndDate']) !!}
                                     </div>
                                 </div>
-
-                                {!! Form::submit('Create New Event',array('class'=>'btn btn-sm btn-primary')) !!}
-
-
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        {!! Form::submit('Create New Event',array('class'=>'btn btn-sm btn-primary')) !!}
+                                    </div>
+                                </div>
                                 {!! Form::close() !!}
 
                             </div>
