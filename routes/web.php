@@ -61,11 +61,10 @@ Route::resource('volunteer',VolunteerController::class)->except('show');
 //Event
 Route::resource('event',EventController::class);
 
-//See all coaching appointments based on student.
-Route::get('/coaching/{studentID}',['as'=>'coaching.seestudentallappointments','uses'=>'App\Http\Controllers\CoachingAppointmentController@seeAllStudentsAppointments']);
-
 //Coaching Appointment
 Route::resource('coaching',CoachingAppointmentController::class);
+//See all coaching appointments based on student.
+Route::get('/coaching/{studentID}',['as'=>'coaching.seestudentallappointments','uses'=>'App\Http\Controllers\CoachingAppointmentController@seeAllStudentsAppointments']);
 //Class Schedule
 Route::resource('schedule',ClassScheduleController::class);
 //Reporting Controller
