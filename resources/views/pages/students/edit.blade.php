@@ -1,5 +1,4 @@
-@extends('layouts.app', ['activePage' => 'studentList', 'titlePage' => __('Students')])
-
+@extends('layouts.app', ['activePage' => '', 'titlePage' => __('')])
 @section('content')
     <div class="content">
         <div class="container-fluid">
@@ -79,11 +78,37 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <label for="activeStudent" class="col-form-label">Active Student</label> <br/>
-                                        {!! Form::select('active_student',['Y'=>'Yes','N'=>'No'],['class'=>'form-control','id'=>'activeStudent']) !!}
+                                        <label for="active_student" class="col-form-label">Active in Juntos?</label><span class="required">*</span>
+                                        {!! Form::select('active_student', ['Y'=>"Yes",'N'=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
                                     </div>
                                     <div class="col-md-3">
-                                        Academic Year Reference Here.
+                                        <label for="dob" class="col-form-label">Date of Birth</label>
+                                        {!! Form::text('dob', null, ['class'=>'form-control','id'=>'dob']); !!}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="age" class="col-form-label">Age</label>
+                                        {!! Form::selectRange('age', 1, 25,null,['class'=>'form-control','id'=>'age']); !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="academic_year" class="col-form-label">Academic Year</label>
+                                        <select class="form-control" name="site_id">
+                                            <option value="" class="form-control">Please select Academic Year for Student:</option>
+                                            @foreach($academicYear as $theAcademicYear)
+                                                <option value="{{$theAcademicYear->id}}" {{ $theAcademicYear->id == $student->id ? 'selected' : '' }}>{{$theAcademicYear->academic_year}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="academic_year" class="col-form-label">Generate New Academic Year</label>
+                                        <br/>
+                                        <a href="{{route('acad_year.create',['student'=>$student->id])}}" class="btn btn-sm btn-primary">Provide New Academic Year</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        Please note that academic years correspond with the students schedule as well.
                                     </div>
                                 </div>
                                 <div class="row">
@@ -192,11 +217,11 @@
                                         <ul>
                                             @foreach($student->notes as $myStudentNote)
                                             <li>
-                                             {{$myStudentNote->created_at->format('m/d/y H:i')}}-   {{$myStudentNote->student_note_text}} / <a href="{!! route('studentnotes.edit',$myStudentNote->id)!!}">Edit Note</a>
+                                             {{$myStudentNote->created_at->format('m/d/y h:i')}}- from {{$myStudentNote->user->name}}  {{$myStudentNote->student_note_text}} / <a href="{!! route('studentnotes.edit',$myStudentNote->id)!!}">Edit Note</a>
                                             </li>
                                             @endforeach
                                         </ul>
-                                        <a href="" class="btn btn-sm btn-primary">Create New Note</a>
+                                        <a href="{{route('studentnotes.create',['student'=>$student->id])}}" class="btn btn-sm btn-primary">Create New Note</a>
                                     </div>
                                     <div class="tab-pane" id="events" role="tabpanel" aria-labelledby="profile-tab">
                                         <ul>

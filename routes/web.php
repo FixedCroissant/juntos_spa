@@ -23,6 +23,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\CoachingAppointmentController;
 //Class Schedules
 use App\Http\Controllers\ClassScheduleController;
+//Academic Year
+use App\Http\Controllers\AcademicYearController;
 //Reporting
 use App\Http\Controllers\ReportingController;
 //Student Notes
@@ -72,6 +74,8 @@ Route::resource('coaching',CoachingAppointmentController::class);
 Route::get('/coaching/{studentID}',['as'=>'coaching.seestudentallappointments','uses'=>'App\Http\Controllers\CoachingAppointmentController@seeAllStudentsAppointments']);
 //Class Schedule
 Route::resource('schedule',ClassScheduleController::class);
+Route::resource('acad_year',AcademicYearController::class);
+
 //Reporting Controller
 Route::resource('reporting',ReportingController::class)->only(['index','show']);
 

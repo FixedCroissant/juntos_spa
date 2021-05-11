@@ -7,6 +7,7 @@ use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Models\Event;
 use App\Models\User;
+use  App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -69,7 +70,8 @@ class StudentController extends Controller
         $gradeOptions = ['8'=>'8th Grade','9'=>'9th Grade','10'=>'10th Grade','11'=>'11th Grade','12'=>'12th Grade'];
         $user = Auth::user();
         $siteOption = $user->studentAccess()->select('sites.id','site_name')->get();
-        return view('pages.students.edit')->with(['siteOption'=>$siteOption,'student'=>$student,'gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions]);
+        $academicYear = AcademicYear::where('stu_id',$student->id)->select('academic_year','id')->get();
+        return view('pages.students.edit')->with(['academicYear'=>$academicYear,'siteOption'=>$siteOption,'student'=>$student,'gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions]);
     }
 
     /**

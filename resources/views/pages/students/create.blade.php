@@ -85,6 +85,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
+                                        <label for="academic_year" class="col-form-label">Academic Year</label>
+                                        <br/>
+                                        You will be able to set an academic year upon the creation of a new student record.
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <label for="emailaddress" class="col-form-label">E-Mail Address</label>
                                         {!! Form::text('email_address',null,['class'=>'form-control','id'=>'emailaddress']) !!}
                                     </div>
