@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentNote;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StudentNotesController extends Controller
 {
@@ -14,9 +16,10 @@ class StudentNotesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $student = Student::find($request->student);
+        return view('pages.student_notes.create')->with(['student'=>$student]);
     }
 
     /**
@@ -29,16 +32,17 @@ class StudentNotesController extends Controller
     {
         $data = $request->all();
 
+        $user=Auth::user();
+
         $validator = \Validator::make($data, [
             'student_note_text' => 'required',
         ]);
 
-        //Validation
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $studentNote=StudentNote::create($data);
+        $studentNote=StudentNote::create(['student_id'=>$request->student_id,'user_id_completed'=>$user->id,'student_note_text'=>$request->student_note_text]);
 
         //GO back to the student edit page; now that we have parent information.
         return redirect()->route('students.edit',[$studentNote->student_id])->with('flash_success','Student Note Created');
