@@ -187,6 +187,10 @@ class StudentController extends Controller
 
         $attendees = json_decode($request->students);
 
+        if($MyEvent==NULL){
+            return redirect()->route('students.index')->with('flash_warning','Please select an event from dropdown, cannot add attendance.');
+        }
+
         if($request->type=="student"){
             foreach($attendees as $studentAttendees){
                 $MyEvent->attendance()->attach($studentAttendees->id);

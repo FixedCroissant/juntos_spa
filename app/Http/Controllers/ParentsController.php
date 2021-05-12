@@ -122,6 +122,10 @@ class ParentsController extends Controller
 
         $attendees = json_decode($request->parents);
 
+        if($MyEvent==NULL){
+            return redirect()->route('parents.index')->with('flash_warning','Please select an event from dropdown, cannot add attendance.');
+        }
+
         foreach($attendees as $parentAttendees){
                 $MyEvent->parentAttendance()->attach($parentAttendees->id);
             }
