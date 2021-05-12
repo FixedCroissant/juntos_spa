@@ -83,18 +83,24 @@ class CoachingAppointmentController extends Controller
 
     }
 
-    //Additional methods
-
     /*
      * @param $studentID - studentID
      */
-    public function seeAllStudentsAppointments($studentID){
+    public function show($studentID){
         //Get User.
         //To-Do Limit based on user.
         //$user = Auth::user()->id;
 
         $appointments = CoachAppointment::where('student_id',$studentID)->get();
-        return view('pages.coaching_appointments.selectedstudentappointmentindex')->with(['appointments'=>$appointments]);
+        return view('pages.coaching_appointments.show')->with(['appointments'=>$appointments]);
+    }
+
+    public function update(Request $request,CoachAppointment $appointment){
+        $appointment->update($request->all());
+
+        return redirect()->route('coaching.index')->with('flash_success','Coach Appointment Updated');
+
+
     }
 
 }
