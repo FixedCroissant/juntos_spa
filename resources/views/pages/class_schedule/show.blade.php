@@ -7,8 +7,10 @@
             <div class="container-fluid">
                 <div class="card card-plain">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Create new Class Schedule</h4>
+                        <h4 class="card-title">Create new Class Schedule for </h4>
                         <p class="card-category">
+                            <h5>{{$student->student_first_name}} {{$student->student_last_name}}</h5>
+
                             Details for the current student's schedule is seen below:
                             <br/>
                             Feel free to add new classes to the year as needed.
@@ -28,7 +30,7 @@
                     </div>
                     <div class="card">
                         <div class="row">
-                            <div class="col-md-5 offset-1">
+                            <div class="col-md-12 offset-3">
                                 <p>If you need to add new schedules for different years,
                                 please go to <a href="{{route('students.edit',[$student->id])}}">here</a> to add a new Academic Year for the selected student.
                                 </p>

@@ -75,11 +75,17 @@ class ClassScheduleController extends Controller
      *
      **/
     public function show($id){
-        $scheduleInformation = Schedule::find($id);
+        $student = Student::find($id);
+        $acad_year = AcademicYear::where('stu_id',$student->id)->first();
+        $scheduleInformation = Schedule::where('student_id',$student->id)->first();
 
-        $student = Student::find($scheduleInformation->student_id);
+        if($scheduleInformation==NULL){
+            return redirect()->route('schedule.create',['student'=>$id,'acad_year'=>$acad_year])->with('flash_message','No schedule yet, please add first class.');
 
-        $schedule = AcademicYear::with('schedule')->where('stu_id',$student->id)->get();
+        }
+        else{
+            $schedule = AcademicYear::with('schedule')->where('stu_id',$student->id)->get();
+        }
 
         return view('pages.class_schedule.show')->with(['student'=>$student,'schedule'=>$schedule]);
     }
