@@ -70,7 +70,7 @@
                                                     {{$myStudentEventAttendance->student_first_name}} {{$myStudentEventAttendance->student_last_name}}
                                             </td>
                                             <td>
-                                                Remove Attendance
+                                                <a href="{{route('students.removeAttendance',[$event->id,$myStudentEventAttendance->id])}}" class="btn btn-sm btn-primary">Remove Attendance</a>
                                             </td>
                                         </tr>
                                         @endforeach

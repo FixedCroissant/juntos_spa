@@ -181,7 +181,7 @@ class StudentController extends Controller
     /**
      *
      */
-    public function addEventAttendnaceComplete(Request $request){
+    public function addEventAttendanceComplete(Request $request){
 
         $MyEvent = Event::find($request->eventOptions);
 
@@ -198,5 +198,15 @@ class StudentController extends Controller
         }
 
         return redirect()->route('students.index')->with('flash_success','Student Attendance Added!');
+    }
+
+    /*
+     * Remove a parental record from our attendance list.
+     */
+    public function removeEventAttendanceComplete($event,$id)
+    {
+        $myEvent = Event::find($event);
+        $myEvent->attendance()->detach($id);
+        return redirect()->route('event.show',[$myEvent->id])->with('flash_success','Student Attendance Removed!');
     }
 }

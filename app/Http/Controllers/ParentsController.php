@@ -140,7 +140,7 @@ class ParentsController extends Controller
     {
         $myEvent = Event::find($event);
         $myEvent->parentAttendance()->detach($id);
-        return redirect()->route('parents.index')->with('flash_success','Parent Attendance Removed!');
+        return redirect()->route('event.show',[$myEvent->id])->with('flash_success','Parent Attendance Removed!');
     }
 
 

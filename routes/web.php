@@ -45,7 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
 //Students
 //Specific route for event attendance for a student.
 Route::post('/students/attendance',['as'=>'students.addeventattendance','uses'=>'App\Http\Controllers\StudentController@addEventAttendance']);
-Route::post('/students/attendance/complete',['as'=>'students.completeAttendance','uses'=>'App\Http\Controllers\StudentController@addEventAttendnaceComplete']);
+Route::post('/students/attendance/complete',['as'=>'students.completeAttendance','uses'=>'App\Http\Controllers\StudentController@addEventAttendanceComplete']);
+Route::get('/students/attendance/remove/{eventID}/{studentID}',['as'=>'students.removeAttendance','uses'=>'App\Http\Controllers\StudentController@removeEventAttendanceComplete']);
 
 
 Route::resource('students',StudentController::class);
