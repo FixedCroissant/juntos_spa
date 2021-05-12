@@ -31,7 +31,9 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>See Student Schedules</td>
+                                        <td>
+                                          <a href="{{route('schedule.show',[$myAppointments->id])}}">See Student Schedules</a>
+                                        </td>
                                         <td>
                                           <a href="{{route('coaching.seestudentallappointments',['studentID'=>$myAppointments->id])}}">See Coaching Appointments</a>
                                         </td>

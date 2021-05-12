@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Schedule;
 
 class AcademicYear extends Model
 {
@@ -14,4 +15,8 @@ class AcademicYear extends Model
         'academic_year',
         'current'
     ];
+
+    public function schedule(){
+        return $this->hasMany(Schedule::class,'student_id','stu_id');
+    }
 }
