@@ -5,7 +5,7 @@
             <div class="container-fluid">
                 <div class="card card-plain">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Coaching Appointments / Add Follow-Up Appointment</h4>
+                        <h4 class="card-title">Coaching Appointments / Edit Follow-Up Appointment</h4>
                         <p class="card-category">
                             &nbsp;
                         </p>
@@ -15,7 +15,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('coaching.show',$student->id)}}">Coaching List</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Coaching - Provide Follow Up</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Coaching - Edit Follow Up Appointment</li>
                                 </ol>
                             </nav>
                         </div>
@@ -24,7 +24,7 @@
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                 <p>
-                                    Follow Up Appointment for :
+                                    Edit a Follow Up Appointment for :
                                     <b>{{$student->student_first_name}} {{$student->student_last_name}}</b>
 
                                     <br/><br/>
@@ -34,11 +34,11 @@
                                 </p>
 
 
-                                {!! Form::open(['route' => ['coaching.create.follow_up_complete', $appointment->id]]) !!}
+                                {!!   Form::model($appointment, ['route' => ['coaching.update.follow_up_complete', $appointment->id],'class'=>'form-horizontal','method'=>'POST']) !!}
                                 <div class="row">
                                     <div class="col-md-8">
                                         <label for="" class="col-form-label">Appointment Follow Up Date:</label><span class="required">*</span>
-                                        {!! Form::text('appointment_follow_up_date', null, ['id'=>'appointment_follow_up_date','class'=>'form-control']); !!}
+                                        <input type="text" name="appointment_follow_up_date" id="appointment_follow_up_date" class="form-control" value="{{$appointment->appointment_follow_up_date->format('m/d/Y')}}">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -84,7 +84,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-5">
-                                        {!! Form::submit('Save Follow Up Appointment',array('class'=>'btn btn-sm btn-primary')) !!}
+                                        {!! Form::submit('Update Follow Up Appointment',array('class'=>'btn btn-sm btn-primary')) !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -107,7 +107,9 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script>
         $('#appointment_follow_up_date').datepicker({
-            showOtherMonths: true
+            showOtherMonths: true,
+            format: 'mm/dd/yyyy',
+            footer:true
         });
     </script>
 @endpush

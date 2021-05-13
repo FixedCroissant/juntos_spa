@@ -71,6 +71,10 @@ Route::resource('event',EventController::class);
 
 //Coaching Appointment
 Route::resource('coaching',CoachingAppointmentController::class);
+Route::get('coaching/{id}/follow_up',['as'=>'coaching.create.follow_up','uses'=>'App\Http\Controllers\CoachingAppointmentController@createFollowUp']);
+Route::get('coaching/{id}/follow_up/edit',['as'=>'coaching.edit.follow_up','uses'=>'App\Http\Controllers\CoachingAppointmentController@editFollowUp']);
+Route::post('coaching/{id}/follow_up',['as'=>'coaching.create.follow_up_complete','uses'=>'App\Http\Controllers\CoachingAppointmentController@followUpComplete']);
+Route::post('coaching/{id}/follow_up/update',['as'=>'coaching.update.follow_up_complete','uses'=>'App\Http\Controllers\CoachingAppointmentController@followUpUpdated']);
 //See all coaching appointments based on student.
 Route::get('/coaching/{studentID}',['as'=>'coaching.seestudentallappointments','uses'=>'App\Http\Controllers\CoachingAppointmentController@seeAllStudentsAppointments']);
 //Class Schedule
