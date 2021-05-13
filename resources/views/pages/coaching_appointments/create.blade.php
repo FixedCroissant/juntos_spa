@@ -91,7 +91,6 @@
     </div>
 @endsection
 @push('js')
-    @push('js')
         <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
         <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
         <script>
@@ -102,8 +101,5 @@
                 showOtherMonths: true
             });
             // $('#appointmentDuration').timepicker({ modal: true, mode: 'ampm',step: 15});
-
         </script>
-    @endpush
-
 @endpush
