@@ -25,7 +25,9 @@ class CoachAppointment extends Model
         'follow_up_notes',
         'actions_needed',
         'actions_made',
-        'results'
+        'results',
+        'appointment_follow_up_method_of_contact',
+        'appointment_follow_up_duration'
       ];
 
     protected $dates = ['appointment_date','appointment_follow_up_date'];
