@@ -82,7 +82,8 @@ class StudentNotesController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $studentNote=StudentNote::create($data);
+        $studentNote= StudentNote::find($id);
+        $studentNote->update($request->all());
 
         //GO back to the student edit page; now that we have parent information.
         return redirect()->route('students.edit',[$studentNote->student_id])->with('flash_success','Student Note Updated');
