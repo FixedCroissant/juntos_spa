@@ -31,7 +31,7 @@
                                         {!! Form::text('student_note_text',null,['class'=>'form-control','id'=>'studentNoteText']) !!}
                                     </div>
                                 </div>
-                                {!! Form::submit('Edit Note',array('class'=>'btn btn-sm btn-primary')) !!}
+                                {!! Form::submit('Update Note',array('class'=>'btn btn-sm btn-primary')) !!}
                                 <br/>
                                 <br/>
                                 <a href="{{route('students.edit',[$studentNote->student_id])}}">Go Back to Student</a>
