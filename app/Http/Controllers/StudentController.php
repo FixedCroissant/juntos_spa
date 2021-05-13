@@ -137,7 +137,22 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //Update our student with address information.
+        $data = $request->all();
+
+        $validator = \Validator::make($data, [
+            'student_id' => 'required|max:255',
+            'student_first_name' => 'required|max:255',
+            'student_last_name' => 'required|max:255',
+            'address_line_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'grade'=>'required',
+            'site_id'=>'required'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
         $student->update($request->all());
 
         return redirect()->route('students.index')->with('flash_success','Student Updated!');

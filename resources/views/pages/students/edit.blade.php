@@ -52,8 +52,8 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        <label for="zip" class="col-form-label">Zip</label>
-                                        {!! Form::text('city',null,['class'=>'form-control','id'=>'zip']) !!}
+                                        <label for="zip" class="col-form-label">Zip</label><span class="required">*</span>
+                                        {!! Form::text('zip',null,['class'=>'form-control','id'=>'zip']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
