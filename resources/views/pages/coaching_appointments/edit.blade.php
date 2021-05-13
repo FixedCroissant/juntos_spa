@@ -11,6 +11,16 @@
                         </p>
                     </div>
                     <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('coaching.index')}}">Coaching All Student List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Edit Initial Coaching Appointment</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                 <p>
@@ -40,7 +50,7 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <label for="coachingAppointmentDate" class="col-form-label">Appointment Date:</label><span class="required">*</span>
-                                        {!! Form::text('appointment_date',null,['class'=>'form-control','id'=>'coachingAppointmentDate']) !!}
+                                        <input type="text" name="appointment_date" id="coachingAppointmentDate" class="form-control" value="{{$appointment->appointment_date->format('m/d/Y')}}">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -97,19 +107,17 @@
     </div>
 @endsection
 @push('js')
-    @push('js')
         <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
         <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
         <script>
             $('#coachingAppointmentDate').datepicker({
-                showOtherMonths: true
+                showOtherMonths: true,
+                format: 'mm/dd/yyyy',
+                footer:true
             });
             $('#eventEndDate').datepicker({
                 showOtherMonths: true
             });
             // $('#appointmentDuration').timepicker({ modal: true, mode: 'ampm',step: 15});
-
         </script>
-    @endpush
-
 @endpush
