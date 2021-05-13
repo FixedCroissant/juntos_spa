@@ -12,6 +12,16 @@
                         </p>
                     </div>
                     <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('coaching.index')}}">Coaching All Student List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Coaching Student Appointment List</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                 <p>
@@ -37,12 +47,13 @@
                                         <td>{{$myAppointments->appointment_date->format('m/d/y')}}</td>
                                         <td>
                                             @if(!$myAppointments->appointment_follow_up_date)
-                                                No follow up appointment,  <a href="#">create one</a>?
+                                                No follow up appointment,  <a href="{{route('coaching.create.follow_up',[$myAppointments->id])}}">create one</a> ?
                                             @else
                                                 {{$myAppointments->appointment_follow_up_date->format('m/d/y')}}
+                                                <a href="{{route('coaching.edit.follow_up',[$myAppointments->id])}}">Edit/Review Follow Up Appointment</a>
                                             @endif
                                         </td>
-                                        <td><a href="{{route('coaching.edit',[$myAppointments->id])}}">Edit Appointment</a></td>
+                                        <td><a href="{{route('coaching.edit',[$myAppointments->id])}}">Edit Initial Appointment</a></td>
                                     </tr>
                                     </tbody>
                                 </table>
