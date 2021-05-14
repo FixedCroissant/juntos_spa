@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
-use App\Models\Student;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VolunteerController extends Controller
 {
@@ -17,7 +17,16 @@ class VolunteerController extends Controller
      */
     public function index()
     {
-        $volunteers= Volunteer::all();
+        $loggedInUser = auth()->user();
+        $userSites=[];
+        foreach($loggedInUser->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+        $volunteers = DB::table('volunteers')
+                      ->leftJoin('sites','volunteers.site_id','=','sites.id')
+                      ->select('volunteers.id','volunteers.site_id','volunteers.volunteer_first_name','volunteers.volunteer_last_name','volunteers.email_address','volunteers.phone_number','sites.site_name')
+                      ->whereIn('site_id',$userSites)
+                      ->get();
 
         return view('pages.volunteer.index')->with(['volunteers'=>$volunteers]);
     }
@@ -76,6 +85,17 @@ class VolunteerController extends Controller
         $stateOptions = ['NC'=>'North Carolina'];
         $user = Auth::user();
         $siteOption = $user->studentAccess()->select('sites.id','site_name')->get();
+
+        $loggedInUser = auth()->user();
+        $userSites=[];
+        foreach($loggedInUser->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+        $volunteer = Volunteer::find($volunteer['id'])->whereIn('site_id',$userSites)->first();
+
+        if(is_null($volunteer)){
+         return back()->with(['flash_warning'=>'No access contact Juntos Admin.']);
+        }
 
         return view('pages.volunteer.edit')->with(['siteOption'=>$siteOption,'volunteer'=>$volunteer,'stateOptions'=>$stateOptions]);
     }
