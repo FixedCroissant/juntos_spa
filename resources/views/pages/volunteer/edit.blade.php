@@ -14,6 +14,16 @@
                             <span class="required">"*"</span>
                         </p>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('volunteer.index')}}">Volunteer List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Edit Volunteer</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="row">
                             <div class="col-md-5 offset-1">
@@ -79,7 +89,16 @@
                                         </select>
                                     </div>
                                 </div>
-                                {!! Form::submit('Update Volunteer',array('class'=>'btn btn-sm btn-primary')) !!}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {!! Form::submit('Update Volunteer',array('class'=>'btn btn-sm btn-primary')) !!}
+                                    </div>
+                                </div>
                                 {!! Form::close() !!}
 
                             </div>
