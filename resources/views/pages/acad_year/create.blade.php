@@ -42,6 +42,12 @@
                                             <option value="N">No</option>
                                         </select>
 
+                                        <label for="" class="col-form-label">Start Academic Year Date:</label><span class="required">*</span>
+                                        {!! Form::text('start_date', null, ['id'=>'start_date','class'=>'form-control']); !!}
+
+                                        <label for="" class="col-form-label">End Academic Year Date:</label><span class="required">*</span>
+                                        {!! Form::text('end_date', null, ['id'=>'end_date','class'=>'form-control']); !!}
+
 
                                         <input type="hidden" name="stu_id" value="{{$student->id}}"/>
                                     </div>
@@ -53,6 +59,11 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-6">
+                                    &nbsp;
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:120px">
                             <div class="col-md-6 offset-1">
                                 <input type="submit"  class="btn btn-primary btn-sm" value="Provide New Year">
                             </div>
@@ -64,3 +75,20 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <script>
+        $('#start_date').datepicker({
+            showOtherMonths: true,
+            format: 'mm/dd/yyyy',
+            footer:true
+        });
+        $('#end_date').datepicker({
+            showOtherMonths: true,
+            format: 'mm/dd/yyyy',
+            footer:true
+        });
+    </script>
+@endpush
+

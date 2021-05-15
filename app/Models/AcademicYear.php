@@ -13,7 +13,9 @@ class AcademicYear extends Model
     protected $fillable = [
         'stu_id',
         'academic_year',
-        'current'
+        'current',
+        'start_date',
+        'end_date'
     ];
 
     public function schedule(){

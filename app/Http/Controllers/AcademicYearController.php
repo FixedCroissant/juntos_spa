@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AcademicYearController extends Controller
@@ -42,14 +43,20 @@ class AcademicYearController extends Controller
 
         $validator = \Validator::make($data, [
             'academic_year' => 'required|max:255',
-            'stu_id'=>'required'
+            'stu_id'=>'required',
+            'current'=>'required',
+            'start_date'=>'required',
+            'end_date'=>'required'
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $academic_year = AcademicYear::create($data);
+        $formattedStart = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+        $formattedEnd =  Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+
+        $academic_year = AcademicYear::create(['current'=>$request->current,'academic_year'=>$request->academic_year,'stu_id'=>$request->stu_id,'start_date'=>$formattedStart,'end_date'=>$formattedEnd]);
 
         return redirect()->route('students.edit',[$academic_year->stu_id])->with('flash_success','New Academic Year created!');
     }
