@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Events\CheckCoachingFollowUp;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,31 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function authenticated() {
+
+        $user = Auth::user();
+
+        //Event to check past date of appointments.
+        event(new CheckCoachingFollowUp($user));
+    }
+
+    /**
+     * Handle logout requests.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(){
+        //Log out of laravel authentication.
+        Auth::logout();
+
+        //Redirect to standard Shib out page.
+        //$ncsuLogoutPage = 'https://shib.ncsu.edu/idp/profile/Logout';
+
+        //Logout of Shib.
+        //return Redirect::to($ncsuLogoutPage);
+
+        return redirect('/login');
     }
 }
