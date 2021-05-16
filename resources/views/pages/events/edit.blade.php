@@ -32,7 +32,7 @@
                                     </div>
                                    <div class="row">
                                        <div class="col-md-8">
-                                           <label for="contact_hours" class="col-form-label">Event Type</label><span class="required">*</span>
+                                           <label for="contact_hours" class="col-form-label">Contact Hours</label><span class="required">*</span>
                                            {!! Form::selectrange('contact_hours',0,12, null, ['class'=>'form-control','placeholder' => 'Select Contact Hours...']); !!}
                                        </div>
                                    </div>
