@@ -127,7 +127,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="ethnicity" class="col-form-label">Ethnicity</label>
-                                        {!! Form::select('ethnicity', ['White'=>"White",'Black or African American'=>"Black or African American",'American Indian'=>'American Indian','Asian'=>'Asian','Native Hawaiian or Other Pacific Islander'=>'Native Hawaiian or Other Pacific Islander'], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
+                                        {!! Form::select('ethnicity', ['Latino'=>'Latino','White'=>"White",'Black or African American'=>"Black or African American",'American Indian'=>'American Indian','Asian'=>'Asian','Native Hawaiian or Other Pacific Islander'=>'Native Hawaiian or Other Pacific Islander'], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
                                     </div>
                                 </div>
                                 <div class="row">
