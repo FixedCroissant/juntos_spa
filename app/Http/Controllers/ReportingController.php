@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Exports\StudentsExport;
 use App\Exports\VolunteersExport;
+use App\Exports\PostSurveyIncompleteExport;
 
 
 
@@ -27,6 +28,9 @@ class ReportingController extends Controller
         if($type=="volunteers"){
             return view('pages.reports.volunteers.index');
         }
+        if($type=="post_survey_incomplete"){
+            return view('pages.reports.post_survey_incomplete.index');
+        }
     }
 
 
@@ -40,6 +44,10 @@ class ReportingController extends Controller
     public function volunteerExport()
     {
         return \Excel::download(new VolunteersExport, 'volunteer_list.xlsx');
+    }
+
+    public function postSurveyIncompleteExport(){
+        return \Excel::download(new PostSurveyIncompleteExport,'post_survey_incomplete_list.xlsx');
     }
 
 }

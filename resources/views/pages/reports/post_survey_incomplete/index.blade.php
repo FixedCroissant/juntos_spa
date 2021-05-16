@@ -15,26 +15,24 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('reporting.index')}}">Report List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Survey Incompete Reporting</li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
                     <div class="row">
                         <div class="card">
-                            <h5>Report Options</h5>
-
-                            <ul>
-                                <li><a href="{{route('reporting.show','students')}}">Get Students</a></li>
-                            </ul>
-                            <ul>
-                                <li><a href="{{route('reporting.show','volunteers')}}">Get Volunteers</a></li>
-                            </ul>
-                            @roles(['Admin'])
-                            <ul>
-                                <li><a href="{{route('reporting.show','post_survey_incomplete')}}">[ADMIN] Get Report of Post Survey Incomplete</a></li>
-                            </ul>
-                            @endroles
-
+                            <h5>Post Survey Incomplete </h5>
+                            <table>
+                                <tr>
+                                    <td width="25px;">
+                                        <img src="{{asset('/images/excel-icon.png')}}" width="20" height="20"/>
+                                    </td>
+                                    <td>
+                                        <a href="{{route('reporting.post_survey_incomplete.download')}}">Post Survey Incomplete - Excel</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
