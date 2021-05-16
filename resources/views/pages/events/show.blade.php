@@ -11,6 +11,16 @@
                         </p>
                     </div>
                     <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('event.index')}}">Event List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Event Details</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="card">
 
                             <div class="row">
@@ -22,8 +32,8 @@
                                             <td>{{$event->event_name}}</td>
                                         </tr>
                                         <tr>
-                                        <td>Event Date Start</td>
-                                        <td>{{$event->event_start_date->format('m/d/y')}}</td>
+                                            <td>Event Date Start</td>
+                                            <td>{{$event->event_start_date->format('m/d/y')}}</td>
                                         </tr>
                                         <tr>
                                             <td>Event Date End</td>
@@ -65,14 +75,14 @@
                                     <h4>Student Attendance</h4>
                                     <table class="table">
                                         @foreach($event->attendance as $myStudentEventAttendance)
-                                        <tr>
-                                            <td>
+                                            <tr>
+                                                <td>
                                                     {{$myStudentEventAttendance->student_first_name}} {{$myStudentEventAttendance->student_last_name}}
-                                            </td>
-                                            <td>
-                                                <a href="{{route('students.removeAttendance',[$event->id,$myStudentEventAttendance->id])}}" class="btn btn-sm btn-primary">Remove Attendance</a>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td>
+                                                    <a href="{{route('students.removeAttendance',[$event->id,$myStudentEventAttendance->id])}}" class="btn btn-sm btn-primary">Remove Attendance</a>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                         <tr>
                                             <td>
@@ -107,11 +117,54 @@
                                         </tr>
                                     </table>
                                 </div>
-
                             </div>
                             <div class="row">
                                 <div class="col-md-5 offset-1">
-                                    &nbsp;
+                                    <h4>Volunteer Attendance</h4>
+                                    <table class="table">
+                                        @foreach($event->volunteerAttendance as $myVolunteerEventAttendance)
+                                            <tr>
+                                                <td>
+                                                    {{$myVolunteerEventAttendance->volunteer_first_name}} {{$myVolunteerEventAttendance->volunteer_last_name}}
+                                                </td>
+                                                <td>
+                                                    <a href="{{route('volunteer.removeAttendance',[$event->id,$myVolunteerEventAttendance->id])}}" class="btn btn-sm btn-primary">Remove Attendance</a>
+
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td>
+                                                Total Volunteers:
+                                            </td>
+                                            <td>
+                                                {{count($event->volunteerAttendance)}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Sibling/Family Member Attendance</h4>
+                                    <table class="table">
+                                        @foreach($siblingandguests as $eventSiblingAndGuestNumber)
+                                            <tr>
+                                                <td>
+                                                    Total Sibling: {{$eventSiblingAndGuestNumber->sibling_number}}
+                                                </td>
+                                                <td>
+                                                    Total Additional Family Members: {{$eventSiblingAndGuestNumber->other_guests_number}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Total Siblings or Family Members:
+                                                </td>
+                                                <td>
+                                                    {{$eventSiblingAndGuestNumber->totalOtherGuest}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
                                 </div>
                             </div>
                         </div>

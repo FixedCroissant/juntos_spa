@@ -63,6 +63,8 @@ Route::resource('parents',ParentsController::class);
 Route::resource('studentnotes',StudentNotesController::class)->except('show','index','show');
 //Specific route for event attendance for a volunteer.
 Route::post('/volunteer/attendance',['as'=>'volunteer.addeventattendance','uses'=>'App\Http\Controllers\VolunteerController@addEventAttendance']);
+Route::post('/volunteer/attendance/complete',['as'=>'volunteer.completeAttendance','uses'=>'App\Http\Controllers\VolunteerController@addEventAttendanceComplete']);
+Route::get('/volunteer/attendance/remove/{eventID}/{id}',['as'=>'volunteer.removeAttendance','uses'=>'App\Http\Controllers\VolunteerController@removeEventAttendanceComplete']);
 
 Route::resource('volunteer',VolunteerController::class)->except('show');
 
