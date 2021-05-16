@@ -19,7 +19,8 @@ class Student extends Model
         'post_survey_completed',
         'county',
         'site_id',
-        'graduated'
+        'graduated',
+        'grade'
     ];
 
     protected $dates = ['dob'];
