@@ -22,7 +22,7 @@ class ReportingController extends Controller
      * @param Request $request
      */
     public function show(Request $request,$type){
-        if($type=="student"){
+        if($type=="students"){
             return view('pages.reports.students.index');
         }
         if($type=="volunteers"){
