@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
-use App\Models\Student;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
+use App\Exports\StudentsExport;
 
 
 
@@ -22,11 +20,13 @@ class ReportingController extends Controller
      * @param Request $request
      */
     public function show(Request $request,$type){
-
-
-
         return view('pages.reports.students.index');
     }
 
+    //Download reports -- Student
+    public function studentExport()
+    {
+        return \Excel::download(new StudentsExport, 'student_list.xlsx');
+    }
 
 }

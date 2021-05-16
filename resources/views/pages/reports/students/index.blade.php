@@ -11,10 +11,28 @@
                         </p>
                     </div>
                     <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('reporting.index')}}">Report List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Student Reporting</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="card">
                             <h5>Student Report</h5>
-
-
+                            <table>
+                                <tr>
+                                    <td width="25px;">
+                                        <img src="{{asset('/images/excel-icon.png')}}" width="20" height="20"/>
+                                    </td>
+                                    <td>
+                                        <a href="{{route('reporting.student.download')}}">Student List Export - Excel</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
