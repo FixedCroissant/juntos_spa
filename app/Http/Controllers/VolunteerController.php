@@ -140,4 +140,51 @@ class VolunteerController extends Controller
 
         return view('pages.volunteer.eventadd')->with(['selectedVolunteers'=>$selectedVolunteerInformation,'eventOptions'=>$eventOptions]);
     }
+
+    /**
+     * Add event attendance for a volunteer
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function addEventAttendanceComplete(Request $request){
+
+        $MyEvent = Event::find($request->eventOptions);
+
+        $attendees = json_decode($request->volunteers);
+
+        if($MyEvent==NULL){
+            return redirect()->route('volunteer.index')->with('flash_warning','Please select an event from dropdown, cannot add attendance.');
+        }
+
+        foreach($attendees as $volunteerAttendees){
+            $MyEvent->volunteerAttendance()->syncWithoutDetaching($volunteerAttendees->id);
+        }
+
+        return redirect()->route('volunteer.index')->with('flash_success','Volunteer Attendance Added!');
+    }
+
+    /*
+     * Remove a volunteer record from our attendance list.
+     */
+    public function removeEventAttendanceComplete($event,$id)
+    {
+        $myEvent = Event::find($event);
+        $myEvent->volunteerAttendance()->detach($id);
+        return redirect()->route('event.show',[$myEvent->id])->with('flash_success','Volunteer Attendance Removed!');
+    }
+
+
+
+
+
+
+/**
+ * Route::post('/volunteer/attendance',['as'=>'volunteer.addeventattendance','uses'=>'App\Http\Controllers\VolunteerController@addEventAttendance']);
+Route::post('/volunteer/attendance/complete',['as'=>'volunteer.completeAttendance','uses'=>'App\Http\Controllers\VolunteerController@addEventAttendanceComplete']);
+Route::get('/volunteer/attendance/remove/{eventID}/{id}',['as'=>'volunteer.removeAttendance','uses'=>'App\Http\Controllers\VolunteerController@removeEventAttendanceComplete']);
+
+ */
+
+
+
 }

@@ -28,11 +28,13 @@ class Event extends Model
         return $this->belongsToMany(Parents::class,'event_attendance','event_id','parent_id')->withTimestamps();
     }
 
-    /*
+    /**
      * Volunteer attendance.
-     * TO BE CREATED LATER.
-     * return $this->belongsToMany(Volunteer::class,'event_attendance','event_id','volunteer_id')->withTimestamps();
-     */
+     *
+     **/
+    public function volunteerAttendance(){
+        return $this->belongsToMany(Volunteer::class,'event_attendance','event_id','volunteer_id')->withTimestamps();
+    }
 
 
 
