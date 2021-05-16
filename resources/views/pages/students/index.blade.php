@@ -11,6 +11,15 @@
                         </p>
                     </div>
                     <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item active" aria-current="page">Student List</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                {!! Form::open(array('route' => 'students.addeventattendance','method'=>'POST', 'id' => 'frm-example')) !!}

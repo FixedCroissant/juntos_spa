@@ -14,6 +14,16 @@
                             <span class="required">"*"</span>
                         </p>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('students.index')}}">Student List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Edit Student</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="row">
                             <div class="col-md-5 offset-1">
@@ -88,6 +98,25 @@
                                     <div class="col-md-3">
                                         <label for="age" class="col-form-label">Age</label>
                                         {!! Form::selectRange('age', 1, 25,null,['class'=>'form-control','id'=>'age']); !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        Graduated Student?
+                                        <input type="checkbox" name="graduated" value="1" {{ $student->graduated ? 'checked="checked"' : '' }}/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        Clicking this box will place your individual in the alumni category.
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        &nbsp;
                                     </div>
                                 </div>
                                 <div class="row">
