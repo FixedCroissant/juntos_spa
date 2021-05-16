@@ -73,6 +73,18 @@
                                 >SITES</a
                                 >
                             </li>
+                            <li class="#" role="presentation">
+                                <a
+                                    class="nav-link"
+                                    id="ex1-tab-3"
+                                    data-mdb-toggle="tab"
+                                    href={{route('admin.settings.index')}}
+                                        role="tab"
+                                    aria-controls="ex1-tabs-6"
+                                    aria-selected="false"
+                                >SETTINGS</a
+                                >
+                            </li>
                         </ul>
                         <!-- Tabs navs -->
                         <div class="card-body">
