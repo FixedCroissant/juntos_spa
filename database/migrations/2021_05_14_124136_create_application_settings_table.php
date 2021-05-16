@@ -17,7 +17,7 @@ class CreateApplicationSettingsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('coordinator_follow_up_meeting_past_due')->nullable();
-            $table->text('font_page_text')->nullable();
+            $table->text('front_page_text')->nullable();
         });
     }
 

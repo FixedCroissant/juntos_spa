@@ -90,14 +90,31 @@
                         <div class="card-body">
 
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-2">
-                               <ul>
-                                   <li><a href="{{route('admin.settings.coordinator.assign')}}">Assign coordinator to site</a></li>
-                               </ul>
-                               <ul>
-                                   <li><a href="{{route('admin.settings.main.index')}}">Adjust Application Settings</a></li>
-                               </ul>
+                               <div class="row">
+                                   <div class="col-md-12">
+                                      From here, you are able to change the front page text as needed and adjust the amount of days before
+                                       a coordinator is notified of a appointment being late.
+                                   </div>
+                               </div>
+                                {!!   Form::model($settings, ['route' => ['admin.settings.main.update', $settings->id],'class'=>'form-horizontal','method'=>'POST']) !!}
+                                <div class="row">
+                                   <div class="col-md-12">
+                                    &nbsp;
+                                   </div>
+                               </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {!! Form::textarea('front_page_text',null,['class'=>'form-control','rows' => 2, 'cols' => 40]) !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        {!! Form::selectRange('coordinator_follow_up_meeting_past_due', 1, 30,null,['class'=>'form-control']); !!}
+                                    </div>
+                                </div>
+                                {!! Form::submit('Update Settings',array('class'=>'btn btn-sm btn-primary')) !!}
 
-                            </div>
+                                {!! Form::close() !!}
                         </div>
                     </div>
                     <!--Tabs Content-->
@@ -107,11 +124,3 @@
         </div>
     </div>
 @endsection
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script>
-    $(document).ready(function () {
-        $('#dtBasicExample').DataTable();
-        $('.dataTables_length').addClass('bs-select');
-    });
-</script>
-

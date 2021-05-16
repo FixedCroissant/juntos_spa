@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Settings;
 
 class HomeController extends Controller
 {
@@ -21,6 +22,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $frontPageText= Settings::find(1);
+
+        return view('dashboard')->with(['frontpagetext'=>$frontPageText]);
     }
 }

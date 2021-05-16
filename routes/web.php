@@ -30,6 +30,7 @@ use App\Http\Controllers\ReportingController;
 //Student Notes
 use App\Http\Controllers\StudentNotesController;
 use App\Http\Controllers\VolunteerController;
+use App\Http\Controllers\AlumniController;
 
 
 Auth::routes();
@@ -66,6 +67,9 @@ Route::post('/volunteer/attendance',['as'=>'volunteer.addeventattendance','uses'
 Route::post('/volunteer/attendance/complete',['as'=>'volunteer.completeAttendance','uses'=>'App\Http\Controllers\VolunteerController@addEventAttendanceComplete']);
 Route::get('/volunteer/attendance/remove/{eventID}/{id}',['as'=>'volunteer.removeAttendance','uses'=>'App\Http\Controllers\VolunteerController@removeEventAttendanceComplete']);
 
+//Alumni or Graduated students Notes
+Route::resource('alumni',AlumniController::class);
+
 Route::resource('volunteer',VolunteerController::class)->except('show');
 
 //Event
@@ -84,6 +88,12 @@ Route::resource('schedule',ClassScheduleController::class);
 Route::resource('acad_year',AcademicYearController::class);
 
 //Reporting Controller
+Route::get('reporting/student/download',['as'=>'reporting.student.download','uses'=>'App\Http\Controllers\ReportingController@studentExport']);
+Route::get('reporting/volunteers/download',['as'=>'reporting.volunteers.download','uses'=>'App\Http\Controllers\ReportingController@volunteerExport']);
+Route::get('reporting/post_survey_incomplete/download',['as'=>'reporting.post_survey_incomplete.download','uses'=>'App\Http\Controllers\ReportingController@postSurveyIncompleteExport']);
+
+
+
 Route::resource('reporting',ReportingController::class)->only(['index','show']);
 
 
@@ -113,6 +123,10 @@ Route::post('/admin/settings/coordinator_assignment/user',['uses'=>'App\Http\Con
 Route::get('/admin/settings/coordinator_assignment/user/index',['uses'=>'App\Http\Controllers\Admin\AdminController@assignmentIndex','as'=>'settings.coordinator.assign.list']);
 
 Route::delete('/admin/settings/coordinator_assignment/user/delete/{userID}/{id}',array('uses' => 'App\Http\Controllers\Admin\AdminController@removeAccess', 'as' => 'settings.coordinator.removeaccess'));
+
+//Main admin settings.
+Route::get('/admin/settings/main_application',['uses'=>'App\Http\Controllers\Admin\AdminController@settingsMainFront','as'=>'settings.main.index']);
+Route::post('/admin/settings/main_application',['uses'=>'App\Http\Controllers\Admin\AdminController@updateMainSettings','as'=>'settings.main.update']);
 
 
 

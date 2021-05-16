@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\States;
 use App\Models\County;
 use App\Models\Sites;
+use App\Models\Settings;
 
 class AdminController extends Controller
 {
@@ -76,5 +77,23 @@ class AdminController extends Controller
 
 
         return back()->with('flash_success','Successfully Removed Access');
+    }
+
+    //Front Page and Days to Look.
+    public function settingsMainFront(){
+
+        $settings = Settings::find(1);
+
+        return view('pages.admin.settings.application_settings.edit')->with(['settings'=>$settings]);
+    }
+
+    public function updateMainSettings(Request $request){
+
+        $settings = Settings::find(1);
+        $settings->coordinator_follow_up_meeting_past_due = $request->coordinator_follow_up_meeting_past_due;
+        $settings->front_page_text = $request->front_page_text;
+        $settings->save();
+
+        return redirect()->back()->with(['flash_success'=>'Main Settings Updated']);
     }
 }

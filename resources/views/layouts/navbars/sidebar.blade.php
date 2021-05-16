@@ -121,6 +121,22 @@
         </ul>
     </div>
     <!--End Coaching-->
+  <!--Graduated Students-->
+  <a class="nav-link" data-toggle="collapse" href="#graduatedList" aria-expanded="false">
+      <p> <b class="caret"></b> Alumni
+      </p>
+  </a>
+  <div class="collapse hide" id="graduatedList">
+      <ul class="nav">
+          <li>
+              <a class="nav-link" href="{{ route('alumni.index') }}">
+                  <i  class="material-icons">list</i>
+                  <span class="sidebar-normal">List Alumni</span>
+              </a>
+          </li>
+      </ul>
+  </div>
+  <!--End Graduated Students-->
     <!--Reporting-->
     <a class="nav-link" data-toggle="collapse" href="#reportingList" aria-expanded="false">
         <p> <b class="caret"></b> Reporting
@@ -146,7 +162,9 @@
 
 <!--ADMIN BUTTON-->
 <li style="margin-top:75px;">
-        <a class="nav-link btn btn-secondary" href = "{{route('admin.backend.index')}}">ADMIN</a>
+    @roles(['Admin'])
+    <a class="nav-link btn btn-secondary" href = "{{route('admin.backend.index')}}">ADMIN</a>
+    @endroles
 </li>
 <!--END ADMIN BUTTON-->
 
