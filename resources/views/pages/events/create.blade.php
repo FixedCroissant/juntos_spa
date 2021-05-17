@@ -12,6 +12,16 @@
                             Please create a new event in the system. In order to successfully save, the required fields are marked with a <span class="required">"*"</span>
                         </p>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('events.index')}}">Event List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Create New Event</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="row">
                             <div class="col-md-5 offset-1">
@@ -75,6 +85,27 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="site" name="site_id" class="col-form-label">Site Association</label><span class="required">*</span>
+                                        <select class="form-control" name="site_id">
+                                            <option value="" class="form-control">Please select a site:</option>
+                                            @foreach($siteOption as $siteOptionsAvailable)
+                                                <option value="{{$siteOptionsAvailable->id}}">{{$siteOptionsAvailable->site_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:50px;">
                                     <div class="col-md-4">
                                         {!! Form::submit('Create New Event',array('class'=>'btn btn-sm btn-primary')) !!}
                                     </div>

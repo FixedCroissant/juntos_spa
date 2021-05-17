@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Event;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -16,7 +18,17 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::select('id','event_name','event_type','event_city','event_state','event_start_date','event_end_date')->get();
+        $loggedInUser = auth()->user();
+        $userSites=[];
+        foreach($loggedInUser->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+        $events = DB::table('events')
+            ->leftJoin('sites','events.site_id','=','sites.id')
+            ->select('events.id','events.site_id','sites.site_name','events.*')
+            ->whereIn('site_id',$userSites)
+            ->get();
+
 
         return view('pages.events.index')->with(['events'=>$events]);
 
@@ -30,7 +42,9 @@ class EventController extends Controller
     public function create()
     {
         $stateOptions = ['NC'=>'North Carolina'];
-        return view('pages.events.create')->with(['stateOptions'=>$stateOptions]);
+        $user = Auth::user();
+        $siteOption = $user->studentAccess()->select('sites.id','site_name')->get();
+        return view('pages.events.create')->with(['siteOption'=>$siteOption,'stateOptions'=>$stateOptions]);
     }
 
     public function show($id){
@@ -58,7 +72,8 @@ class EventController extends Controller
             'event_type' => 'required',
             'event_city' => 'required',
             'event_state' => 'required',
-            'contact_hours'=>'required'
+            'contact_hours'=>'required',
+            'site_id'=>'required'
 
         ]);
 
@@ -73,11 +88,24 @@ class EventController extends Controller
     }
 
     public function edit($id){
+
+        $user = Auth::user();
+        $siteOption = $user->studentAccess()->select('sites.id','site_name')->get();
+        $loggedInUser = auth()->user();
+        $userSites=[];
+        foreach($loggedInUser->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+
         $stateOptions = ['NC'=>'North Carolina'];
 
-        $event = Event::find($id);
+        $event = Event::find($id)->whereIn('site_id',$userSites)->first();
 
-        return view('pages.events.edit')->with(['stateOptions'=>$stateOptions,'event'=>$event]);
+        if(is_null($event)){
+            return back()->with(['flash_warning'=>'No access contact Juntos Admin.']);
+        }
+
+        return view('pages.events.edit')->with(['siteOption'=>$siteOption,'stateOptions'=>$stateOptions,'event'=>$event]);
     }
 
     /**

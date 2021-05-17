@@ -11,6 +11,15 @@
                         </p>
                     </div>
                     <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('event.index')}}">Event List</a></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                 <table id="events" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -23,6 +32,8 @@
                                         <th class="th-sm">Event State
                                         </th>
                                         <th class="th-sm">Event Type
+                                        </th>
+                                        <th class="th-sm">Site
                                         </th>
                                         <th class="th-sm">Actions
                                         </th>
@@ -42,6 +53,9 @@
                                             </td>
                                             <td>
                                                 {{$myevents->event_type}}
+                                            </td>
+                                            <td>
+                                                {{$myevents->site_name}}
                                             </td>
                                             <td class="align-content-md-center">
                                                 {!! link_to_route('event.show','Attendance',$myevents->id) !!} |

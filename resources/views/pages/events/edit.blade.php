@@ -10,6 +10,16 @@
                             Please edit your event in the system. In order to successfully save, the required fields are marked with a <span class="required">"*"</span>
                         </p>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('event.index')}}">Event List</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Edit Event</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="row">
                             <div class="col-md-5 offset-1">
@@ -65,6 +75,8 @@
                                         <label for="eventDate" class="col-form-label">Event Date Begin</label>
                                         {!! Form::text('event_start_date',null,['class'=>'form-control','id'=>'eventStartDate']) !!}
                                     </div>
+                                </div>
+                                <div class="row">
                                     <div class="col-md-6">
                                         <label for="eventDate" class="col-form-label">Event Date End</label>
                                         {!! Form::text('event_end_date',null,['class'=>'form-control','id'=>'eventEndDate']) !!}
@@ -72,12 +84,37 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3">
+                                        <label for="site" name="site_id" class="col-form-label">Site Association</label>
+                                        <select class="form-control" name="site_id">
+                                            <option value="" class="form-control">Please select a site:</option>
+                                            @foreach($siteOption as $siteOptionsAvailable)
+                                                <option value="{{$siteOptionsAvailable->id}}" {{ $siteOptionsAvailable->id == $event->site_id ? 'selected' : '' }}>{{$siteOptionsAvailable->site_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {!! Form::submit('Update Event',array('class'=>'btn btn-sm btn-primary')) !!}
+
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 50px;">
+                                    <div class="col-md-6">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
                                         <a  href="{{route('event.index')}}">Go back.</a>
                                     </div>
-
                                 </div>
 
-                                {!! Form::submit('Update Event',array('class'=>'btn btn-sm btn-primary')) !!}
 
 
                                 {!! Form::close() !!}
