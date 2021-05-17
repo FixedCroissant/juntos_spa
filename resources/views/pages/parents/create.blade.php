@@ -15,6 +15,16 @@
                             <br/>
                         </p>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('students.edit',[$student->id])}}">Student Edit</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Add Parent</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="row">
                             <div class="col-md-5 offset-1">
