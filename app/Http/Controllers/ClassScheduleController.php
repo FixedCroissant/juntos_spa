@@ -24,6 +24,10 @@ class ClassScheduleController extends Controller
         $student = Student::find($request->student);
         $acad_year = AcademicYear::find($request->acad_year);
 
+      if($acad_year==NULL){
+          return redirect()->back()->with(['flash_warning'=>'No Academic Year Set Up. Cannot continue.']);
+      }
+
         return view('pages.class_schedule.create')->with(['student'=>$student,'acad_year'=>$acad_year]);
     }
 
