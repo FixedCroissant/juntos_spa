@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Event;
+use App\Models\Sites;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -50,9 +51,10 @@ class EventController extends Controller
     public function show($id){
         $event = Event::find($id);
         //Get additional family members that may be attending.
-        $siblingTotals = \DB::table('event_attendance')->where('event_id',$id)->select(\DB::raw('sibling_number+other_guests_number AS totalOtherGuest'),'sibling_number','other_guests_number')->distinct()->get();
+        $siblingTotals = \DB::table('event_attendance')->where('event_id',$id)->select(\DB::raw('sibling_number+other_guests_number AS totalOtherGuest'),'sibling_number','other_guests_number','event_id')->distinct()->get();
+        $eventSite = Sites::find($event->site_id);
 
-        return view('pages.events.show')->with(['event'=>$event,'siblingandguests'=>$siblingTotals]);
+        return view('pages.events.show')->with(['event'=>$event,'siblingandguests'=>$siblingTotals,'eventSite'=>$eventSite]);
     }
 
     /**
@@ -135,5 +137,33 @@ class EventController extends Controller
         return redirect()->route('event.index')->with('flash_success','Event Deleted!');
     }
 
+
+    /**
+     * Update sibling category.
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateSibling($id, Request $request){
+            DB::table('event_attendance')
+            ->where('event_id',$id)
+            ->update(['sibling_number'=>$request->sibling_number]);
+
+        return redirect()->back()->with('flash_message','Sibling Attendance Updated');
+    }
+
+    /**
+     * Update other guest category.
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateOtherGuest($id,Request $request){
+        DB::table('event_attendance')
+            ->where('event_id',$id)
+            ->update(['other_guests_number'=>$request->other_guests_number]);
+
+        return redirect()->back()->with('flash_message','Other Guest Attendance Updated');
+    }
 
 }

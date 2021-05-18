@@ -45,7 +45,7 @@
                                         </tr>
                                         <tr>
                                             <td>Event Site Association</td>
-                                            <td>Coming Soon</td>
+                                            <td>{{$eventSite->site_name}}</td>
                                         </tr>
                                         <tr>
                                             <td>Type:</td>
@@ -149,10 +149,22 @@
                                         @foreach($siblingandguests as $eventSiblingAndGuestNumber)
                                             <tr>
                                                 <td>
-                                                    Total Sibling: {{$eventSiblingAndGuestNumber->sibling_number}}
+                                                    {!! Form::open(['route' => ['sibling.attendance.complete', $eventSiblingAndGuestNumber->event_id],'method'=>'post']) !!}
+                                                    Total Siblings:
+                                                    {!! Form::selectRange('sibling_number',0,50,$eventSiblingAndGuestNumber->sibling_number) !!}
+                                                    <br/>
+                                                    <br/>
+                                                    {!! Form::submit('Update Sibling',array('class'=>'btn btn-sm btn-primary')) !!}
+                                                    {!! Form::close() !!}
                                                 </td>
                                                 <td>
-                                                    Total Additional Family Members: {{$eventSiblingAndGuestNumber->other_guests_number}}
+                                                    Total Additional Family Members:
+                                                    {!! Form::open(['route' => ['other_guest.attendance.complete', $eventSiblingAndGuestNumber->event_id],'method'=>'post']) !!}
+                                                    {!! Form::selectRange('other_guests_number',0,50,$eventSiblingAndGuestNumber->other_guests_number) !!}
+                                                    <br/>
+                                                    <br/>
+                                                    {!! Form::submit('Update Guests',array('class'=>'btn btn-sm btn-primary')) !!}
+                                                    {!! Form::close() !!}
                                                 </td>
                                             </tr>
                                             <tr>

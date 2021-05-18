@@ -67,6 +67,9 @@ Route::post('/volunteer/attendance',['as'=>'volunteer.addeventattendance','uses'
 Route::post('/volunteer/attendance/complete',['as'=>'volunteer.completeAttendance','uses'=>'App\Http\Controllers\VolunteerController@addEventAttendanceComplete']);
 Route::get('/volunteer/attendance/remove/{eventID}/{id}',['as'=>'volunteer.removeAttendance','uses'=>'App\Http\Controllers\VolunteerController@removeEventAttendanceComplete']);
 
+//Sibling & Family Members
+Route::post('/sibling/attendance/{id}/complete',['as'=>'sibling.attendance.complete','uses'=>'App\Http\Controllers\EventController@updateSibling']);
+Route::post('/other_guests/attendance/{id}/complete',['as'=>'other_guest.attendance.complete','uses'=>'App\Http\Controllers\EventController@updateOtherGuest']);
 //Alumni or Graduated students Notes
 Route::resource('alumni',AlumniController::class);
 
