@@ -63,6 +63,14 @@
                           <small>{{ __('Create new account') }}</small>
              </a>
           </div>
+        <div class="row">
+                <div class="col-md-6 offset-3">
+                    <a class="btn btn-primary" href="{{Request::root()}}/auth/shibboleth">Login Via NC State Shibboleth</a>
+                </div>
+        </div>
+        <div class="row" style="margin-bottom: 75px;">
+            &nbsp;
+        </div>
         </div>
       </form>
       <div class="row">

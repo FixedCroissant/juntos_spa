@@ -58,11 +58,8 @@ class LoginController extends Controller
         Auth::logout();
 
         //Redirect to standard Shib out page.
-        //$ncsuLogoutPage = 'https://shib.ncsu.edu/idp/profile/Logout';
+        $ncsuLogoutPage = 'https://shib.ncsu.edu/idp/profile/Logout';
 
-        //Logout of Shib.
-        //return Redirect::to($ncsuLogoutPage);
-
-        return redirect('/login');
+        return redirect($ncsuLogoutPage);
     }
 }
