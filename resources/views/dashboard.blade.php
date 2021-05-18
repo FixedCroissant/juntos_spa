@@ -21,9 +21,23 @@
                     </div>
                     <div class="row">
                         <div class="card">
-                            <div class="col-xs-8 col-sm-8 col-lg-8 offset-1" style="margin-bottom: 400px;">
-                                {!! html_entity_decode($frontpagetext->front_page_text) !!}
-                            </div>
+                            @if(Auth::check() && (Auth::user()->hasRole('Admin')|| Auth::user()->hasRole('Coordinator')))
+                                <div class="col-xs-8 col-sm-8 col-lg-8 offset-1" style="margin-bottom: 400px;">
+                                    {!! html_entity_decode($frontpagetext->front_page_text) !!}
+                                </div>
+                            @endif
+                            @roles(['Guest'])
+                                <div class="col-xs-8 col-sm-8 col-lg-8 offset-1" style="margin-top: 45px; margin-bottom: 400px;">
+                                    <p style="text-align:left; font-size:large;">
+                                        Please contact the Juntos department about adjusting your account.
+                                        <br/>
+                                        <br/>
+                                        Use the Logout Button to the left in order to log out from the application.
+                                        <br/>
+                                        <br/>
+                                    </p>
+                                </div>
+                            @endroles
                         </div>
                     </div>
                 </div>

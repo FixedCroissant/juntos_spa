@@ -12,7 +12,8 @@
             <p>{{ __('Dashboard') }}</p>
         </a>
       </li>
-      <li>
+        @if(Auth::check() && (Auth::user()->hasRole('Admin')|| Auth::user()->hasRole('Coordinator')))
+        <li>
 <!--Students-->
         <a class="nav-link" data-toggle="collapse" href="#studentList" aria-expanded="false">
           <p> <b class="caret"></b> Students
@@ -154,7 +155,7 @@
     </div>
     <!--End Reporting-->
  </li>
-
+@endif
 
 <li style="text-align: center">
     <a class="nav-link btn btn-primary" style="color:white; href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">{{ __('Log out') }}</a>
