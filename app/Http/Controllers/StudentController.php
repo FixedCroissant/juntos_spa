@@ -155,6 +155,10 @@ class StudentController extends Controller
         }
         $student->update($request->all());
 
+        if(!$request->has('graduated')){
+            $student->update(['graduated'=>0]);
+        }
+
         return redirect()->route('students.index')->with('flash_success','Student Updated!');
 
     }
