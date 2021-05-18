@@ -35,6 +35,10 @@ use App\Http\Controllers\AlumniController;
 
 Auth::routes();
 
+//Login Through NCSU Shibboleth.
+Route::get('/auth/shibboleth','App\Http\Controllers\Auth\LoginController@shibbolethLogin')->name('auth.shibboleth')->middleware('auth.shib');
+
+
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
