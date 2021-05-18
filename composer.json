@@ -16,8 +16,15 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "laravelcollective/html": "^6.2",
-        "maatwebsite/excel": "^3.1"
+        "maatwebsite/excel": "^3.1",
+        "ncsu/auth": "^2.2"
     },
+    "repositories":[
+        {
+            "type":"composer",
+            "url":"https://www.webtools.ncsu.edu/packages"
+        }
+    ],
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
         "facade/ignition": "^2.5",

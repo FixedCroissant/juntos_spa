@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "353dfff83f0e84765f58f577e9a0eb1f",
+    "content-hash": "4dd38e06b2962538d1762f51105b9c3d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3016,6 +3016,58 @@
                 }
             ],
             "time": "2021-02-15T16:11:48+00:00"
+        },
+        {
+            "name": "ncsu/auth",
+            "version": "2.2.3",
+            "source": {
+                "type": "git",
+                "url": "git@github.ncsu.edu:ncstate-contrib/auth",
+                "reference": "cef44a9739e2d4cd865674f1095a1359f730dda0"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://www.webtools.ncsu.edu/packages/dist/ncsu-auth-2.2.3-e10911.tar",
+                "reference": "cef44a9739e2d4cd865674f1095a1359f730dda0",
+                "shasum": "8203b42469cdf9f54793f1909d1c55a97ff9a44c"
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9",
+                "phpunit/phpunit": "^5.0@dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NCSU\\Auth\\": [
+                        "src"
+                    ],
+                    "NCSU\\Auth\\Tests\\": "tests"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dustin Wheeler",
+                    "email": "mdwheele@ncsu.edu",
+                    "homepage": "http://github.ncsu.edu/mdwheele",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Authentication adapters for PHP web applications at NC State..",
+            "homepage": "http://github.ncsu.edu/ncstate-contrib/auth",
+            "keywords": [
+                "authentication",
+                "php"
+            ],
+            "time": "2019-02-08T20:18:28+00:00"
         },
         {
             "name": "nesbot/carbon",
