@@ -21,7 +21,7 @@
                                     class="nav-link active"
                                     id="ex1-tab-1"
                                     data-mdb-toggle="tab"
-                                    href="#ex1-tabs-1"
+                                    href={{route('admin.backend.index')}}
                                     role="tab"
                                     aria-controls="ex1-tabs-1"
                                     aria-selected="false"
@@ -33,7 +33,7 @@
                                     class="nav-link"
                                     id="ex1-tab-2"
                                     data-mdb-toggle="tab"
-                                    href="#ex1-tabs-2"
+                                    href="{{route('admin.backend.rolesindex')}}"
                                     role="tab"
                                     aria-controls="ex1-tabs-2"
                                     aria-selected="false"
@@ -126,7 +126,7 @@
                                                                     </td>
                                                                     <td>
                                                                         <div class="onoffswitch">
-                                                                        <input type="checkbox" value{{$therole->id}} name="assignees_roles[]" {{in_array($therole->id,$userRoles->toArray()) ? 'checked="checked"':" "}}  class="toggleBtn onoffswitch-checkbox" id="role-{{$therole->id}}">
+                                                                        <input type="checkbox" value{{$therole->id}} name="assignees_roles[{{$therole->id}}]" {{in_array($therole->id,$userRoles->toArray()) ? 'checked="checked"':" "}}  class="toggleBtn onoffswitch-checkbox" id="role-{{$therole->id}}">
                                                                         <label for="role--{{$therole->id}}" class="onoffswitch-label">
                                                                             <div class="onoffswitch-inner"></div>
                                                                             <div class="onoffswitch-switch"></div>
@@ -150,7 +150,7 @@
 
                                 {!! Form::submit('Update User',['class'=>'btn btn-primary']) !!}
 
-                                <a href="{{route('admin.users.index')}}" class="btn btn-secondary">Cancel</a>
+                                <a href="{{route('admin.backend.index')}}" class="btn btn-secondary">Cancel</a>
 
                                 {!! Form::close() !!}
 
