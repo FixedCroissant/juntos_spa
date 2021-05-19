@@ -46,7 +46,7 @@ class StudentController extends Controller
         $students = \DB::table('students')
             //Using Sites instead.
             ->leftJoin('sites', 'students.site_id', '=', 'sites.id')
-            ->select('students.id','students.site_id','students.phone_number','students.student_id',\DB::raw('CONCAT(students.student_first_name, " ", students.student_last_name) AS student_full_name'),'sites.site_name','students.student_first_name', 'students.student_last_name','students.address_line_1','students.email_address')
+            ->select('students.id','students.site_id','students.phone_number','students.student_id',\DB::raw('CONCAT(students.student_first_name, " ", students.student_last_name) AS student_full_name'),'sites.site_name','students.student_first_name', 'students.student_last_name','students.address_line_1','students.email_address','students.active_student','students.graduated')
             ->whereIn('site_id', $userSites)
             ->get();
 

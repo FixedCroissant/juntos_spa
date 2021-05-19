@@ -40,6 +40,10 @@
                                         </th>
                                         <th class="th-sm">Phone Number
                                         </th>
+                                        <th class="th-sm">Active
+                                        </th>
+                                        <th class="th-sm">Graduated
+                                        </th>
                                         <th class="th-sm">
                                             Site Name
                                         </th>
@@ -65,6 +69,16 @@
                                             </td>
                                             <td>
                                                 {{$mystudents->phone_number}}
+                                            </td>
+                                            <td>
+                                                {{$mystudents->active_student}}
+                                            </td>
+                                            <td>
+                                                @if($mystudents->graduated)
+                                                    Yes
+                                                @else
+                                                    No
+                                                @endif
                                             </td>
                                             <td>
                                                 {{$mystudents->site_name}}
