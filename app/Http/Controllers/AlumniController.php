@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alumni;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlumniController extends Controller
 {
@@ -15,7 +16,20 @@ class AlumniController extends Controller
      */
     public function index()
     {
-        $graduatedStudents = Student::where('graduated',1)->get();
+
+        $loggedInUser = auth()->user();
+        $userSites=[];
+        foreach($loggedInUser->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+        $graduatedStudents = DB::table('students')
+            ->leftJoin('sites','students.site_id','=','sites.id')
+            ->select('students.*','sites.site_name')
+            ->where('graduated',1)
+            ->whereIn('site_id',$userSites)
+            ->get();
+
+
         return view('pages.alumni.index')->with(['graduatedStudents'=>$graduatedStudents]);
     }
 
@@ -24,9 +38,10 @@ class AlumniController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $student=Student::find($request->student);
+        return view('pages.alumni.create')->with(['student'=>$student]);
     }
 
     /**
@@ -37,7 +52,20 @@ class AlumniController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validator = \Validator::make($data, [
+            'student_id' => 'required',
+            'alumni_notes' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        Alumni::create($data);
+
+        return redirect()->route('alumni.index')->with('flash_success','New Alumni note Added!');
     }
 
 
@@ -47,9 +75,18 @@ class AlumniController extends Controller
      * @param  \App\Models\Alumni  $alumni
      * @return \Illuminate\Http\Response
      */
-    public function edit(Alumni $alumni)
+    public function edit(Alumni $alumni,$id)
     {
-        //
+
+        $alumni = Alumni::find($id);
+
+        //Note doesn't exit go back.
+        if(is_null($alumni)){
+            return back()->with(['flash_warning'=>'Please create note first. No longer exists']);
+        }
+        $student = Student::find($alumni->student_id);
+
+        return view('pages.alumni.edit')->with(['alumni'=>$alumni,'student'=>$student]);
     }
 
     /**
@@ -59,19 +96,35 @@ class AlumniController extends Controller
      * @param  \App\Models\Alumni  $alumni
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Alumni $alumni)
+    public function update(Request $request, Alumni $alumni, $id)
     {
-        //
+        $data = $request->all();
+
+        $validator = \Validator::make($data, [
+            'alumni_notes' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $alumniNote= Alumni::find($id);
+
+        $alumniNote->update($request->all());
+
+        return redirect()->route('alumni.index')->with('flash_success','Alumni Notes Updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Alumni  $alumni
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Alumni $alumni)
+    public function destroy($id)
     {
-        //
+        $alumni = Alumni::find($id);
+        $alumni->delete();
+
+        return redirect()->route('alumni.index')->with('flash_success','Alumni Note Deleted!');
+
     }
 }

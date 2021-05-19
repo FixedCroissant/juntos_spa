@@ -26,7 +26,6 @@
                             <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
-                                        <th class="th-sm"></th>
                                         <th class="th-sm">Student ID
                                         </th>
                                         <th class="th-sm">Student Name
@@ -49,9 +48,6 @@
                                     @foreach($graduatedStudents as $myGraduatedStudents)
                                         <tr>
                                             <td>
-                                                {{$myGraduatedStudents->id}}
-                                            </td>
-                                            <td>
                                                 {{$myGraduatedStudents->student_id}}
                                             </td>
                                             <td>
@@ -72,15 +68,18 @@
                                                 {{$myGraduatedStudents->site_name}}
                                             </td>
                                             <td>
+                                                {!! link_to_route('alumni.create','Add Notes for Student',['student'=>$myGraduatedStudents->id]) !!} |
+                                                {!! link_to_route('alumni.edit','See/Update Notes for Student',[$myGraduatedStudents->id]) !!} |
+                                                {!!  Form::open(array('route' => array('alumni.destroy',$myGraduatedStudents->id),'style'=>'display:inline-block', 'method' => 'delete','style'=>'display:inline','onsubmit' => "return confirm('Are you sure you want to remove this note?')",))  !!}
+                                                <button type="submit"  class="button-link btn btn-sm">Remove Note</button>
+                                                {!! Form::close()  !!}
 
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
-                               {{--</form>--}}
                                 {!! Form::close() !!}
-                                <!--End Table-->
                             </div>
                         </div>
                     </div>
