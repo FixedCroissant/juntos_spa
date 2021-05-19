@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\States;
@@ -23,7 +24,9 @@ class AdminController extends Controller
 
     //Roles
       public function roleIndex(){
-            return view('pages.admin.roles.index');
+            $roles = Role::all();
+
+            return view('pages.admin.roles.index')->with(['roles'=>$roles]);
       }
 
     /*
