@@ -78,7 +78,7 @@
                                     class="nav-link active"
                                     id="ex1-tab-3"
                                     data-mdb-toggle="tab"
-                                    href={{route('admin.sites.index')}}
+                                    href={{route('admin.settings.index')}}
                                         role="tab"
                                     aria-controls="ex1-tabs-6"
                                     aria-selected="false"
@@ -104,11 +104,18 @@
                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        {!! Form::textarea('front_page_text',null,['class'=>'form-control','rows' => 2, 'cols' => 40]) !!}
+                                        <label for="front_page_text">Front Page Text:</label>
+                                        {!! Form::textarea('front_page_text',null,['class'=>'form-control','id'=>'front_page_text','rows' => 2, 'cols' => 40]) !!}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="coordinator_follow_up_meeting_past_due">Number of Days after initial coaching appointment to be alerted:</label>
                                         {!! Form::selectRange('coordinator_follow_up_meeting_past_due', 1, 30,null,['class'=>'form-control']); !!}
                                     </div>
                                 </div>
