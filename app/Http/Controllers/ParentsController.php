@@ -84,6 +84,31 @@ class ParentsController extends Controller
 
     }
 
+    public function update(Request $request,$id){
+        $data = $request->all();
+
+        $validator = \Validator::make($data, [
+            'student_id' => 'required|max:255',
+            'parent_first_name' => 'required|max:255',
+            'parent_last_name' => 'required|max:255',
+            'address_line_1' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'phone_number'=>'required',
+            'emailaddress'=>'required'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $parent = Parents::find($id);
+
+        $parent->update($request->all());
+
+        return redirect()->route('parents.index')->with('flash_success','Parent Updated!');
+    }
+
 
     /**
      * Delete a parent in the system.

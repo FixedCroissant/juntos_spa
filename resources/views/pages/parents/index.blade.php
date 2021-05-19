@@ -112,8 +112,7 @@
                     ],
                     'select': {
                         'style': 'multi'
-                    },
-                    'order': [[1, 'asc']]
+                    }
                 });
 
             $('#parent-attendance').on('submit', function(e){
