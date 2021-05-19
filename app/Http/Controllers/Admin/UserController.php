@@ -41,7 +41,7 @@ class UserController extends Controller
 
 
 
-        return redirect()->route('admin.users.index')->with('flash_success','New State Successfully Created!');
+        return redirect()->route('admin.users.index')->with('flash_success','New User Successfully Created!');
     }
 
     /**
@@ -74,6 +74,16 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->update($request->all());
+
+        //Update roles
+        $roles = $request->assignees_roles;
+
+
+        $user->roles()->detach();
+        //Attach roles.
+        foreach($roles as $key => $value){
+            $user->roles()->attach($key);
+        }
 
         return back()->withInput()->with('flash_success','User Successfully Updated!');
 
