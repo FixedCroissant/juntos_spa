@@ -41,7 +41,7 @@ class AdminController extends Controller
     public function settingsCoordinatorAssignment(Request $request){
         $states = States::pluck('state_name','id');
         $countyOptions = County::query();
-        $countyOptions->where('state_id',$request->state_picked);
+        $countyOptions->where('state_id',$request->state_picked)->orderBy('county_name','ASC');
         $siteOptions = Sites::query();
         $siteOptions->where('county_id',$request->county_picked);
         $assignmentArea = $request->site_picked;

@@ -11,6 +11,16 @@
                         </p>
 
                     </div>
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 offset-8">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('admin.settings.index')}}">Settings</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Assign Site to Coordinator</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
                     <div class="card">
                         <!--Start Nav tabs-->
                         <ul class="nav nav-tabs mb-4" id="ex1" role="tablist">
@@ -154,28 +164,50 @@
                                            {!! $assignmentDetails->site_name !!}
                                        @endif
                                    </div>
-                                   <div class="col-md-6">
-                                        <h4>Step 4 - User List</h4>
-
-                                       Assign the following user to the above site:
-                                       <br/>
-                                       <br/>
-                                    @if($assignmentDetails==NULL)
-                                           Narrow Down Site Please.
-                                    @else
-                                           {!! Form::open(['route' => 'admin.settings.coordinator.assign.confirm','method'=>'post']) !!}
-                                           <div>
-                                               @foreach($userList as $theUserList)
-                                                   {!! Form::checkbox('assignmentUser', $theUserList->id); !!} {!! $theUserList->name !!}
-                                               @endforeach
-                                               {!! Form::hidden('assignmentSite',$assignmentDetails->id) !!}
-                                           </div>
-                                           {!! Form::submit('Assign Site to User',['class'=>'btn btn-sm']) !!}
-                                           {!! Form::close() !!}
-                                   @endif
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-12">
+                                       &nbsp;
                                    </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col-md-10">
+                                       <h4>Step 4 - User List</h4>
+                                       Assign the following user to the above site:
+                                       <br/><br/><br/>
 
+                                       <table class="table table-sm">
+                                           <thead class="thead-dark">
+                                           <th>
+                                               Select User
+                                           </th>
+                                           <th>
+                                               Name
+                                           </th>
+                                           </thead>
+                                           <tbody>
+                                           @if($assignmentDetails==NULL)
+                                               <tr>
+                                                   <td colspan="2">
+                                                       Narrow your site down please.
+                                                   </td>
+                                               </tr>
+                                           @else
+                                               {!! Form::open(['route' => 'admin.settings.coordinator.assign.confirm','method'=>'post']) !!}
+                                                   @foreach($userList as $theUserList)
+                                                   <tr>
+                                                       <td>{!! Form::checkbox('assignmentUser', $theUserList->id); !!}</td>
+                                                       <td> {!! $theUserList->name !!}</td>
+                                                   </tr>
+                                                   @endforeach
+                                                   {!! Form::hidden('assignmentSite',$assignmentDetails->id) !!}
+                                           @endif
+                                           </tbody>
+                                       </table>
 
+                                       {!! Form::submit('Assign Site to User',['class'=>'btn btn-sm']) !!}
+                                       {!! Form::close() !!}
+                                   </div>
                                </div>
                             </div>
                         </div>
