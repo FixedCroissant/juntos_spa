@@ -40,12 +40,13 @@
                                             Site Name
                                         </th>
                                         <th>
-                                            Actions
+                                            Available Notes:
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($graduatedStudents as $myGraduatedStudents)
+
                                         <tr>
                                             <td>
                                                 {{$myGraduatedStudents->student_id}}
@@ -68,12 +69,35 @@
                                                 {{$myGraduatedStudents->site_name}}
                                             </td>
                                             <td>
-                                                {!! link_to_route('alumni.create','Add Notes for Student',['student'=>$myGraduatedStudents->id]) !!} |
-                                                {!! link_to_route('alumni.edit','See/Update Notes for Student',[$myGraduatedStudents->id]) !!} |
-                                                {!!  Form::open(array('route' => array('alumni.destroy',$myGraduatedStudents->id),'style'=>'display:inline-block', 'method' => 'delete','style'=>'display:inline','onsubmit' => "return confirm('Are you sure you want to remove this note?')",))  !!}
-                                                <button type="submit"  class="button-link btn btn-sm">Remove Note</button>
-                                                {!! Form::close()  !!}
 
+                                                {!! link_to_route('alumni.create','Create A Note',['student'=>$myGraduatedStudents->id],['class'=>'btn btn-sm btn-primary']) !!}
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                    <th>Note Created</th>
+                                                    <th>Created By:</th>
+                                                    <th colspan="2">Actions</th>
+                                                    </thead>
+                                                    <tbody>
+                                                @foreach($notes as $myNotes)
+                                                 <tr>
+                                                        <td>
+                                                            {!! $myNotes->created_at->format('m/d/y') !!}
+                                                        </td>
+                                                        <td>
+                                                        {!! $myNotes->user->name !!}
+                                                        </td>
+                                                        <td>
+                                                            {!! link_to_route('alumni.edit','See/Update Notes',[$myNotes->id]) !!}
+                                                        </td>
+                                                        <td>
+                                                            {!!  Form::open(array('route' => array('alumni.destroy',$myNotes->id),'style'=>'display:inline-block', 'method' => 'delete','style'=>'display:inline','onsubmit' => "return confirm('Are you sure you want to remove this note?')",))  !!}
+                                                            <button type="submit"  class="button-link btn btn-sm">Remove Note</button>
+                                                            {!! Form::close()  !!}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                                    </tbody>
+                                                </table>
                                             </td>
                                         </tr>
                                     @endforeach

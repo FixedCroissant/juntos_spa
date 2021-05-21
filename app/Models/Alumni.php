@@ -11,5 +11,9 @@ class Alumni extends Model
 
     protected $table = 'alumni';
 
-    protected $fillable = ['student_id','alumni_notes'];
+    protected $fillable = ['student_id','alumni_notes','user_id'];
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

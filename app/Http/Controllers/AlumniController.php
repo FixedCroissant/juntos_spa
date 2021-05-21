@@ -6,6 +6,7 @@ use App\Models\Alumni;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AlumniController extends Controller
 {
@@ -29,8 +30,14 @@ class AlumniController extends Controller
             ->whereIn('site_id',$userSites)
             ->get();
 
+        $notes = Alumni::leftJoin('students','alumni.id','=','students.student_id')
+            ->with('user')
+            ->select('alumni.id','alumni.created_at','alumni.user_id','alumni.alumni_notes')
+            ->get();
 
-        return view('pages.alumni.index')->with(['graduatedStudents'=>$graduatedStudents]);
+
+
+        return view('pages.alumni.index')->with(['notes'=>$notes,'graduatedStudents'=>$graduatedStudents]);
     }
 
     /**
@@ -54,6 +61,8 @@ class AlumniController extends Controller
     {
         $data = $request->all();
 
+        $user = Auth::id();
+
         $validator = \Validator::make($data, [
             'student_id' => 'required',
             'alumni_notes' => 'required',
@@ -63,7 +72,7 @@ class AlumniController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        Alumni::create($data);
+        Alumni::create(['user_id'=>$user,'student_id'=>$request->student_id,'alumni_notes'=>$request->student_id]);
 
         return redirect()->route('alumni.index')->with('flash_success','New Alumni note Added!');
     }
