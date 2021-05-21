@@ -33,6 +33,9 @@
                             <ul>
                                 <li><a href="{{route('reporting.show','post_survey_incomplete')}}">[ADMIN] Get Report of Post Survey Incomplete</a></li>
                             </ul>
+                            <ul>
+                                <li><a href="{{route('reporting.events.allattendance.download')}}">[ADMIN] Get All Events (With Students,Parents & Other Guests)</a></li>
+                            </ul>
                             @endroles
 
                         </div>

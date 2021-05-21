@@ -7,6 +7,7 @@ use DB;
 use App\Exports\StudentsExport;
 use App\Exports\VolunteersExport;
 use App\Exports\PostSurveyIncompleteExport;
+use App\Exports\AllEventAllAttendanceExport;
 
 
 
@@ -48,6 +49,10 @@ class ReportingController extends Controller
 
     public function postSurveyIncompleteExport(){
         return \Excel::download(new PostSurveyIncompleteExport,'post_survey_incomplete_list.xlsx');
+    }
+    //Admin report.
+    public function allEventsAllAttendanceStudentParentExport(){
+        return \Excel::download(new AllEventAllAttendanceExport,'all_events_all_attendance.xlsx');
     }
 
 }
