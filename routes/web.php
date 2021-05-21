@@ -31,6 +31,7 @@ use App\Http\Controllers\ReportingController;
 use App\Http\Controllers\StudentNotesController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\Auth\LoginController;
 
 
 Auth::routes();
@@ -38,8 +39,14 @@ Auth::routes();
 //Login Through NCSU Shibboleth.
 Route::get('/auth/shibboleth','App\Http\Controllers\Auth\LoginController@shibbolethLogin')->name('auth.shibboleth')->middleware('auth.shib');
 
+//Login Through Google.
+Route::get('/auth/googleRedirect',[LoginController::class,'googleRedirect']);
+Route::get('/auth/google/callback',[LoginController::class,'googleCallback']);
+//New Logout Notice Page
+Route::get('/googleSignout',[LoginController::class,'viewLogoutPage']);
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
+//end google signout
 
 Route::group(['middleware' => 'auth'], function () {
 	//Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
