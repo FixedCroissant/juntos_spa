@@ -69,7 +69,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="studentID" class="col-form-label">StudentID</label><span class="required">*</span>
-                                        {!! Form::text('student_id', null, ['class'=>'form-control','maxlength'=>'12']); !!}
+                                        {!! Form::text('student_id', null, ['class'=>'form-control','maxlength'=>'11']); !!}
                                     </div>
                                 </div>
 
