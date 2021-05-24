@@ -58,7 +58,9 @@ class AdminController extends Controller
      */
     public function assignedUser(Request $request){
         $user = User::find($request->assignmentUser);
-        $user->studentAccess()->attach($request->assignmentSite);
+        foreach($user as $myUser){
+            $myUser->studentAccess()->attach($request->assignmentSite);
+        }
 
         return back()->with('flash_success','Successfully Added Access');
 

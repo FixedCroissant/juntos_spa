@@ -196,7 +196,7 @@
                                                {!! Form::open(['route' => 'admin.settings.coordinator.assign.confirm','method'=>'post']) !!}
                                                    @foreach($userList as $theUserList)
                                                    <tr>
-                                                       <td>{!! Form::checkbox('assignmentUser', $theUserList->id); !!}</td>
+                                                       <td>{!! Form::checkbox('assignmentUser[]', $theUserList->id); !!}</td>
                                                        <td> {!! $theUserList->name !!}</td>
                                                    </tr>
                                                    @endforeach
