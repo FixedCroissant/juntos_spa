@@ -131,7 +131,9 @@ class ParentsController extends Controller
 
         $selectedParentInformation = Parents::whereIn('id',$attendees)->select('id','parent_first_name','parent_last_name')->get();
 
-        $eventOptions = Event::pluck('event_name','id');
+        $eventOptions = Event::select(
+            \DB::raw("CONCAT(date_format(event_start_date, ' %c/%e/%y'),' to ',date_format(event_end_date,'%c/%e/%y')) AS eventTimes"),'event_name','id'
+        )->get();
 
         return view('pages.parents.eventadd')->with(['selectedParents'=>$selectedParentInformation,'eventOptions'=>$eventOptions]);
     }
