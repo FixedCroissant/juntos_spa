@@ -10,7 +10,8 @@
         "prod": "npm run production",
         "production": "mix --production",
         "commit": "git-cz",
-        "release": "standard-version"
+        "release": "standard-version",
+        "e2e": "cypress open"
     },
     "dependencies": {
         "moment": "^2.29.1"
