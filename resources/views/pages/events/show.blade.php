@@ -145,6 +145,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h4>Sibling/Family Member Attendance</h4>
+                                    <div class="row">
+                                        <div class="col-md-8" style="border:1px solid black;">
+                                            In order to track Sibling/Family Members, you must have a minimum of a single student or parent/gaurdian attending.
+                                            Please add these individuals first and then update your Sibling/Other Guest information below.<br/>
+                                        </div>
+                                    </div>
                                     <table class="table">
                                         @foreach($siblingandguests as $eventSiblingAndGuestNumber)
                                             <tr>

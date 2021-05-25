@@ -51,7 +51,7 @@ class EventController extends Controller
     public function show($id){
         $event = Event::find($id);
         //Get additional family members that may be attending.
-        $siblingTotals = \DB::table('event_attendance')->where('event_id',$id)->select(\DB::raw('sibling_number+other_guests_number AS totalOtherGuest'),'sibling_number','other_guests_number','event_id')->distinct()->get();
+        $siblingTotals = \DB::table('event_attendance')->where('event_id',$id)->select(\DB::raw('sibling_number+other_guests_number AS totalOtherGuest'),'sibling_number','other_guests_number','event_id')->distinct()->take(1)->get();
         $eventSite = Sites::find($event->site_id);
 
         return view('pages.events.show')->with(['event'=>$event,'siblingandguests'=>$siblingTotals,'eventSite'=>$eventSite]);
