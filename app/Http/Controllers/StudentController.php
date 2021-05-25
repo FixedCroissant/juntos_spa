@@ -199,7 +199,9 @@ class StudentController extends Controller
 
         $selectedStudentInformation = Student::whereIn('id',$attendees)->select('id','student_first_name','student_last_name')->get();
 
-        $eventOptions = Event::pluck('event_name','id');
+        $eventOptions = Event::select(
+                \DB::raw("CONCAT(date_format(event_start_date, ' %c/%e/%y'),' to ',date_format(event_end_date,'%c/%e/%y')) AS eventTimes"),'event_name','id'
+            )->get();
 
 
         return view('pages.students.eventadd')->with(['selectedStudents'=>$selectedStudentInformation,'eventOptions'=>$eventOptions]);
