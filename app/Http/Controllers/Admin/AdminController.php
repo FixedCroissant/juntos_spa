@@ -10,6 +10,8 @@ use App\Models\States;
 use App\Models\County;
 use App\Models\Sites;
 use App\Models\Settings;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -100,5 +102,45 @@ class AdminController extends Controller
         $settings->save();
 
         return redirect()->back()->with(['flash_success'=>'Main Settings Updated']);
+    }
+    /**
+     * On the Administration area
+     * provide the form to create a new user in the application.
+     */
+    public function ShowRegistrationForm(){
+        return view('pages.admin.users.register');
+    }
+
+    /*
+     * Complete a new user registration request from the Administrative page.
+     */
+    public function completeRegistration(Request $request){
+
+        $data = $request->all();
+
+        $validator = Validator::make($data,[
+            'name' => ['required', 'string', 'max:255'],
+            'unityid'=>['required','string','max:10'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::create([
+                            'name' => $data['name'],
+                            'email' => $data['email'],
+                            'account_type'=>'Local',
+                            'password' => Hash::make($data['password']),
+                            'unityid'=>$data['unityid']
+            ]);
+        $role = Role::find('4');
+
+        $user->roles()
+            ->attach($role);
+
+        return redirect()->route('admin.backend.index')->with('flash_success','New user created');
     }
 }

@@ -56,9 +56,6 @@
           </div>
           <div class="card-footer justify-content-center">
             <button type="submit" class="btn btn-primary">{{ __('Log On') }}</button>
-            <a href="{{ route('register') }}" class="btn btn-primary">
-                          <small>{{ __('Create new account') }}</small>
-             </a>
           </div>
         <div class="row" style="margin-bottom: 25px">
             <div class="col-md-6">

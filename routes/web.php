@@ -116,6 +116,8 @@ Route::resource('reporting',ReportingController::class)->only(['index','show']);
 //Admin  Routes
 //.name
 Route::name('admin.')->group(function(){
+Route::get('admin/register','App\Http\Controllers\Admin\AdminController@ShowRegistrationForm')->name('register');
+Route::post('admin/register/complete', 'App\Http\Controllers\Admin\AdminController@completeRegistration')->name('complete-registration');
 Route::get('/admin/index','App\Http\Controllers\Admin\AdminController@index')->name('backend.index');
 //Roles
 Route::get('/admin/roles/index','App\Http\Controllers\Admin\AdminController@roleIndex')->name('backend.rolesindex');
@@ -144,7 +146,7 @@ Route::post('/admin/settings/main_application',['uses'=>'App\Http\Controllers\Ad
 
 
 
-//ToDo- Add Coordinator Assignment
+
 
 
 //End Admin Routes

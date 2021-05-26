@@ -88,7 +88,18 @@
                         </ul>
                         <!-- Tabs navs -->
                         <div class="card-body">
-                            Please select a user:
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <a href="{{route('admin.register')}}" class="btn btn-sm btn-primary">Create a New Account</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 offset-2">
+                                    Please select a user:
+                                </div>
+                            </div>
+
+
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-2">
                                 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
