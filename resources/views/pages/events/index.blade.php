@@ -61,7 +61,7 @@
                                                 {!! link_to_route('event.show','Attendance',$myevents->id) !!} |
                                                 {!! link_to_route('event.edit','Edit',$myevents->id) !!} |
                                                 {!!  Form::open(array('route' => array('event.destroy',$myevents->id),'style'=>'display:inline-block', 'method' => 'delete','style'=>'display:inline','onsubmit' => "return confirm('Are you sure you want to remove this event? It will remove attendance associated!')",))  !!}
-                                                <button type="submit"  class="button-link btn btn-sm">Remove</button>
+                                                <button type="submit"  class="btn btn-primary btn-link btn-sm">Remove</button>
                                                 {!! Form::close()  !!}
                                             </td>
                                         </tr>
