@@ -191,9 +191,9 @@ class StudentController extends Controller
      * Additional methods.
      */
     public function addEventAttendance(Request $request){
-        // what do we have in the request?
-        //return dd($request->id);
-
+        if(is_null($request->id)){
+            return redirect()->back()->with(['flash_warning'=>'Please select an individual to add']);
+        }
         //Remove our duplicates.
         $attendees  = array_unique($request->id);
 

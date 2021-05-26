@@ -127,6 +127,10 @@ class ParentsController extends Controller
      * Additional methods.
      */
     public function addEventAttendance(Request $request){
+        if(is_null($request->id)){
+            return redirect()->back()->with(['flash_warning'=>'Please select an individual to add']);
+        }
+
         $attendees  = array_unique($request->id);
 
         $selectedParentInformation = Parents::whereIn('id',$attendees)->select('id','parent_first_name','parent_last_name')->get();

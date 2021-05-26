@@ -131,6 +131,9 @@ class VolunteerController extends Controller
      * Additional methods.
      */
     public function addEventAttendance(Request $request){
+        if(is_null($request->id)){
+            return redirect()->back()->with(['flash_warning'=>'Please select an individual to add']);
+        }
         $attendees  = array_unique($request->id);
 
         $selectedVolunteerInformation = Volunteer::whereIn('id',$attendees)->select('id','volunteer_first_name','volunteer_last_name')->get();
