@@ -13,6 +13,7 @@ use NCSU\Auth\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use Carbon\Carbon;
+use App\Events\CheckCoachingFollowUp;
 
 
 class NCSUShibbolethAuthenticate
@@ -50,6 +51,9 @@ class NCSUShibbolethAuthenticate
             $user = $this->findOrCreateUser($identity);
 
             Auth::login($user);
+
+            //Coaching notice check.
+           event(new CheckCoachingFollowUp($user));
         }
 
         return $next($request);
