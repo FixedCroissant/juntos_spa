@@ -246,7 +246,7 @@
                                         <ul>
                                             @foreach($student->notes as $myStudentNote)
                                             <li>
-                                             {{$myStudentNote->created_at->format('m/d/y h:i')}}- from {{$myStudentNote->user->name}}  {{$myStudentNote->student_note_text}} / <a href="{!! route('studentnotes.edit',$myStudentNote->id)!!}">Edit Note</a>
+                                             {{$myStudentNote->created_at->format('m/d/y')}}: from {{$myStudentNote->user->name}}  {{$myStudentNote->student_note_text}} / <a href="{!! route('studentnotes.edit',$myStudentNote->id)!!}">Edit Note</a>
                                             </li>
                                             @endforeach
                                         </ul>
