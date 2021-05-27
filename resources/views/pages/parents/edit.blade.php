@@ -78,6 +78,16 @@
                                         {!! Form::text('emailaddress',null,['class'=>'form-control','id'=>'emailaddress']) !!}
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="pre_survey_completed" class="col-form-label">Pre Survey Complete?</label>
+                                        {!! Form::select('pre_survey_completed', ['Y'=>"Yes",'N'=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="post_survey_completed" class="col-form-label">Post Survey Complete?</label>
+                                        {!! Form::select('post_survey_completed', ["Y"=>"Yes","N"=>"No"], null, ['class'=>'form-control','placeholder' => 'Pick a selection...']); !!}
+                                    </div>
+                                </div>
                                 <!--End New Fields-->
                                 {!! Form::submit('Update Parent',array('class'=>'btn btn-sm btn-primary')) !!}
 

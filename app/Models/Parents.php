@@ -12,7 +12,9 @@ class Parents extends Model
     protected $fillable = [
         'student_id','parent_first_name','parent_last_name','address_line_1','city','state','zip',
         'phone_number',
-        'emailaddress'
+        'emailaddress',
+        'pre_survey_completed',
+        'post_survey_completed'
       ];
 
 
