@@ -35,7 +35,12 @@
                             <div class="row">
                                 <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                     {!!   Form::open(['route' => ['volunteer.completeAttendance'],'class'=>'form-horizontal','method'=>'POST']) !!}
-                                    {!! Form::select('eventOptions', $eventOptions, null, ['class'=>'form-control','placeholder' => 'Pick an event...']); !!}
+                                    <select name="eventOptions" class="form-control">
+                                        <option value="">Please select an event ...</option>
+                                        @foreach($eventOptions as $myEventOptions)
+                                            <option value="{{$myEventOptions->id}}">{{$myEventOptions->eventTimes}} -- {{$myEventOptions->event_name}}</option>
+                                        @endforeach
+                                    </select>
                                     {!! Form::hidden('volunteers',$selectedVolunteers) !!}
                                     {!! Form::submit('Add Volunteer to Event Attendance',array('class'=>'btn btn-sm btn-primary')) !!}
                                     {!! Form::close() !!}

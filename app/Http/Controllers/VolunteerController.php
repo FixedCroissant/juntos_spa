@@ -138,7 +138,10 @@ class VolunteerController extends Controller
 
         $selectedVolunteerInformation = Volunteer::whereIn('id',$attendees)->select('id','volunteer_first_name','volunteer_last_name')->get();
 
-        $eventOptions = Event::pluck('event_name','id');
+        $eventOptions = Event::select(
+            \DB::raw("CONCAT(date_format(event_start_date, ' %c/%e/%y'),' to ',date_format(event_end_date,'%c/%e/%y')) AS eventTimes"),'event_name','id'
+        )->get();
+
 
 
         return view('pages.volunteer.eventadd')->with(['selectedVolunteers'=>$selectedVolunteerInformation,'eventOptions'=>$eventOptions]);
