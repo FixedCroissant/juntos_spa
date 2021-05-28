@@ -15,6 +15,7 @@ class CoachAppointment extends Model
         'user_id',
         'start_gpa',
         'end_gpa',
+        'acad_year_id',
         'StudentCounselor',
         'EducationalGoals',
         'appointment_date',
@@ -42,5 +43,10 @@ class CoachAppointment extends Model
     //Get User information of the coaching appointment.
     public function coach(){
         return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    //Academic Year
+    public function acadYear(){
+        return $this->belongsTo(AcademicYear::class,'acad_year_id','id');
     }
 }
