@@ -72,8 +72,10 @@ class CoachingAppointmentController extends Controller
     public function edit($id){
         $appointment = CoachAppointment::where('id',$id)->with('acadYear')->first();
 
-        $students = Student::select('id','student_first_name','student_last_name',
-            DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'))
+        $students = Student::select('students.id','student_first_name','student_last_name',
+            DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'),'coach_appointments.student_id as appt_id')
+            ->leftJoin('coach_appointments', 'students.id', '=', 'coach_appointments.student_id')
+            ->distinct()
             ->orderBy('student_last_name','ASC')
             ->get();
 

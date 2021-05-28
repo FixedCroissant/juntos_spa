@@ -24,7 +24,12 @@
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                 <p>
-                                    Please edit your exiting coaching appointment in the system. <br/>
+                                    Please edit your exiting coaching appointment in the system for
+                                    <strong>
+                                        {{$appointment->student->student_first_name}} {{$appointment->student->student_last_name}}
+                                    </strong>
+                                    <br/>
+                                    <br/>
                                     In order to successfully save, the required fields are marked with a <span class="required">"*"</span>
                                 </p>
                                 {!!   Form::model($appointment, ['route' => ['coaching.update', $appointment->id],'class'=>'form-horizontal','method'=>'PATCH']) !!}
@@ -41,9 +46,8 @@
                                         <br/>
                                         <select name="student_id" class="form-control" id="student_id">
                                             @foreach($students as $myStudents)
-                                                <option value="{{ $myStudents->id }}">{{ $myStudents->student_full_name}}</option>
+                                                <option value="{{ $myStudents->id }}"  {{ $appointment->student_id == $myStudents->appt_id ? 'selected' : '' }}>{{ $myStudents->student_full_name}}</option>
                                             @endforeach
-                                            {{$appointment->student_id}}
                                         </select>
                                     </div>
                                 </div>
