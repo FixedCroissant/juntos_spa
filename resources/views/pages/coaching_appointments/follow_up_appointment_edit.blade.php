@@ -61,8 +61,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <label for="actionsNeeded" class="col-form-label">Actions Needed:</label><span class="required">*</span>
-                                        {!! Form::text('actions_needed', null, ['id'=>'actionsNeeded','class'=>'form-control']); !!}
+                                        <h4>Outcomes:</h4>
                                     </div>
                                 </div>
                                 <div class="row">
