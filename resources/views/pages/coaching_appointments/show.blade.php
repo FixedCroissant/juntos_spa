@@ -28,20 +28,19 @@
                                     Please see below for the success coaching appointments.
                                 </p>
 
-
-                            @foreach($appointments as $myAppointments)
                                 <table class="table">
                                     <thead>
                                     <th class="th-sm">Appointment Created
                                     </th>
                                     <th class="th-sm">Appointment Date
-                                       </th>
-                                       <th class="th-sm">Follow Up Date
-                                       </th>
-                                        <th class="th-sm">Action
-                                        </th>
+                                    </th>
+                                    <th class="th-sm">Follow Up Date
+                                    </th>
+                                    <th class="th-sm">Action
+                                    </th>
                                     </thead>
-                                    <tbody>
+                            <tbody>
+                            @foreach($appointments as $myAppointments)
                                     <tr>
                                         <td>{{$myAppointments->created_at->format("m/d/y")}}</td>
                                         <td>{{$myAppointments->appointment_date->format('m/d/y')}}</td>
@@ -55,10 +54,9 @@
                                         </td>
                                         <td><a href="{{route('coaching.edit',[$myAppointments->id])}}">Edit Initial Appointment</a></td>
                                     </tr>
-                                    </tbody>
-                                </table>
                             @endforeach
-
+                                </tbody>
+                                </table>
 
                                 <br/>
                                 <br/>
