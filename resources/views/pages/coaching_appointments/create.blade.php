@@ -161,7 +161,7 @@
                         $select.find('option').remove();
                         var listitems = '';
                         $.each(response.academic_year,function(index, value){
-                            listitems += '<option value=' + value.id + '>' + value.academic_year + value.current+ '</option>';
+                            listitems += '<option value=' + value.id + '>' + value.academic_year + '</option>';
                         });
                         $select.append(listitems);
                     },
