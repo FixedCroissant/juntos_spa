@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CoachAppointment;
 use App\Models\Student;
+use App\Models\AcademicYear;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use DB;
@@ -69,7 +70,7 @@ class CoachingAppointmentController extends Controller
      * Edit a new resource.
      */
     public function edit($id){
-        $appointment = CoachAppointment::find($id);
+        $appointment = CoachAppointment::where('id',$id)->with('acadYear')->first();
 
         $students = Student::select('id','student_first_name','student_last_name',
             DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'))
@@ -95,13 +96,21 @@ class CoachingAppointmentController extends Controller
         return view('pages.coaching_appointments.show')->with(['appointments'=>$appointments]);
     }
 
-    public function update(Request $request,CoachAppointment $appointment, $id){
+    public function update(Request $request, $id){
         $appointmentDate   = Carbon::createFromFormat('m/d/Y', $request->appointment_date)->format('Y-m-d');
 
-        $appointment->update($request->all());
-        $timeUpdate = CoachAppointment::find($id);
-        $timeUpdate->update(['appointment_date'=>$appointmentDate]);
-        $timeUpdate->save();
+        $updateAppointment = CoachAppointment::find($id);
+        $updateAppointment->update(['student_id'=>$request->student_id,
+            'acad_year_id'=>$request->acad_year_id,
+            'start_gpa'=>$request->start_gpa,
+            'end_gpa'=>$request->end_gpa,
+            'appointment_date'=>$appointmentDate,
+            'appointment_duration'=>$request->appointment_duration,
+            'method_of_contact'=>$request->method_of_contact,
+            'EducationalGoals'=>$request->EducationalGoals,
+            'appointmentNotes'=>$request->appointmentNotes,
+            'actions_needed'=>$request->actions_needed]);
+        $updateAppointment->save();
 
         return redirect()->route('coaching.index')->with('flash_success','Coach Appointment Updated');
 
@@ -193,4 +202,16 @@ class CoachingAppointmentController extends Controller
         //PASS STUDENT ID.
         return redirect()->route('coaching.show',[$coachAppointment->student_id])->with('success_message','Follow Up Meeting Added!');
     }
+
+    /***
+     * Get Academic Year Based on our Student Record.
+     * Allows for the proper drop down list to be filled when creating a new
+     * student coaching record.
+     */
+    public function getAcademicYearBasedOnStudent (Request $request){
+        $availableAcademicYear = AcademicYear::where('stu_id',$request->student_id)->select('id','stu_id','academic_year','current')->orderBy('current','DESC')->get();
+
+        return response([ 'academic_year' => $availableAcademicYear, 'message' => 'Academic Year Retrieved successfully'], 200);
+    }
+
 }

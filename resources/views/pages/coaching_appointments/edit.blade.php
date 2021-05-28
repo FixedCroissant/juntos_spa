@@ -39,12 +39,34 @@
                                         <h4>Edit Initial Coaching Appointment</h4>
                                         <label for="studentName" class="col-form-label">Select Student:</label><span class="required">*</span>
                                         <br/>
-                                        <select name="student_id" class="form-control   ">
+                                        <select name="student_id" class="form-control" id="student_id">
                                             @foreach($students as $myStudents)
                                                 <option value="{{ $myStudents->id }}">{{ $myStudents->student_full_name}}</option>
                                             @endforeach
                                             {{$appointment->student_id}}
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="studentAcademicYear" class="col-form-label">Select Academic Year:</label><span class="required">*</span>
+                                        <br/>
+                                        <select name="acad_year_id" id="acad_year_id" class="form-control">
+                                            <option selected value="{{$appointment->acad_year_id}}">{{$appointment->acadYear->academic_year}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="#" id="pullAcademicYear" class="btn-primary btn">Pull Academic Year for Student</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="startGPA" class="col-form-label">Starting GPA:</label>
+                                        {!! Form::text('start_gpa',null,['class'=>'form-control','id'=>'startGPA','maxlength'=>'4','placeholder'=>'2.75']) !!}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="endGPA" class="col-form-label">Ending GPA:</label>
+                                        {!! Form::text('end_gpa',null,['class'=>'form-control','id'=>'endGPA','maxlength'=>'4','placeholder'=>'3.0']) !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -78,6 +100,12 @@
                                     <div class="col-md-8">
                                         <label for="appointmentNotes" class="col-form-label">Appointment Notes:</label>
                                         {!! Form::text('appointmentNotes', null, ['id'=>'appointmentNotes','class'=>'form-control']); !!}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <label for="actionsNeeded" class="col-form-label">Actions Needed:</label>
+                                        {!! Form::text('actions_needed', null, ['id'=>'actionsNeeded','class'=>'form-control']); !!}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -118,6 +146,45 @@
             $('#eventEndDate').datepicker({
                 showOtherMonths: true
             });
-            // $('#appointmentDuration').timepicker({ modal: true, mode: 'ampm',step: 15});
+
+
+            $(function() {
+                let selectedStudent =$("#student_id :selected").val();
+
+                $( "#student_id" ).on( "change", function() {
+
+                    selectedStudent = $(this).val();
+
+                    var $select = $('#acad_year_id');
+                    $select.find('option').remove();
+                    defaultItem = '<option value=\'\'>Please pull academic year...</option>';
+                    $select.append(defaultItem);
+
+                });
+
+                $( "#pullAcademicYear" ).on( "click", function() {
+                    let _token   = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajax({
+                        url: "../pull_acad_year",
+                        type: "POST",
+                        data: {
+                            student_id: selectedStudent,
+                            _token: _token
+                        },
+                        success: function (response) {
+
+                            var $select = $('#acad_year_id');
+                            $select.find('option').remove();
+                            var listitems = '';
+                            $.each(response.academic_year,function(index, value){
+                                listitems += '<option value=' + value.id + '>' + value.academic_year + value.current+ '</option>';
+                            });
+                            $select.append(listitems);
+                        },
+                    });
+                });
+            });
+        </script>
         </script>
 @endpush

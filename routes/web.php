@@ -97,6 +97,7 @@ Route::post('coaching/{id}/follow_up',['as'=>'coaching.create.follow_up_complete
 Route::post('coaching/{id}/follow_up/update',['as'=>'coaching.update.follow_up_complete','uses'=>'App\Http\Controllers\CoachingAppointmentController@followUpUpdated']);
 //See all coaching appointments based on student.
 Route::get('/coaching/{studentID}',['as'=>'coaching.seestudentallappointments','uses'=>'App\Http\Controllers\CoachingAppointmentController@seeAllStudentsAppointments']);
+Route::post('/coaching/pull_acad_year',['as'=>'coaching.getAcademicYear','uses'=>'App\Http\Controllers\CoachingAppointmentController@getAcademicYearBasedOnStudent']);
 //Class Schedule
 Route::resource('schedule',ClassScheduleController::class);
 Route::resource('acad_year',AcademicYearController::class);
