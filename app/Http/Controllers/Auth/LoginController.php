@@ -126,6 +126,6 @@ class LoginController extends Controller
      * the application
      */
     public function viewLogoutPage(){
-        return view('GoogleSignout');
+        return view('GoogleSignOut');
     }
 }
