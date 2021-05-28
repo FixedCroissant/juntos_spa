@@ -144,11 +144,7 @@ class CoachingAppointmentController extends Controller
         $validator = \Validator::make($data, [
             'appointment_follow_up_date' => 'required',
             'appointment_follow_up_method_of_contact'=>'required',
-            'appointment_follow_up_duration' => 'required',
-            'follow_up_notes' => 'required',
-            'actions_needed'=>'required',
-            'actions_made'=>'required',
-            'results'=>'required'
+            'appointment_follow_up_duration' => 'required'
         ]);
 
         if($validator->fails()){
@@ -188,10 +184,6 @@ class CoachingAppointmentController extends Controller
             'appointment_follow_up_date' => 'required',
             'appointment_follow_up_method_of_contact'=>'required',
             'appointment_follow_up_duration' => 'required',
-            'follow_up_notes' => 'required',
-            'actions_needed'=>'required',
-            'actions_made'=>'required',
-            'results'=>'required'
         ]);
 
         if($validator->fails()){

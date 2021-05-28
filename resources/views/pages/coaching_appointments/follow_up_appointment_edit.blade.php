@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <label for="follow_up_notes" class="col-form-label">Follow Up Notes:</label><span class="required">*</span>
+                                        <label for="follow_up_notes" class="col-form-label">Follow Up Notes:</label>
                                         {!! Form::text('follow_up_notes', null, ['id'=>'follow_up_notes','class'=>'form-control']); !!}
                                     </div>
                                 </div>
@@ -66,13 +66,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <label for="actionsMade" class="col-form-label">Actions Made:</label><span class="required">*</span>
+                                        <label for="actionsMade" class="col-form-label">Actions Made:</label>
                                         {!! Form::text('actions_made', null, ['id'=>'actionsMade','class'=>'form-control']); !!}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <label for="results" class="col-form-label">Overall Results:</label><span class="required">*</span>
+                                        <label for="results" class="col-form-label">Overall Results:</label>
                                         {!! Form::text('results', null, ['id'=>'results','class'=>'form-control']); !!}
                                     </div>
                                 </div>
