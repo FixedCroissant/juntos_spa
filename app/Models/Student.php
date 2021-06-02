@@ -58,4 +58,9 @@ class Student extends Model
     {
         return $this->belongsToMany(Event::class,'event_attendance');
     }
+
+    //Academic Year
+    public function academicYear(){
+        return $this->hasMany(AcademicYear::class,'stu_id','id');
+    }
 }
