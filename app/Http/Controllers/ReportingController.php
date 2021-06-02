@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sites;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use DB;
 use App\Exports\StudentsExport;
@@ -24,7 +26,12 @@ class ReportingController extends Controller
      */
     public function show(Request $request,$type){
         if($type=="students"){
-            return view('pages.reports.students.index');
+            //Get all sites
+            $sites = Sites::select('id','site_name')->get();
+            //Student Provided Counties
+            $countyFilter = Student::select('county')->distinct()->get();
+
+            return view('pages.reports.students.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
         if($type=="volunteers"){
             return view('pages.reports.volunteers.index');
@@ -36,9 +43,9 @@ class ReportingController extends Controller
 
 
     //Download reports -- Student
-    public function studentExport()
+    public function studentExport(Request $request)
     {
-        return \Excel::download(new StudentsExport, 'student_list.xlsx');
+        return \Excel::download(new StudentsExport($request->get('counties'),$request->get('site')), 'student_list.xlsx');
     }
 
     //Download report -- Volunteers

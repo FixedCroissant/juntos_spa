@@ -1,7 +1,8 @@
 <table>
     <thead>
     <tr>
-        <th>Student Name</th>
+        <th>Student Last Name</th>
+        <th>Student First Name</th>
         <th>Address</th>
         <th>City</th>
         <th>State/Zip</th>
@@ -15,7 +16,7 @@
         <th>Grade</th>
         <th>Site</th>
         <th>Active in Juntos</th>
-        <th>Academic Years</th>
+        <th>Academic Years for Student</th>
         <th>Pre Survey Complete</th>
         <th>Post Survey Complete</th>
         <th>Graduated</th>
@@ -24,7 +25,8 @@
     <tbody>
     @foreach($students as $student)
         <tr>
-            <td>{{ $student->student_first_name }}{{ $student->student_last_name }}</td>
+            <td>{{ $student->student_last_name }}</td>
+            <td>{{ $student->student_first_name }}</td>
             <td>{{$student->address_line_1}}</td>
             <td>{{$student->city}}</td>
             <td>{{$student->state}} {{$student->zip}}</td>
@@ -38,7 +40,12 @@
             <td>{{ $student->grade }}</td>
             <td>{{ $student->site_name }}</td>
             <td>{{ $student->active_student }}</td>
-            <td>{{ $student->academic_year }}</td>
+            <td>
+            @foreach($student->academicYear as $academicYearOptions)
+                Current Year: {{$academicYearOptions->current}} <br/>
+                Academic Year: {{$academicYearOptions->academic_year}} <br/>
+            @endforeach
+            </td>
             <td>{{ $student->pre_survey_completed }}</td>
             <td>{{ $student->post_survey_completed }}</td>
             <td>{{$student->graduated ? "Y":"N"}}</td>
