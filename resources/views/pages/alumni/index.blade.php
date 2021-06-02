@@ -79,7 +79,8 @@
                                                     </thead>
                                                     <tbody>
                                                 @foreach($notes as $myNotes)
-                                                 <tr>
+                                                @if($myNotes->student_id == $myGraduatedStudents->id)
+                                                <tr>
                                                         <td>
                                                             {!! $myNotes->created_at->format('m/d/y') !!}
                                                         </td>
@@ -95,6 +96,7 @@
                                                             {!! Form::close()  !!}
                                                         </td>
                                                     </tr>
+                                                @endif
                                                 @endforeach
                                                     </tbody>
                                                 </table>

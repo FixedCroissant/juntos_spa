@@ -32,7 +32,7 @@ class AlumniController extends Controller
 
         $notes = Alumni::leftJoin('students','alumni.id','=','students.student_id')
             ->with('user')
-            ->select('alumni.id','alumni.created_at','alumni.user_id','alumni.alumni_notes')
+            ->select('alumni.id','alumni.created_at','alumni.user_id','alumni.alumni_notes','alumni.student_id')
             ->get();
 
 
@@ -72,7 +72,7 @@ class AlumniController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        Alumni::create(['user_id'=>$user,'student_id'=>$request->student_id,'alumni_notes'=>$request->student_id]);
+        Alumni::create(['user_id'=>$user,'student_id'=>$request->student_id,'alumni_notes'=>$request->alumni_notes,'current_alumni_status'=>$request->current_alumni_status,'current_alumni_school'=>$request->current_alumni_school]);
 
         return redirect()->route('alumni.index')->with('flash_success','New Alumni note Added!');
     }
