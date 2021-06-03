@@ -115,7 +115,10 @@
                                                 {{$mysites->site_name}}
                                             </td>
                                             <td>
-                                                {!! link_to_route('admin.sites.edit','Edit',$mysites) !!}
+                                                {!! link_to_route('admin.sites.edit','Edit',$mysites) !!} &nbsp; &nbsp; |
+                                                {!!  Form::open(array('route' => array('admin.sites.destroy',$mysites->id),'style'=>'display:inline-block', 'method' => 'delete','style'=>'display:inline','onsubmit' => "return confirm('Are you sure you want to remove this Site? People assigned will be removed from this Site.')",))  !!}
+                                                <button type="submit"  class="btn btn-primary btn-link btn-sm">Remove</button>
+                                                {!! Form::close()  !!}
                                             </td>
                                         </tr>
                                     @endforeach
