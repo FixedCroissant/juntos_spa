@@ -16,7 +16,7 @@ class AddMoreFieldsToStudent extends Migration
         Schema::table('students', function (Blueprint $table) {
             $table->string('grade')->nullable();
             $table->unsignedBigInteger('site_id')->nullable();
-            $table->foreign('site_id')->references('id')->on('sites')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('site_id')->references('id')->on('sites')->onUpdate('cascade')->onDelete('set null');
             //Archive student
             $table->string('active_student')->nullable();
             //Student Academic Year.
