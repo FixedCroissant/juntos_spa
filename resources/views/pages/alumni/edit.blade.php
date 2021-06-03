@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
-                                <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
+                                <div class="col-xs-11 col-sm-11 col-lg-11 offset-1">
                                     {!!   Form::model($alumni, ['route' => ['alumni.update', $alumni->id],'class'=>'form-horizontal','method'=>'PATCH']) !!}
                                     <div class="row">
                                         &nbsp;
@@ -35,6 +35,41 @@
                                         <div class="col-md-12">
                                             Student Selected for Note:
                                             <h4> {{$student->student_first_name}} {{$student->student_last_name}}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Current Location (i.e. Where are they now?)
+
+                                            <br/>
+                                            <p>
+                                                After Juntos graduation, where did they go? What are they involved in?
+                                                <br/>
+                                                Please provide this information below:
+                                            </p>
+                                            <label for="alumniNotes" class="col-form-label">Alumni Update</label>
+                                            <select class="form-control" name="current_alumni_status" id="current_alumni_status">
+                                                <option value="">Please select option ...</option>
+                                                <br/>
+                                                <option value="n_a">N/A</option>
+                                                <option value="community_college" {{$alumni->current_alumni_status == 'community_college'?'selected':''}}>Community College</option>
+                                                <option value="four_year_university" {{$alumni->current_alumni_status == 'four_year_university'?'selected':''}}>Four-Year University</option>
+                                                <option value="military" {{$alumni->current_alumni_status =='military'?'selected':''}}>Military</option>
+                                                <option value="workforce" {{$alumni->current_alumni_status =='workforce'?'selected':''}}>Workforce</option>
+                                                <option value="other"  {{$alumni->current_alumni_status =='other'?'selected':''}}>Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>
+                                                If the student indicated they're continuing their education, please provide the school name below.
+                                                <br/>
+                                                This is not required to save your information.
+                                            </p>
+                                            <label for="current_alumni_school" class="col-form-label">School Name</label>
+                                            {!! Form::text('current_alumni_school',null,['class'=>'form-control','id'=>'alumniSchool']) !!}
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -55,7 +90,7 @@
                                     </div>
                                     <div class="row" style="margin-bottom: 125px">
                                         <div class="col-md-12">
-                                            {!! Form::submit('Update Alumni Note',array('class'=>'btn btn-sm btn-primary')) !!}
+                                            {!! Form::submit('Update Alumni Note & Status',array('class'=>'btn btn-sm btn-primary')) !!}
                                         </div>
                                     </div>
 

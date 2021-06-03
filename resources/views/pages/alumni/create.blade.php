@@ -25,7 +25,7 @@
                     </div>
                     <div class="row">
                         <div class="card">
-                            <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
+                            <div class="col-xs-11 col-sm-11 col-lg-11 offset-1">
                                 {!! Form::open(array('route'=>'alumni.store')) !!}
                                 <div class="row">
                                     &nbsp;
@@ -35,6 +35,40 @@
                                         Student Selected for Note:
                                         <h4> {{$student->student_first_name}} {{$student->student_last_name}}</h4>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        Current Location (i.e. Where are they now?)
+
+                                        <br/>
+                                        <p>
+                                            After Juntos graduation, where did they go? What are they involved in?
+                                            <br/>
+                                            Please provide this information below:
+                                        </p>
+                                        <label for="current_alumni_status" class="col-form-label">Alumni Update</label>
+                                        <select class="form-control" name="current_alumni_status" id="current_alumni_status">
+                                            <option value="">Please select option ...</option>
+                                            <br/>
+                                            <option value="n_a">N/A</option>
+                                            <option value="community_college">Community College</option>
+                                            <option value="four_year_university">Four-Year University</option>
+                                            <option value="military">Military</option>
+                                            <option value="workforce">Workforce</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                       <p>
+                                            If the student indicated they're continuing their education, please provide the school name below.
+                                            <br/>
+                                            This is not required to save your information.
+                                        </p>
+                                        <label for="current_alumni_school" class="col-form-label">School Name</label>
+                                        <input type="text" placeholder="(e.g. NC State University)" class="form-control" maxlength="190" name="current_alumni_school"/>
+                                       </div>
                                 </div>
                                 <div class="row">
                                     {!! Form::hidden('student_id',$student->id) !!}
@@ -55,7 +89,7 @@
                                 </div>
                                 <div class="row" style="margin-bottom: 125px">
                                     <div class="col-md-12">
-                                        {!! Form::submit('Add Alumni Note',array('class'=>'btn btn-sm btn-primary')) !!}
+                                        {!! Form::submit('Add Alumni Note & Update',array('class'=>'btn btn-sm btn-primary')) !!}
                                     </div>
                                 </div>
 
