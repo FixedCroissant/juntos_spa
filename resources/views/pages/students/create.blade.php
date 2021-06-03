@@ -105,7 +105,11 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <label for="county" class="col-form-label">County</label>
-                                        {!! Form::text('county',null,['class'=>'form-control','id'=>'county','maxlength'=>'60']) !!}
+                                        <select class="form-control" name="county">
+                                            @foreach($countyOptions as $countyOptionsAvailable)
+                                                <option value="{{$countyOptionsAvailable->county_name}}">{{$countyOptionsAvailable->county_name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="school_name" class="col-form-label">School Name</label>
