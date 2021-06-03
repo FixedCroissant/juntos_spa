@@ -20,7 +20,6 @@ class AddMoreFieldsToStudent extends Migration
             //Archive student
             $table->string('active_student')->nullable();
             //Student Academic Year.
-            //ToDo-ReferenceAnotherTable
             $table->string('academic_year')->nullable();
             //Survey Information
             //Pre Survey Completed? Y/N
