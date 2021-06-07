@@ -57,17 +57,17 @@ class StudentsExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
 
         //If counties are Null provide everything.
         if(is_null($counties[0]) && !is_null($sitePicked[0])){
-            $students = Student::leftJoin('sites','students.site_id','=','sites.id')->select('students.id as id','students.*')
+            $students = Student::leftJoin('sites','students.site_id','=','sites.id')->select('students.id as id','students.*','sites.site_name')
                 ->whereIn('site_id',$sitePicked)->get();
         }
         //No sites and no counties give all.
         else if(is_null($sitePicked[0]) && is_null($counties[0])){
-            $students = Student::leftJoin('sites','students.site_id','=','sites.id')->select('students.id as id','students.*')->get();
+            $students = Student::leftJoin('sites','students.site_id','=','sites.id')->select('students.id as id','students.*','sites.site_name')->get();
         }
         else{
 
             $students = Student::leftJoin('sites','students.site_id','=','sites.id')
-                ->whereIn('county',$counties)->select('students.id as id','students.*')->get();
+                ->whereIn('county',$counties)->select('students.id as id','students.*','sites.site_name')->get();
         }
 
         return view('pages.reports.students.report_generate', [
