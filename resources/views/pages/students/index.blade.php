@@ -44,6 +44,8 @@
                                         </th>
                                         <th class="th-sm">Graduated
                                         </th>
+                                        <th class="th-sm">County
+                                        </th>
                                         <th class="th-sm">
                                             Site Name
                                         </th>
@@ -79,6 +81,9 @@
                                                 @else
                                                     No
                                                 @endif
+                                            </td>
+                                            <td>
+                                                {{$mystudents->county}}
                                             </td>
                                             <td>
                                                 {{$mystudents->site_name}}
