@@ -15,9 +15,20 @@ class CoachingAppointmentController extends Controller
 {
     public function index()
     {
+        //Limit the list returned based on the assigned site.
+        $user = Auth::user();
+        //user site access.
+        $userSites=[];
+
+        //Get Access.
+        foreach($user->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
 
         $appointments = Student::select('id','student_first_name','student_last_name',
-            DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'))->whereHas('coachAppointments',
+            DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'))
+            ->whereIn('site_id', $userSites)
+            ->whereHas('coachAppointments',
             function($q){
             })->with('coachAppointments',
             function($q){
@@ -34,13 +45,22 @@ class CoachingAppointmentController extends Controller
      */
     public function create()
     {
-        //ToDo-Adjust those people that are in the dropdown based on the site the person is assigned to.
+        //Adjust dropdown options based on the site assigned.
+        $user = Auth::user();
+        //user site access.
+        $userSites=[];
+
+        //Get Access.
+        foreach($user->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+
         $students = Student::select('id','student_first_name','student_last_name',
             DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'))
             ->orderBy('student_last_name','ASC')
+            ->whereIn('site_id', $userSites)
             ->get();
 
-        $user = Auth::user()->id;
 
         return view('pages.coaching_appointments.create')->with(['students'=>$students,'user_id'=>$user]);
     }
@@ -71,13 +91,26 @@ class CoachingAppointmentController extends Controller
      */
     public function edit($id){
         $appointment = CoachAppointment::where('id',$id)->with('acadYear')->first();
+        //Adjust dropdown items & ability to review page.
+        $user = Auth::user();
+        $userSites=[];
+        //Get Access.
+        foreach($user->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
 
         $students = Student::select('students.id','student_first_name','student_last_name',
             DB::raw('CONCAT(student_first_name, " ", student_last_name) AS student_full_name'),'coach_appointments.student_id as appt_id')
             ->leftJoin('coach_appointments', 'students.id', '=', 'coach_appointments.student_id')
+            ->whereIn('site_id', $userSites)
             ->distinct()
             ->orderBy('student_last_name','ASC')
             ->get();
+
+        //Additionally, if the user has no access to any student in the system.
+        if(is_null($students) || count($students)==0){
+            return back()->with(['flash_warning'=>'No access contact Juntos Admin.']);
+        }
 
         $user = Auth::user()->id;
 
@@ -90,11 +123,28 @@ class CoachingAppointmentController extends Controller
      * @param $studentID - studentID
      */
     public function show($studentID){
-        //Get User.
         //To-Do Limit based on user.
-        //$user = Auth::user()->id;
+        $user = Auth::user();
+        //user site access.
+        $userSites=[];
 
-        $appointments = CoachAppointment::where('student_id',$studentID)->get();
+        //Get Access.
+        foreach($user->studentAccess as $siteAccess){
+            $userSites[]=$siteAccess->pivot->site_id;
+        }
+
+        //Adjust options based on assignment on site.
+        $appointments = CoachAppointment::where('student_id',$studentID)->with('student',function($query) use ($userSites)
+        {
+           $query->whereIn('students.site_id',$userSites)->get();
+        })->get();
+
+        foreach($appointments as $theAppointments){
+            //No assigned students in the coaching list.
+            if(is_null($theAppointments->student)){
+                return redirect()->route('coaching.index')->with(['flash_warning'=>'No access contact Juntos Admin.']);
+            }
+        }
         return view('pages.coaching_appointments.show')->with(['appointments'=>$appointments]);
     }
 
