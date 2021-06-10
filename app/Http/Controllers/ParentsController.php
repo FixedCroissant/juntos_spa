@@ -24,14 +24,26 @@ class ParentsController extends Controller
             $userSites[]=$siteAccess->pivot->site_id;
         }
 
-        $parents = DB::table('parents')
-            ->leftJoin('students','parents.student_id','=','students.id')
-            ->leftJoin('sites', 'students.site_id', '=', 'sites.id')
-            ->select('parents.id','parents.parent_first_name','parents.parent_last_name','parents.phone_number','parents.emailaddress','students.student_first_name',
-               'students.student_last_name','students.site_id','sites.site_name')
-            ->whereIn('site_id', $userSites)
-            ->orderBy('parents.student_id','ASC')
-            ->get();
+        //Adjust based on Administrator role.
+        $admin = in_array("Admin",Auth::user()->roles->pluck('slug')->toArray(),true);
+        if($admin){
+            $parents = DB::table('parents')
+                ->leftJoin('students', 'parents.student_id', '=', 'students.id')
+                ->leftJoin('sites', 'students.site_id', '=', 'sites.id')
+                ->select('parents.id', 'parents.parent_first_name', 'parents.parent_last_name', 'parents.phone_number', 'parents.emailaddress', 'students.student_first_name',
+                    'students.student_last_name', 'students.site_id', 'sites.site_name')
+                ->orderBy('parents.student_id', 'ASC')
+                ->get();
+        }else {
+            $parents = DB::table('parents')
+                ->leftJoin('students', 'parents.student_id', '=', 'students.id')
+                ->leftJoin('sites', 'students.site_id', '=', 'sites.id')
+                ->select('parents.id', 'parents.parent_first_name', 'parents.parent_last_name', 'parents.phone_number', 'parents.emailaddress', 'students.student_first_name',
+                    'students.student_last_name', 'students.site_id', 'sites.site_name')
+                ->whereIn('site_id', $userSites)
+                ->orderBy('parents.student_id', 'ASC')
+                ->get();
+        }
 
         return view('pages.parents.index')->with(['parents'=>$parents,'userSites'=>$userSites]);
     }
