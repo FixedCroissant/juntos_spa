@@ -24,11 +24,23 @@ class EventController extends Controller
         foreach($loggedInUser->studentAccess as $siteAccess){
             $userSites[]=$siteAccess->pivot->site_id;
         }
-        $events = DB::table('events')
-            ->leftJoin('sites','events.site_id','=','sites.id')
-            ->select('events.id','events.site_id','sites.site_name','events.*')
-            ->whereIn('site_id',$userSites)
-            ->get();
+        //Check Admin role given.
+        $admin = in_array("Admin",Auth::user()->roles->pluck('slug')->toArray(),true);
+
+        if($admin)
+        {
+            $events = DB::table('events')
+                ->leftJoin('sites','events.site_id','=','sites.id')
+                ->select('events.id','events.site_id','sites.site_name','events.*')
+                ->get();
+        }else
+        {
+            $events = DB::table('events')
+                ->leftJoin('sites','events.site_id','=','sites.id')
+                ->select('events.id','events.site_id','sites.site_name','events.*')
+                ->whereIn('site_id',$userSites)
+                ->get();
+        }
 
 
         return view('pages.events.index')->with(['events'=>$events]);
