@@ -22,11 +22,24 @@ class VolunteerController extends Controller
         foreach($loggedInUser->studentAccess as $siteAccess){
             $userSites[]=$siteAccess->pivot->site_id;
         }
+
+        //Check Admin role given
+        $admin = in_array("Admin",Auth::user()->roles->pluck('slug')->toArray(),true);
+
+        //If Admin, show all.
+        if($admin){
+            $volunteers = DB::table('volunteers')
+                ->leftJoin('sites','volunteers.site_id','=','sites.id')
+                ->select('volunteers.id','volunteers.site_id','volunteers.volunteer_first_name','volunteers.volunteer_last_name','volunteers.email_address','volunteers.phone_number','sites.site_name')
+                ->get();
+
+        }else{
         $volunteers = DB::table('volunteers')
                       ->leftJoin('sites','volunteers.site_id','=','sites.id')
                       ->select('volunteers.id','volunteers.site_id','volunteers.volunteer_first_name','volunteers.volunteer_last_name','volunteers.email_address','volunteers.phone_number','sites.site_name')
                       ->whereIn('site_id',$userSites)
                       ->get();
+        }
 
         return view('pages.volunteer.index')->with(['volunteers'=>$volunteers]);
     }
