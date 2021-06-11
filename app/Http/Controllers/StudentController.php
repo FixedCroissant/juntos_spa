@@ -69,7 +69,7 @@ class StudentController extends Controller
              $user = Auth::user();
              $siteOption = $user->studentAccess()->select('sites.id','site_name')->get();
             //Slightly adjusted query to get our county item.
-            $siteOption2 = $user->studentAccess()->select('sites.county_id as id')->get();
+            $siteOption2 = $user->studentAccess()->select('sites.county_id as id')->pluck('id');
             $countyOptions = County::whereIn('id',$siteOption2)->select('county_name')->orderBy('county_name','ASC')->get();
              return view('pages.students.create')->with(['siteOption'=>$siteOption,'gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions,'countyOptions'=>$countyOptions]);
     }
@@ -85,7 +85,7 @@ class StudentController extends Controller
         $siteOption = $user->studentAccess()->select('sites.id','site_name','sites.county_id')->get();
         $academicYear = AcademicYear::where('stu_id',$student->id)->select('academic_year','id')->get();
         //Slightly adjusted query to get our county item.
-        $siteOption2 = $user->studentAccess()->select('sites.county_id as id')->get();
+        $siteOption2 = $user->studentAccess()->select('sites.county_id as id')->pluck('id');
         $countyOptions = County::whereIn('id',$siteOption2)->select('county_name')->orderBy('county_name','ASC')->get();
         return view('pages.students.edit')->with(['academicYear'=>$academicYear,'siteOption'=>$siteOption,'student'=>$student,'gradeOptions'=>$gradeOptions,'stateOptions'=>$stateOptions,'countyOptions'=>$countyOptions]);
     }
