@@ -18,7 +18,7 @@ class CreateCountiesTable extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('state_id');
 
-            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onUpdate('cascade')->onDelete('cascade');
             $table->string('county_name');
            });
     }

@@ -19,7 +19,7 @@ class CreateSitesTable extends Migration
 
             $table->unsignedBigInteger('county_id');
 
-            $table->foreign('county_id')->references('id')->on('counties')->onDelete('cascade');
+            $table->foreign('county_id')->references('id')->on('counties')->onUpdate('cascade')->onDelete('cascade');
             $table->string('site_name');
         });
     }
