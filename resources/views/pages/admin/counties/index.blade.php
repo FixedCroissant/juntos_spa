@@ -116,7 +116,10 @@
                                                 {{$mycounty->county_name}}
                                             </td>
                                             <td>
-                                               {!! link_to_route('admin.counties.edit','Edit',$mycounty->id) !!}
+                                               {!! link_to_route('admin.counties.edit','Edit',$mycounty->id) !!} |
+                                                {!!  Form::open(array('route' => array('admin.counties.destroy',$mycounty->id),'style'=>'display:inline-block', 'method' => 'delete','style'=>'display:inline','onsubmit' => "return confirm('Are you sure you want to remove this County? Associated Sites will be removed, and students assigned to those sites will be BLANK.')",))  !!}
+                                                <button type="submit"  class="btn btn-primary btn-link btn-sm">Remove</button>
+                                                {!! Form::close()  !!}
                                            </td>
                                      </tr>
                                    @endforeach
