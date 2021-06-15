@@ -23,10 +23,16 @@
                         <div class="card">
                             <div class="col-xs-8 col-sm-8 col-lg-8 offset-1">
                                 <p>
+                                    <br/>
                                     Please see below for the success coaching appointments created in the system.
+                                    <br/><br/>
+                                    Once student is selected for success coaching, they must be success coached for that entire academic year unless they drop out of programming.
+                                    <br/>
+                                    <br/>
+                                    Students in Success Coaching must be met with 1 time per month throughout academic school year. <br/>
+                                    <br/>
                                 </p>
                                 <a class="btn btn-primary" style="margin-bottom: 75px;" href="{{route('coaching.create')}}">Create Success Coaching Appointment</a>
-
 
 
                             @foreach($appointments as $myAppointments)
