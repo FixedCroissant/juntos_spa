@@ -27,7 +27,7 @@ class ReportingController extends Controller
     public function show(Request $request,$type){
         if($type=="students"){
             //Get all sites
-            $sites = Sites::select('id','site_name')->get();
+            $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
             //Student Provided Counties
             $countyFilter = Student::select('county')->distinct()->get();
 
