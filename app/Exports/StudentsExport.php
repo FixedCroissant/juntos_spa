@@ -71,6 +71,10 @@ class StudentsExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
         else if(is_null($counties[0]) && !is_null($gradePicked[0])){
             $students = Student::leftJoin('sites','students.site_id','=','sites.id')->whereIn('grade',$gradePicked)->select('students.id as id','students.*','sites.site_name')->get();
         }
+        //If counties are Null, but grade and site are filtered.
+        else if(is_null($counties[0]) && !is_null($sitePicked[0]) && !is_null($gradePicked[0])){
+            $students = Student::leftJoin('sites','students.site_id','=','sites.id')->whereIn('grade',$gradePicked)->whereIn('site_id',$sitePicked)->select('students.id as id','students.*','sites.site_name')->get();
+        }
         //Filter items down.
         else{
 
