@@ -9,6 +9,7 @@ use DB;
 use App\Exports\StudentsExport;
 use App\Exports\VolunteersExport;
 use App\Exports\PostSurveyIncompleteExport;
+use App\Exports\AllEventsAdminExport;
 use App\Exports\AllEventAllAttendanceExport;
 
 
@@ -33,6 +34,12 @@ class ReportingController extends Controller
 
             return view('pages.reports.students.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
+        //For admin, show all events in excel.
+        if($type=="all_events_admin"){
+            $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
+
+            return view('pages.reports.events.index')->with(['sites'=>$sites]);
+        }
         if($type=="volunteers"){
             return view('pages.reports.volunteers.index');
         }
@@ -56,6 +63,11 @@ class ReportingController extends Controller
 
     public function postSurveyIncompleteExport(){
         return \Excel::download(new PostSurveyIncompleteExport,'post_survey_incomplete_list.xlsx');
+    }
+
+    //Admin report
+    public function allEventsAdmin (Request $request){
+     return \Excel::download(new AllEventsAdminExport($request->get('site'),$request->get('event_type')), 'admin_event_list.xlsx');
     }
     //Admin report.
     public function allEventsAllAttendanceStudentParentExport(){

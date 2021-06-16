@@ -106,6 +106,7 @@ Route::resource('acad_year',AcademicYearController::class);
 Route::get('reporting/student/download',['as'=>'reporting.student.download','uses'=>'App\Http\Controllers\ReportingController@studentExport']);
 Route::get('reporting/volunteers/download',['as'=>'reporting.volunteers.download','uses'=>'App\Http\Controllers\ReportingController@volunteerExport']);
 Route::get('reporting/post_survey_incomplete/download',['as'=>'reporting.post_survey_incomplete.download','uses'=>'App\Http\Controllers\ReportingController@postSurveyIncompleteExport']);
+Route::get('reporting/events/admin/download',['as'=>'reporting.events.admin.download','uses'=>'App\Http\Controllers\ReportingController@allEventsAdmin']);
 Route::get('reporting/events/all_attendance/download',['as'=>'reporting.events.allattendance.download','uses'=>'App\Http\Controllers\ReportingController@allEventsAllAttendanceStudentParentExport']);
 
 
