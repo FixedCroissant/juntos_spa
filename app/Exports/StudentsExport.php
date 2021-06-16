@@ -14,10 +14,12 @@ class StudentsExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
 {
     public $counties;
     public $site;
+    public $grade;
 
-    public function __construct($countySearch,$sitePicked){
+    public function __construct($countySearch,$sitePicked, $gradePicked){
         $this->counties = $countySearch;
         $this->site = $sitePicked;
+        $this->grade = $gradePicked;
     }
 
     public function title(): string{
@@ -54,19 +56,25 @@ class StudentsExport implements FromView, ShouldAutoSize, WithEvents, WithTitle
         //Filters
         $counties = $this->counties;
         $sitePicked = $this->site;
+        $gradePicked = $this->grade;
 
         //If counties are Null provide everything.
         if(is_null($counties[0]) && !is_null($sitePicked[0])){
             $students = Student::leftJoin('sites','students.site_id','=','sites.id')->select('students.id as id','students.*','sites.site_name')
                 ->whereIn('site_id',$sitePicked)->get();
         }
-        //No sites and no counties give all.
-        else if(is_null($sitePicked[0]) && is_null($counties[0])){
+        //No sites and no counties and no grade give all.
+        else if(is_null($sitePicked[0]) && is_null($counties[0]) && is_null($gradePicked[0])){
             $students = Student::leftJoin('sites','students.site_id','=','sites.id')->select('students.id as id','students.*','sites.site_name')->get();
         }
+        //If counties are Null, but grade is filtered
+        else if(is_null($counties[0]) && !is_null($gradePicked[0])){
+            $students = Student::leftJoin('sites','students.site_id','=','sites.id')->whereIn('grade',$gradePicked)->select('students.id as id','students.*','sites.site_name')->get();
+        }
+        //Filter items down.
         else{
 
-            $students = Student::leftJoin('sites','students.site_id','=','sites.id')
+            $students = Student::leftJoin('sites','students.site_id','=','sites.id')->whereIn('grade',$gradePicked)
                 ->whereIn('county',$counties)->select('students.id as id','students.*','sites.site_name')->get();
         }
 

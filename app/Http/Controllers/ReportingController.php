@@ -45,7 +45,7 @@ class ReportingController extends Controller
     //Download reports -- Student
     public function studentExport(Request $request)
     {
-        return \Excel::download(new StudentsExport($request->get('counties'),$request->get('site')), 'student_list.xlsx');
+        return \Excel::download(new StudentsExport($request->get('counties'),$request->get('site'),$request->get('grade')), 'student_list.xlsx');
     }
 
     //Download report -- Volunteers
