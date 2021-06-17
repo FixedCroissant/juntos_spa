@@ -20,16 +20,18 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="card">
+                    <div class="row report-adjustment">
+                        <div class="card report-adjustment-card">
                             <h5>Event Report</h5>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11 offset-1">
                                     <table>
                                         <tr>
                                             <td>
                                                 Filters:
                                             </td>
+                                        </tr>
+                                        <tr>
                                             {!! Form::open(['route' => 'reporting.events.admin.download', 'method' => 'get']) !!}
                                             <td>
                                                 <label for="site">Specific Site</label>
@@ -41,6 +43,9 @@
                                                         <option value="{!! $mySites->id !!}">{!! $mySites->site_name !!}</option>
                                                     @endforeach
                                                 </select>
+                                            </td>
+                                            <td style="width:200px;">
+                                                &nbsp;
                                             </td>
                                             <td>
                                                 <label for="counties">Specific Event Type</label>

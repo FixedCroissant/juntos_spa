@@ -20,35 +20,56 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="card">
+                    <div class="row report-adjustment">
+                        <div class="card report-adjustment-card">
                             <h5>Student Report</h5>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11 offset-1">
                                     <table>
                                         <tr>
                                             <td>
                                                 Filters:
                                             </td>
+                                        </tr>
+                                        <tr>
                                             <td>
                                                 <label for="counties">Specific County</label>
                                                 {!! Form::open(['route' => 'reporting.student.download', 'method' => 'get']) !!}
                                                 <select multiple="multiple" name="counties[]" id="counties">
-                                                    <option value="">Please select county ...</option>
+                                                    <option value="" selected>Please select county ...</option>
                                                     @foreach($countyStudentInput as $myCountyStudentInput)
                                                         <option value="{!! $myCountyStudentInput->county !!}">{!! $myCountyStudentInput->county !!}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
+                                            <td style="width:20px;">
+                                               &nbsp;
+                                            </td>
                                             <td>
                                                 <label for="site">Specific Site</label>
                                                 <br/>
                                                 <select name="site[]" id="site" multiple>
-                                                    <option value="">Please select site ...</option>
+                                                    <option value="" selected>Please select site ...</option>
                                                     <br/>
                                                     @foreach($sites as $mySites)
                                                         <option value="{!! $mySites->id !!}">{!! $mySites->site_name !!}</option>
                                                     @endforeach
+                                                </select>
+                                            </td>
+                                            <td style="width:60px;">
+                                                &nbsp;
+                                            </td>
+                                            <td>
+                                                <label for="grade">Specific Grade</label>
+                                                <br/>
+                                                <select name="grade[]" id="grade" multiple>
+                                                    <option value="" selected>Please select grade ...</option>
+                                                    <br/>
+                                                    <option value="8">8th Grade</option>
+                                                    <option value="9">9th Grade</option>
+                                                    <option value="10">10th Grade</option>
+                                                    <option value="11">11th Grade</option>
+                                                    <option value="12">12th Grade</option>
                                                 </select>
                                             </td>
                                         </tr>
@@ -65,17 +86,6 @@
                                     &nbsp;
                                 </div>
                             </div>
-                            <table>
-                                <tr>
-                                    <td width="25px;">
-                                        <img src="{{asset('/images/excel-icon.png')}}" width="20" height="20"/>
-                                    </td>
-                                    <td>
-
-                                        <a href="{{route('reporting.student.download')}}">Student List Export - Excel</a>
-                                    </td>
-                                </tr>
-                            </table>
                         </div>
                     </div>
                 </div>

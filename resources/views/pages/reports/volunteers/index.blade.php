@@ -20,10 +20,10 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="card">
+                    <div class="row report-adjustment">
+                        <div class="card report-adjustment-card">
                             <h5>Volunteer Report</h5>
-                            <div class="col-md-12">
+                            <div class="col-md-11 offset-1">
                                 <table>
                                     <tr>
                                         <td>
@@ -62,16 +62,6 @@
                                         </td>
                                     </tr>
                                 </table>
-                            <table>
-                                <tr>
-                                    <td width="25px;">
-                                        <img src="{{asset('/images/excel-icon.png')}}" width="20" height="20"/>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('reporting.volunteers.download')}}">Volunteer List Export - Excel</a>
-                                    </td>
-                                </tr>
-                            </table>
                         </div>
                     </div>
                 </div>
