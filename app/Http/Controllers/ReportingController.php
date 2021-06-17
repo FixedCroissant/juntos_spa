@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sites;
 use App\Models\Student;
+use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use DB;
 use App\Exports\StudentsExport;
@@ -41,7 +42,9 @@ class ReportingController extends Controller
             return view('pages.reports.events.index')->with(['sites'=>$sites]);
         }
         if($type=="volunteers"){
-            return view('pages.reports.volunteers.index');
+            $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
+            $countyFilter = Volunteer::select('county')->orderBy('county','ASC')->distinct()->get();
+            return view('pages.reports.volunteers.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
         if($type=="post_survey_incomplete"){
             return view('pages.reports.post_survey_incomplete.index');
@@ -56,9 +59,9 @@ class ReportingController extends Controller
     }
 
     //Download report -- Volunteers
-    public function volunteerExport()
+    public function volunteerExport(Request $request)
     {
-        return \Excel::download(new VolunteersExport, 'volunteer_list.xlsx');
+        return \Excel::download(new VolunteersExport($request->get('counties'),$request->get('site')), 'volunteer_list.xlsx');
     }
 
     public function postSurveyIncompleteExport(){
