@@ -31,7 +31,7 @@ class ReportingController extends Controller
             //Get all sites
             $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
             //Student Provided Counties
-            $countyFilter = Student::select('county')->distinct()->get();
+            $countyFilter = Student::select('county')->orderBy('county','ASC')->distinct()->get();
 
             return view('pages.reports.students.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
