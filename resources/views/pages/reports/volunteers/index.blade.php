@@ -23,6 +23,45 @@
                     <div class="row">
                         <div class="card">
                             <h5>Volunteer Report</h5>
+                            <div class="col-md-12">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Filters:
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="counties">Specific County</label>
+                                            {!! Form::open(['route' => 'reporting.volunteers.download', 'method' => 'get']) !!}
+                                            <select multiple="multiple" name="counties[]" id="counties">
+                                                <option value="" selected>Please select county ...</option>
+                                                @foreach($countyStudentInput as $myCountyStudentInput)
+                                                    <option value="{!! $myCountyStudentInput->county !!}">{!! $myCountyStudentInput->county !!}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td style="width:250px;">
+                                            &nbsp;
+                                        </td>
+                                        <td>
+                                            <label for="site">Specific Site</label>
+                                            <br/>
+                                            <select name="site[]" id="site" multiple>
+                                                <option value="" selected>Please select site ...</option>
+                                                <br/>
+                                                @foreach($sites as $mySites)
+                                                    <option value="{!! $mySites->id !!}">{!! $mySites->site_name !!}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            {!! Form::submit('Generate Excel Document with Filters',['class'=>'btn btn-sm']) !!}
+                                        </td>
+                                    </tr>
+                                </table>
                             <table>
                                 <tr>
                                     <td width="25px;">
