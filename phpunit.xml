@@ -12,12 +12,20 @@
             <directory suffix="Test.php">./tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <coverage processUncoveredFiles="true">
+    <coverage processUncoveredFiles="false">
         <include>
-            <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./app/Http/Controllers/</directory>
+            <directory suffix=".php">./app/Http/Controllers/Admin</directory>
+            <directory suffix=".php">./app/Http/Controllers/Auth</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">./app/Http/Controllers/API</directory>
+            <directory suffix=".php">./vendor</directory>
+            <file>./app/Http/Controllers/VueController.php</file>
+        </exclude>
     </coverage>
     <php>
+        <server name="APP_URL" value="http://apptest.local:9000/juntos/"/>
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
