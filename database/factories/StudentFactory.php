@@ -14,8 +14,8 @@ class StudentFactory extends Factory
      */
     protected $model = Student::class;
 
-    
-    
+
+
 
 
     //Load custom faker provider.
@@ -34,7 +34,7 @@ class StudentFactory extends Factory
      */
     public function definition()
     {
-        
+
         return [
             //
                 'student_id'=>$this->faker->numberBetween($min = 1, $max = 9) ,
@@ -44,9 +44,6 @@ class StudentFactory extends Factory
                 'city'=>$this->faker->city,
                 'state'=>$this->faker->state,
                 'zip'=>$this->faker->postcode,
-                'coordinator'=>$this->faker->name,
-                'events_id'=>'1',
-                'student_notes'=>'Notes about student.'
         ];
     }
 }
