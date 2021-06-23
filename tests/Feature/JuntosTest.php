@@ -25,6 +25,60 @@ class JuntosTest extends TestCase
 
     /**
      * @test
+     * Coordinator check and see if possible access student listing.
+     */
+    public function test_coordinator_see_student_listing(){
+
+        $user = User::factory()->createOne();
+
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+
+        //Assign user to site, at a minimum should have 1.
+        $user->studentAccess()->attach(1);
+
+        $response = $this->actingAs($user)->get('students');
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Coordinator provide a list of users to add to attendance.
+     * This is the initial stage before they save it to an actual event.
+     */
+    public function test_coordinator_provide_student_to_add_to_event(){
+        $user = User::factory()->createOne();
+
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        //Assign user to site, at a minimum should have 1.
+        $user->studentAccess()->attach(1);
+        $response = $this->actingAs($user)->post('students/attendance',['id'=>[1]]);
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function test_coordinator_provide_attendance_no_student_provided(){
+
+        $user = User::factory()->createOne();
+
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+
+        //Assign user to site, at a minimum should have 1.
+        $user->studentAccess()->attach(1);
+
+        //Provide no student id.
+        $this->followingRedirects()->actingAs($user)->post('/students/attendance',[
+            'id'=>null
+        ])->assertStatus(200);
+    }
+
+
+    /**
+     * @test
      */
     public function test_admin_see_student_listing(){
 
@@ -40,7 +94,7 @@ class JuntosTest extends TestCase
     /**
      * @test
      */
-    public function test_create_new_student(){
+    public function test_admin_create_new_student(){
         $user = User::factory()->createOne();
 
         $adminRole = Role::find('1');
@@ -61,6 +115,56 @@ class JuntosTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('students',['id'=>1,'student_first_name'=>'test']);
+    }
+
+    /**
+     * @test
+     * Check and see if we can edit a student.
+     */
+    public function test_admin_see_editable_student(){
+        $user = User::factory()->createOne();
+
+        $adminRole = Role::find('1');
+        $user->roles()->attach($adminRole);
+
+        $this->actingAs($user);
+
+        $student = Student::factory()->createOne();
+
+        $response = $this->actingAs($user)->get('students/'.$student->id."/edit");
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Check and see if we can edit a student.
+     */
+    public function test_admin_create_new_student_page(){
+        $user = User::factory()->createOne();
+
+        $adminRole = Role::find('1');
+        $user->roles()->attach($adminRole);
+
+        $this->actingAs($user);
+
+        $response = $this->actingAs($user)->get('students/create');
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function test_check_validation_update_student(){
+        $user = User::factory()->createOne();
+        $adminRole = Role::find('1');
+        $user->roles()->attach($adminRole);
+        $this->actingAs($user);
+        $student = Student::factory()->createOne();
+
+        $this->followingRedirects()->put('/students/'.$student->id,[
+            'student_first_name'=>'test',
+            'student_last_name'=>'test_last',
+        ])->assertStatus(200);
     }
 
     /**
