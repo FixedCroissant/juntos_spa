@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 use App\Models\User;
@@ -11,6 +11,7 @@ use App\Models\Student;
 
 class JuntosTest extends TestCase
 {
+    use DatabaseMigrations;
 
     public function setUp() :void
     {
@@ -74,13 +75,10 @@ class JuntosTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->post('/students',[
+        $this->followingRedirects()->post('/students',[
             'student_first_name'=>'test',
             'student_last_name'=>'test_last',
-
-        ]);
-
-        $response->assertRedirect('students/create');
+        ])->assertStatus(200);
     }
 
     /**
@@ -97,7 +95,7 @@ class JuntosTest extends TestCase
 
         $student = Student::factory()->createOne();
 
-        $response = $this->put('/students/1',[
+        $this->put('/students/'.$student->id,[
             'student_id'=>'2',
             'student_first_name'=>'test2',
             'student_last_name'=>'test_last',
@@ -109,7 +107,7 @@ class JuntosTest extends TestCase
             'site_id'=>'1'
         ]);
 
-        $this->assertDatabaseHas('students',['id'=>1,'student_first_name'=>'test2']);
+        $this->assertDatabaseHas('students',['id'=>$student->id,'student_first_name'=>'test2']);
     }
 
     /**
@@ -124,10 +122,11 @@ class JuntosTest extends TestCase
 
         $this->actingAs($user);
 
+        $student = Student::factory()->createOne();
 
-        $response = $this->delete('/students/1',[]);
 
-        $this->assertDatabaseMissing('students',['id'=>1]);
+        $this->delete('/students/'.$student->id,[]);
+        $this->assertDatabaseMissing('students',['id'=>$student->id]);
     }
 
     /**
@@ -142,7 +141,6 @@ class JuntosTest extends TestCase
 
         $response = $this->actingAs($user)->get('parents');
         $response->assertOk();
-
     }
 
     /**
