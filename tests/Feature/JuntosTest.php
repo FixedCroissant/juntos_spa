@@ -299,6 +299,88 @@ class JuntosTest extends TestCase
     }
 
     /**
+     *@test
+     * Admin user accessd the event listing page.
+     */
+    public function test_admin_see_event_listing(){
+        $user = User::factory()->createOne();
+
+        $adminRole = Role::find('1');
+        $user->roles()->attach($adminRole);
+
+        $response = $this->actingAs($user)->get('event');
+        $response->assertOk();
+    }
+
+    /**
+     *@test
+     * Coordinator access the event listing page.
+     */
+    public function test_coordinator_see_event_listing(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $response = $this->actingAs($user)->get('event');
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Coordinator access the event creation page.
+     */
+    public function test_coordinator_access_new_event_create_page(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $response = $this->actingAs($user)->get('event/create');
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Coordinator can create a new event successfully.
+     */
+    public function test_coordinator_create_new_event(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $response = $this->actingAs($user)->post('/event',[
+            'event_start_date' => '2000-01-01',
+            'event_end_date' => '2000-01-02',
+            'event_name' => 'FakeEvent',
+            'event_type' => '4H Club',
+            'event_city' => 'FakeCity',
+            'event_state' => 'NC',
+            'contact_hours'=>'1',
+            'site_id'=>1,
+        ]);
+
+        $newEvent = Event::orderBy('id','DESC')->first();
+
+        $this->assertDatabaseHas('events',['id'=>$newEvent->id,'event_name'=>'FakeEvent']);
+    }
+
+    /**
+     * @test
+     * Coordinator can see the edit event page.
+     */
+    public function test_coordinator_see_edit_event(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $event = Event::factory()->createOne();
+
+        $response = $this->actingAs($user)->get('event/'.$event->id."/edit");
+        $response->assertOk();
+    }
+
+    /**
      * @test
      * Admin see the volunteer listing.
      */
