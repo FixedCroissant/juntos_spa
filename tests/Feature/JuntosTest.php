@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Student;
+use App\Models\Event;
 
 class JuntosTest extends TestCase
 {
@@ -96,6 +97,36 @@ class JuntosTest extends TestCase
         ])->assertStatus(200);
     }
 
+    /**
+     * @test
+     */
+    public function test_coordinator_provide_student_add_attendance_no_event(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $this->followingRedirects()->actingAs($user)->post('students/attendance/complete',
+            [
+                'eventOptions'=>null,
+                'type'=>'student',
+            ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     */
+    public function test_coordinator_provide_student_remove_attendance(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $event = Event::factory()->createOne();
+        $student = Student::factory()->createOne();
+
+        $this->followingRedirects()->actingAs($user)->get('students/attendance/remove/'.$event->id."/".$student->id)->assertStatus(200);
+    }
 
     /**
      * @test
