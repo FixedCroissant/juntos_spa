@@ -76,6 +76,26 @@ class JuntosTest extends TestCase
         ])->assertStatus(200);
     }
 
+    /**
+     * @test
+     * Complete the process of saving a student to a particular event.
+     */
+    public function test_coordinator_provide_student_complete_attendance(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $this->followingRedirects()->actingAs($user)->post('students/attendance/complete',
+            [
+            'eventOptions'=>'1',
+            'type'=>'student',
+            'students'=>json_encode([[
+                'id'=>1,
+                'student_first_name'=>'Sample Student First',
+                'student_last_name'=>'Sample Student Last']]),
+        ])->assertStatus(200);
+    }
+
 
     /**
      * @test
