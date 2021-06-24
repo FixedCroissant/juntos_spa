@@ -91,6 +91,9 @@ class LoginController extends Controller
             //Check for existing user in the system.
         if($existingUser)
         {
+            //Event to check past date of appointments.
+            event(new CheckCoachingFollowUp($existingUser));
+
             auth()->login($existingUser, true);
         }
         else
