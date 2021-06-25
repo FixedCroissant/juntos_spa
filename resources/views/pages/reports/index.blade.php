@@ -31,6 +31,9 @@
                             </ul>
                             @roles(['Admin'])
                             <ul>
+                                <li><a href="{{route('reporting.show','all_volunteers_admin')}}">[ADMIN] Get Report of All Volunteers</a></li>
+                            </ul>
+                            <ul>
                                 <li><a href="{{route('reporting.show','all_events_admin')}}">[ADMIN] Get Report of All Events</a></li>
                             </ul>
                             <ul>

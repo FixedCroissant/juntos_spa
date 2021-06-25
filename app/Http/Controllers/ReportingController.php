@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Exports\StudentsExport;
 use App\Exports\VolunteersExport;
+use App\Exports\VolunteersAdminExport;
 use App\Exports\PostSurveyIncompleteExport;
 use App\Exports\AllEventsAdminExport;
 use App\Exports\AllEventAllAttendanceExport;
@@ -41,6 +42,13 @@ class ReportingController extends Controller
 
             return view('pages.reports.events.index')->with(['sites'=>$sites]);
         }
+        //Admin report.
+        if($type=="all_volunteers_admin"){
+            $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
+            $countyFilter = Volunteer::select('county')->orderBy('county','ASC')->distinct()->get();
+            return view('pages.reports.volunteers.admin.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
+        }
+
         if($type=="volunteers"){
             $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
             $countyFilter = Volunteer::select('county')->orderBy('county','ASC')->distinct()->get();
@@ -62,6 +70,10 @@ class ReportingController extends Controller
     public function volunteerExport(Request $request)
     {
         return \Excel::download(new VolunteersExport($request->get('counties'),$request->get('site')), 'volunteer_list.xlsx');
+    }
+    //Admin Report - Volunteers
+    public function volunteerAdminExport(Request $request){
+        return \Excel::download(new VolunteersAdminExport($request->get('counties'),$request->get('site')), 'admin_volunteer_list.xlsx');
     }
 
     public function postSurveyIncompleteExport(){
