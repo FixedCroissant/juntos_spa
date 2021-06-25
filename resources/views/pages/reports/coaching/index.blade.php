@@ -15,14 +15,14 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('reporting.index')}}">Report List</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Admin - Success Coaching Reporting</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Success Coaching Reporting</li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
                     <div class="row report-adjustment">
                         <div class="card report-adjustment-card">
-                            <h5>Admin - Success Coaching Report</h5>
+                            <h5>Success Coaching Report</h5>
                             <div class="col-md-11 offset-1">
                                 <table>
                                     <tr>
@@ -33,7 +33,7 @@
                                     <tr>
                                         <td>
                                             <label for="counties">Specific County for Student:</label>
-                                            {!! Form::open(['route' => 'reporting.coaching.admin.download', 'method' => 'get']) !!}
+                                            {!! Form::open(['route' => 'reporting.coaching.download', 'method' => 'get']) !!}
                                             <select multiple="multiple" name="counties[]" id="counties">
                                                 <option value="" selected>Please select county ...</option>
                                                 @foreach($countyStudentInput as $myCountyStudentInput)
