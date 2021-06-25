@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\Event;
+use App\Models\Volunteer;
 
 class JuntosTest extends TestCase
 {
@@ -267,7 +268,7 @@ class JuntosTest extends TestCase
 
     /**
      * @test
-     * Update an existing student record.
+     * Delete an existing student record.
      */
     public function test_delete_existing_student(){
         $user = User::factory()->createOne();
@@ -454,4 +455,141 @@ class JuntosTest extends TestCase
         $response = $this->actingAs($user)->get('volunteer');
         $response->assertOk();
     }
+
+    /**
+     * @test
+     * Coordinator see the volunteer listing.
+     */
+    public function test_coordinator_see_volunteer_listing(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $response = $this->actingAs($user)->get('volunteer');
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Properly go retrieve the volunteer page to create a new
+     * volunteer in the system.
+     */
+    public function test_coordinator_create_page_volunteer(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $response = $this->actingAs($user)->get('volunteer/create');
+        $response->assertOk();
+    }
+    /**
+     * @test
+     * Create a new volunteer in the system.
+     */
+    public function test_coordinator_create_new_volunteer(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $response = $this->actingAs($user)->post('/volunteer',[
+            'volunteer_first_name'=>'test_volunteer_first',
+            'volunteer_last_name'=>'test_volunteer_last',
+            'address_line_1'=>'123 Main Street',
+            'city'=>'Testville',
+            'state'=>'AZ',
+            'zip'=>'12345',
+            'site_id'=>'1'
+        ]);
+
+        $this->assertDatabaseHas('volunteers',['id'=>1,'volunteer_first_name'=>'test_volunteer_first']);
+    }
+
+    /**
+     * @test
+     * Create a new volunteer in the system, check required fields and
+     * make sure validation holds.
+     */
+    public function test_coordinator_create_new_volunteer_missing_fields(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $this->actingAs($user)->followingRedirects()->post('/volunteer',[
+            'volunteer_first_name'=>'test_volunteer_first',
+            'zip'=>'12345'
+        ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * Review an existing volunteer in the system to edit.
+     */
+    public function test_coordinator_see_editable_volunteer(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $volunteer = Volunteer::factory()->createOne();
+
+        $response = $this->actingAs($user)->get('volunteer/'.$volunteer->id."/edit");
+        $response->assertOk();
+    }
+    /**
+     * @test
+     * Review an existing volunteer in the system to edit.
+     * Check if shouldn't have ability to review.
+     */
+    public function test_coordinator_see_editable_volunteer_check_access(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        //This test checks for lack of access, person is given no explicit site access.
+        $volunteer = Volunteer::factory()->createOne();
+        $this->actingAs($user)->followingRedirects()->get('volunteer/'.$volunteer->id."/edit")
+            ->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * Update an existing volunteer record.
+     */
+    public function test_update_existing_volunteer(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $volunteer = Volunteer::factory()->createOne();
+
+        $this->actingAs($user)->put('/volunteer/'.$volunteer->id,[
+            'volunteer_first_name'=>'test_volunteer_first_2',
+            'volunteer_last_name'=>'test_volunteer_last_2',
+            'address_line_1'=>'123 Main St.',
+            'county'=>'TestCounty',
+            'city'=>'Testville',
+            'state'=>'AZ',
+            'zip'=>'12345',
+            'email_address'=>'volunteer@test.com',
+            'site_id'=>'1'
+        ]);
+
+        $this->assertDatabaseHas('volunteers',['id'=>$volunteer->id,'volunteer_first_name'=>'test_volunteer_first_2']);
+    }
+
+    /**
+     * @test
+     * Delete an existing volunteer record.
+     */
+    public function test_delete_existing_volunteer(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $volunteer = Volunteer::factory()->createOne();
+
+        $this->actingAs($user)->delete('/volunteer/'.$volunteer->id,[]);
+        $this->assertDatabaseMissing('students',['id'=>$volunteer->id]);
+    }
+
 }
