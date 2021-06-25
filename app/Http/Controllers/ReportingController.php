@@ -10,6 +10,7 @@ use DB;
 use App\Exports\StudentsExport;
 use App\Exports\VolunteersExport;
 use App\Exports\VolunteersAdminExport;
+use App\Exports\CoachingAppointmentExport;
 use App\Exports\CoachingAppointmentAdminExport;
 use App\Exports\PostSurveyIncompleteExport;
 use App\Exports\AllEventsAdminExport;
@@ -49,6 +50,12 @@ class ReportingController extends Controller
             $countyFilter = Volunteer::select('county')->orderBy('county','ASC')->distinct()->get();
             return view('pages.reports.volunteers.admin.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
+        //Not Admin.
+        if($type=="all_coaching_meetings"){
+            $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
+            $countyFilter = Student::select('county')->orderBy('county','ASC')->distinct()->get();
+            return view('pages.reports.coaching.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
+        }
         //Admin report.
         if($type=="all_coaching_meetings_admin"){
             $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
@@ -77,6 +84,10 @@ class ReportingController extends Controller
     {
         return \Excel::download(new VolunteersExport($request->get('counties'),$request->get('site')), 'volunteer_list.xlsx');
     }
+    public function coachingExport(Request $request){
+        return \Excel::download(new CoachingAppointmentExport($request->get('counties'),$request->get('site')), 'coaching_appointment_list.xlsx');
+    }
+
     //Admin Report - Volunteers
     public function volunteerAdminExport(Request $request){
         return \Excel::download(new VolunteersAdminExport($request->get('counties'),$request->get('site')), 'admin_volunteer_list.xlsx');
