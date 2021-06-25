@@ -62,7 +62,7 @@ class CoachingAppointmentController extends Controller
             ->get();
 
 
-        return view('pages.coaching_appointments.create')->with(['students'=>$students,'user_id'=>$user]);
+        return view('pages.coaching_appointments.create')->with(['students'=>$students,'user_id'=>$user->id]);
     }
 
     public function store(Request $request){
