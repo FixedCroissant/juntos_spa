@@ -24,10 +24,13 @@
                             <h5>Report Options</h5>
 
                             <ul>
-                                <li><a href="{{route('reporting.show','students')}}">Get Students</a></li>
+                                <li><a href="{{route('reporting.show','students')}}">Get Report of All Students</a></li>
                             </ul>
                             <ul>
-                                <li><a href="{{route('reporting.show','volunteers')}}">Get Volunteers</a></li>
+                                <li><a href="{{route('reporting.show','volunteers')}}">Get Report of All Volunteers</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="{{route('reporting.show','all_coaching_meetings')}}">Get Report of All Coaching Meetings</a></li>
                             </ul>
                             @roles(['Admin'])
                             <ul>
