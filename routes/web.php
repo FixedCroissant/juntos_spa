@@ -109,6 +109,7 @@ Route::get('reporting/volunteers/admin/download',['as'=>'reporting.volunteers.ad
 Route::get('reporting/post_survey_incomplete/download',['as'=>'reporting.post_survey_incomplete.download','uses'=>'App\Http\Controllers\ReportingController@postSurveyIncompleteExport']);
 Route::get('reporting/events/admin/download',['as'=>'reporting.events.admin.download','uses'=>'App\Http\Controllers\ReportingController@allEventsAdmin']);
 Route::get('reporting/events/all_attendance/download',['as'=>'reporting.events.allattendance.download','uses'=>'App\Http\Controllers\ReportingController@allEventsAllAttendanceStudentParentExport']);
+Route::get('reporting/coaching/admin/download',['as'=>'reporting.coaching.admin.download','uses'=>'App\Http\Controllers\ReportingController@coachingAdminExport']);
 
 
 Route::resource('reporting',ReportingController::class)->only(['index','show']);

@@ -37,6 +37,9 @@
                                 <li><a href="{{route('reporting.show','all_events_admin')}}">[ADMIN] Get Report of All Events</a></li>
                             </ul>
                             <ul>
+                                <li><a href="{{route('reporting.show','all_coaching_meetings_admin')}}">[ADMIN] Get Report of Coaching Meetings</a></li>
+                            </ul>
+                            <ul>
                                 <li><a href="{{route('reporting.show','post_survey_incomplete')}}">[ADMIN] Get Report of Post Survey Incomplete</a></li>
                             </ul>
                             <ul>
