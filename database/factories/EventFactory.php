@@ -30,6 +30,7 @@ class EventFactory extends Factory
                 'event_city'=>$this->faker->city,
                 'event_state'=>$this->faker->state,
                 'event_zip'=>$this->faker->postcode,
+                'site_id'=>1
         ];
     }
 }
