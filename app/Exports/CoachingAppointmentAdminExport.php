@@ -56,6 +56,7 @@ class CoachingAppointmentAdminExport implements FromView, ShouldAutoSize, WithEv
                 ->leftJoin('sites','students.site_id','=','sites.id')
                 ->leftJoin('users','coach_appointments.user_id','=','users.id')
                 ->orderBy('appointment_date','ASC')
+                ->whereIn('site_id',$sitePicked)
                 ->get();
         }
         //If site is null, but counties are not
@@ -64,9 +65,10 @@ class CoachingAppointmentAdminExport implements FromView, ShouldAutoSize, WithEv
                 ->leftJoin('sites','students.site_id','=','sites.id')
                 ->leftJoin('users','coach_appointments.user_id','=','users.id')
                 ->orderBy('appointment_date','ASC')
+                ->whereIn('county',$counties)
                 ->get();
         }
-        //No sites and no counties and no grade give all.
+        //No sites and no counties give all.
         else if(is_null($sitePicked[0]) && is_null($counties[0])){
             $appointments = CoachAppointment::leftJoin('students','coach_appointments.student_id','=','students.id')
                 ->leftJoin('sites','students.site_id','=','sites.id')
@@ -74,18 +76,17 @@ class CoachingAppointmentAdminExport implements FromView, ShouldAutoSize, WithEv
                 ->orderBy('appointment_date','ASC')
                 ->get();
         }
-        //Both county and site picked, add another limitation.
+        //Both county and site picked
         else if(!is_null($sitePicked[0]) && !is_null($counties[0])){
             $appointments = CoachAppointment::leftJoin('students','coach_appointments.student_id','=','students.id')
                 ->leftJoin('sites','students.site_id','=','sites.id')
                 ->leftJoin('users','coach_appointments.user_id','=','users.id')
                 ->orderBy('appointment_date','ASC')
+                ->whereIn('site_id',$sitePicked)->whereIn('county',$counties)
                 ->get();
         }
 
         return view('pages.reports.coaching.report_generate', [
-                    'appointments'=>$appointments
-
-        ]);
+                    'appointments'=>$appointments]);
     }
 }

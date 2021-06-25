@@ -52,7 +52,7 @@ class ReportingController extends Controller
         //Admin report.
         if($type=="all_coaching_meetings_admin"){
             $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
-            $countyFilter = Volunteer::select('county')->orderBy('county','ASC')->distinct()->get();
+            $countyFilter = Student::select('county')->orderBy('county','ASC')->distinct()->get();
             return view('pages.reports.coaching.admin.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
         if($type=="volunteers"){

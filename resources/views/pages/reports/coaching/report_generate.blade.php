@@ -24,7 +24,7 @@
         <tr>
             <td>{{$specificAppointment->appointment_date}}</td>
             <td>{{$specificAppointment->site_name}}</td>
-            <td>{{$specificAppointment->student_first_name}} {{$specificAppointment->student_first_name}}</td>
+            <td>{{$specificAppointment->student_first_name}} {{$specificAppointment->student_last_name}}</td>
             <td>{{$specificAppointment->name}}</td>
             <td>{{$specificAppointment->start_gpa}}</td>
             <td>{{$specificAppointment->end_gpa}}</td>
