@@ -366,6 +366,27 @@ class JuntosTest extends TestCase
 
     /**
      * @test
+     *
+     * Check whether the valdiation is working when not all information
+     * is provided when creating an new event.
+     */
+    public function test_coordinator_create_new_event_failure(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $this->actingAs($user)->followingRedirects()->post('/event',[
+            'event_type' => '4H Club',
+            'event_city' => 'FakeCity',
+            'event_state' => 'NC',
+            'contact_hours'=>'1',
+            'site_id'=>1,
+        ])->assertStatus(200);
+    }
+
+    /**
+     * @test
      * Coordinator can see the edit event page.
      */
     public function test_coordinator_see_edit_event(){
@@ -378,6 +399,46 @@ class JuntosTest extends TestCase
 
         $response = $this->actingAs($user)->get('event/'.$event->id."/edit");
         $response->assertOk();
+    }
+
+    /**
+ * @test
+ * Test that the profile/password page displays accordingly.
+ */
+    public function test_admin_get_profile_page(){
+        $user = User::factory()->createOne();
+        $adminRole = Role::find('1');
+        $user->roles()->attach($adminRole);
+        $response = $this->actingAs($user)->get('profile')->assertOk();
+    }
+
+    /**
+     * @test
+     * Test that the profile page updates accordingly.
+     */
+    public function test_admin_update_profile_page(){
+        $user = User::factory()->createOne();
+        $adminRole = Role::find('1');
+        $user->roles()->attach($adminRole);
+        $response = $this->followingRedirects()->actingAs($user)->put('profile',[
+            'name'=>'user',
+            'email' => 'demo@test.dev'
+        ])->assertOk();
+    }
+
+    /**
+     * @test
+     * Test that the password page updates accordingly.
+     */
+    public function test_admin_update_password_page(){
+        $user = User::factory()->createOne();
+        $adminRole = Role::find('1');
+        $user->roles()->attach($adminRole);
+        $response = $this->followingRedirects()->actingAs($user)->put('profile/password',[
+            'old_password'=>'oldiebutagoodie',
+            'password' => 'lokoilokilolk',
+            'password_confirmation'=>'lokoilokilolk'
+        ])->assertOk();
     }
 
     /**
