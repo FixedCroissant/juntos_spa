@@ -120,7 +120,8 @@ Route::resource('reporting',ReportingController::class)->only(['index','show']);
 
 //Admin  Routes
 //.name
-Route::name('admin.')->group(function(){
+//Only Admin Role have access.
+Route::name('admin.')->middleware(['admin'])->group(function(){
 Route::get('admin/register','App\Http\Controllers\Admin\AdminController@ShowRegistrationForm')->name('register');
 Route::post('admin/register/complete', 'App\Http\Controllers\Admin\AdminController@completeRegistration')->name('complete-registration');
 Route::get('/admin/index','App\Http\Controllers\Admin\AdminController@index')->name('backend.index');
