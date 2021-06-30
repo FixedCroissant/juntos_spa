@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Student;
+use App\Models\Parents;
 use App\Models\Event;
 use App\Models\Volunteer;
 
@@ -591,5 +592,113 @@ class JuntosTest extends TestCase
         $this->actingAs($user)->delete('/volunteer/'.$volunteer->id,[]);
         $this->assertDatabaseMissing('students',['id'=>$volunteer->id]);
     }
+
+    /**
+     * @test
+     * Test coordinator to see the parent listing.
+     */
+    public function test_coordinator_see_parent_listing(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $response = $this->actingAs($user)->get('parents');
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Properly go retrieve the parent page to create a new
+     * parent in the system.
+     */
+    public function test_coordinator_create_page_parent(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $student = Student::factory()->createOne();
+        $response = $this->actingAs($user)->get(route('parents.create',['id'=>$student->id]));
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Make sure it is possible to save a new parent in the system.
+     */
+    public function test_coordinator_save_new_parent(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $student = Student::factory()->createOne();
+
+        $response = $this->actingAs($user)->post('/parents',[
+            'student_id'=>$student->id,
+            'parent_first_name'=>'test_parent_first',
+            'parent_last_name'=>'test_parent_last',
+            'address_line_1'=>'123 Main Street',
+            'city'=>'Testville',
+            'state'=>'AZ',
+            'zip'=>'12345',
+        ]);
+
+        $this->assertDatabaseHas('parents',['id'=>1,'parent_first_name'=>'test_parent_first']);
+    }
+
+
+    /**
+     * @test
+     *
+     * Check whether the valdiation is working when not all information
+     * is provided when creating an new parent record.
+     */
+    public function test_coordinator_create_new_parent_failure(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $this->actingAs($user)->followingRedirects()->post('/parents',[
+            'parent_first_name' => 'Parent Test',
+        ])->assertStatus(200);
+    }
+
+    /**
+     * @test
+     * Test coordinator ability to retrieve editable parent.
+     */
+    public function test_coordinator_editable_parent_listing(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+        $parent = Parents::factory()->createOne();
+        $student = Student::factory()->createOne();
+        $student->parent()->save($parent);
+
+        $response = $this->actingAs($user)->get('parents/'.$parent->id."/edit");
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     * Delete an existing parent record.
+     */
+    public function test_delete_existing_parent(){
+        $user = User::factory()->createOne();
+        $coordinatorRole = Role::find('2');
+        $user->roles()->attach($coordinatorRole);
+        $user->studentAccess()->attach(1);
+
+        $parent = Parents::factory()->createOne();
+        $student = Student::factory()->createOne();
+        $student->parent()->save($parent);
+
+        $this->actingAs($user)->delete('/parents/'.$parent->id,[]);
+        $this->assertDatabaseMissing('parents',['id'=>$parent->id]);
+    }
+
+
+
 
 }
