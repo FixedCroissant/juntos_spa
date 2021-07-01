@@ -13,6 +13,7 @@ use App\Exports\VolunteersAdminExport;
 use App\Exports\CoachingAppointmentExport;
 use App\Exports\CoachingAppointmentAdminExport;
 use App\Exports\PostSurveyIncompleteExport;
+use App\Exports\AllEventsExport;
 use App\Exports\AllEventsAdminExport;
 use App\Exports\AllEventAllAttendanceExport;
 
@@ -38,8 +39,14 @@ class ReportingController extends Controller
 
             return view('pages.reports.students.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
+        //Show all events -- coordinator
+        if($type=="all_events"){
+            $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
+
+            return view('pages.reports.events.coord_index')->with(['sites'=>$sites]);
+        }
         //For admin, show all events in excel.
-        if($type=="all_events_admin"){
+        if($type=="all_events_admin" || $type=="all_events"){
             $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
 
             return view('pages.reports.events.index')->with(['sites'=>$sites]);
@@ -83,6 +90,19 @@ class ReportingController extends Controller
     public function volunteerExport(Request $request)
     {
         return \Excel::download(new VolunteersExport($request->get('counties'),$request->get('site')), 'volunteer_list.xlsx');
+    }
+    //Event report -- Coordinator
+    public function allEvents (Request $request){
+        $validator = \Validator::make($request->all(), [
+            'start_date' => 'required',
+            'end_date' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        return \Excel::download(new AllEventsExport($request->get('site'),$request->get('event_type'),$request->get('start_date'),$request->get('end_date')), 'event_list.xlsx');
     }
     public function coachingExport(Request $request){
         return \Excel::download(new CoachingAppointmentExport($request->get('counties'),$request->get('site')), 'coaching_appointment_list.xlsx');
