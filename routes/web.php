@@ -108,6 +108,7 @@ Route::get('reporting/volunteers/download',['as'=>'reporting.volunteers.download
 Route::get('reporting/volunteers/admin/download',['as'=>'reporting.volunteers.admin.download','uses'=>'App\Http\Controllers\ReportingController@volunteerAdminExport']);
 Route::get('reporting/post_survey_incomplete/download',['as'=>'reporting.post_survey_incomplete.download','uses'=>'App\Http\Controllers\ReportingController@postSurveyIncompleteExport']);
 Route::get('reporting/events/admin/download',['as'=>'reporting.events.admin.download','uses'=>'App\Http\Controllers\ReportingController@allEventsAdmin']);
+Route::get('reporting/events/download',['as'=>'reporting.events.download','uses'=>'App\Http\Controllers\ReportingController@allEvents']);
 Route::get('reporting/events/all_attendance/download',['as'=>'reporting.events.allattendance.download','uses'=>'App\Http\Controllers\ReportingController@allEventsAllAttendanceStudentParentExport']);
 Route::get('reporting/coaching/download',['as'=>'reporting.coaching.download','uses'=>'App\Http\Controllers\ReportingController@coachingExport']);
 Route::get('reporting/coaching/admin/download',['as'=>'reporting.coaching.admin.download','uses'=>'App\Http\Controllers\ReportingController@coachingAdminExport']);
