@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Role;
 use Carbon\Carbon;
 use App\Events\CheckCoachingFollowUp;
+use App\Events\NotifyJuntos;
 
 
 class NCSUShibbolethAuthenticate
@@ -92,7 +93,10 @@ class NCSUShibbolethAuthenticate
                     $user->roles()
                         ->attach($role);
 
-                    return $user;
+                    //Notify JUNTOS of new User.
+                    event(new NotifyJuntos($user));
+
+            return $user;
         }
     }
 

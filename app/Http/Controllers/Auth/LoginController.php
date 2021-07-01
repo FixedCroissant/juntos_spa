@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Events\CheckCoachingFollowUp;
+use App\Events\NotifyJuntos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -110,6 +111,9 @@ class LoginController extends Controller
                 $role = Role::find('4');
 
                 $newUser->roles()->attach($role);
+
+                //Notify Juntos of new user.
+                event(new NotifyJuntos($newUser));
 
                 //Log user In.
                 auth()->login($newUser, true);
