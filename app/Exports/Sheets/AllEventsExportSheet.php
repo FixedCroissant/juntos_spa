@@ -66,12 +66,12 @@ class AllEventsExportSheet implements FromView, WithTitle, ShouldAutoSize,WithEv
         //Limited results based on site assignment.
         //If site association is provided, but no event type.
         else if(is_null($eventTypePicked[0]) && !is_null($sitePicked[0])){
-            $events = Event::leftJoin('event_attendance','events.id','=','event_attendance.event_id')->leftJoin('sites', 'events.site_id', '=', 'sites.id')->whereIn('site_id',$sitePicked)
+            $events = Event::leftJoin('sites', 'events.site_id', '=', 'sites.id')->whereIn('site_id',$sitePicked)
                 ->whereIn('site_id',$userSites)->select('events.id as id', 'events.*', 'sites.site_name')->whereDate('event_start_date','>=',$startDate)->whereDate('event_end_date','<=',$endDate)->get();
         }
         else {
             //Filter events down.
-          $events = Event::leftJoin('event_attendance','events.id','=','event_attendance.event_id')->leftJoin('sites', 'events.site_id', '=', 'sites.id')->whereIn('event_type', $eventTypePicked)
+          $events = Event::leftJoin('sites', 'events.site_id', '=', 'sites.id')->whereIn('event_type', $eventTypePicked)
                 ->whereIn('site_id',$userSites)->select('events.id as id', 'events.*', 'sites.site_name')->whereDate('event_start_date','>=',$startDate)->whereDate('event_end_date','<=',$endDate)->get();
         }
 

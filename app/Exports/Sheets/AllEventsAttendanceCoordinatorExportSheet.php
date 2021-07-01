@@ -66,7 +66,8 @@ class AllEventsAttendanceCoordinatorExportSheet implements FromView, WithTitle, 
         //If site association is provided, but no event type.
         else if(is_null($eventTypePicked[0]) && !is_null($sitePicked[0])){
             $events = Event::leftJoin('event_attendance','events.id','=','event_attendance.event_id')->leftJoin('sites', 'events.site_id', '=', 'sites.id')->whereIn('site_id',$sitePicked)
-                ->whereIn('site_id',$userSites)->select('events.id as id', 'events.*', 'sites.site_name')->whereDate('event_start_date','>=',$startDate)->whereDate('event_end_date','<=',$endDate)->get();
+                ->select('events.id as id', 'events.*', 'sites.site_name',\DB::raw('sibling_number+other_guests_number AS totalOtherGuest'),'sibling_number','other_guests_number','event_id')->distinct()
+                ->whereIn('site_id',$userSites)->whereDate('event_start_date','>=',$startDate)->whereDate('event_end_date','<=',$endDate)->get();
         }
         else {
             //Filter events down.
