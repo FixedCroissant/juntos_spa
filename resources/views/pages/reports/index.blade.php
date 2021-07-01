@@ -30,7 +30,7 @@
                                 <li><a href="{{route('reporting.show','volunteers')}}">Get Report of All Volunteers</a></li>
                             </ul>
                             <ul>
-                                <li><a href="{{route('reporting.show','all_events')}}">Get Report of All Events</a></li>
+                                <li><a href="{{route('reporting.show','all_events')}}">Get Report of All Events (With Event Attendance)</a></li>
                             </ul>
                             <ul>
                                 <li><a href="{{route('reporting.show','all_coaching_meetings')}}">Get Report of All Coaching Meetings</a></li>

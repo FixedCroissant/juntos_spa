@@ -26,12 +26,16 @@
                             <div class="row">
                                 <div class="col-md-11 offset-1">
                                     <p>
-                                        Please at a minimum provide a start date and a end date range to provide an accurate result. <br/>
-                                        <br/>
-                                        The date range will provide events past the start date but will cut off at the end date of your choice. <br/>
+                                        Please at a minimum provide a start date and a end date range to provide an accurate result. The date range will provide events past the start date but will cut off at the end date of your choice. <br/>
                                         <br/>
                                         For example: <br/>
                                         Picking a start date of 04/01/2019 and a end date of 05/31/2019, will provide all events between that specified range. <br/>
+                                        <br/>
+                                        Note: <br/>
+                                        You will be provided with two sheets, one that provides you with a list of Events based on the conditions you specify below and a second Microsoft Excel sheet
+                                        that provides you with the running attendance. <br/>
+                                        Both sheets that are downloaded will be determined based on the criteria you provide below.
+                                        <br/>
                                         <br/>
                                     </p>
                                 </div>
