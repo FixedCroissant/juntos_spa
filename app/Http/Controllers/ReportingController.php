@@ -102,7 +102,7 @@ class ReportingController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        return \Excel::download(new AllEventsExport($request->get('site'),$request->get('event_type'),$request->get('start_date'),$request->get('end_date')), 'event_list.xlsx');
+        return \Excel::download(new AllEventsExport($request->get('site'),$request->get('event_type'),$request->get('start_date'),$request->get('end_date')), 'coordinator_event_attendance_list.xlsx');
     }
     public function coachingExport(Request $request){
         return \Excel::download(new CoachingAppointmentExport($request->get('counties'),$request->get('site')), 'coaching_appointment_list.xlsx');
