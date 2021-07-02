@@ -20,11 +20,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="card">
+                        <div class="card" style="padding-left:15px;">
                             <h5>Report Options</h5>
 
+                            <h4>Coordinator Reports</h4>
                             <ul>
-                                <li><a href="{{route('reporting.show','students')}}">Get Report of All Students</a></li>
+                                <li><a href="{{route('reporting.show','students')}}">Get Report of All Students (includes Survey Results)</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="{{route('reporting.show','parents')}}">Get Report of All Parents (includes Survey Results)</a></li>
                             </ul>
                             <ul>
                                 <li><a href="{{route('reporting.show','volunteers')}}">Get Report of All Volunteers</a></li>
@@ -36,6 +40,7 @@
                                 <li><a href="{{route('reporting.show','all_coaching_meetings')}}">Get Report of All Coaching Meetings</a></li>
                             </ul>
                             @roles(['Admin'])
+                            <h4>Admin Reports</h4>
                             <ul>
                                 <li><a href="{{route('reporting.show','all_volunteers_admin')}}">[ADMIN] Get Report of All Volunteers</a></li>
                             </ul>
