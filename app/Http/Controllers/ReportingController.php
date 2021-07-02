@@ -8,6 +8,7 @@ use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use DB;
 use App\Exports\StudentsExport;
+use App\Exports\ParentsExport;
 use App\Exports\VolunteersExport;
 use App\Exports\VolunteersAdminExport;
 use App\Exports\CoachingAppointmentExport;
@@ -38,6 +39,14 @@ class ReportingController extends Controller
             $countyFilter = Student::select('county')->orderBy('county','ASC')->distinct()->get();
 
             return view('pages.reports.students.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
+        }
+        if($type=="parents"){
+            //Get all sites
+            $sites = Sites::select('id','site_name')->orderBy('site_name','ASC')->get();
+            //Student Provided Counties
+            $countyFilter = Student::select('county')->orderBy('county','ASC')->distinct()->get();
+
+            return view('pages.reports.parents.index')->with(['sites'=>$sites,'countyStudentInput'=>$countyFilter]);
         }
         //Show all events -- coordinator
         if($type=="all_events"){
@@ -85,6 +94,11 @@ class ReportingController extends Controller
     {
         return \Excel::download(new StudentsExport($request->get('counties'),$request->get('site'),$request->get('grade')), 'student_list.xlsx');
     }
+    //DOwnload report - Parents -- Coordinator
+    public function parentExport(Request $request){
+        return \Excel::download(new ParentsExport($request->get('counties'),$request->get('site'),$request->get('grade')), 'parent_list.xlsx');
+    }
+
 
     //Download report -- Volunteers
     public function volunteerExport(Request $request)
