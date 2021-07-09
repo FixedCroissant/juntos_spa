@@ -5,6 +5,13 @@ This project is a reconstruction of the original converted web application with 
 The original Juntos application code can be referenced
 [here](https://github.ncsu.edu/jjwill10/juntos), as this was a converted application from Adobe Cold Fusion and Microsoft SQL Server application to PHP/MySQL appplication. 
 
+#### Branches
++ `main` is the production version of the application.
++ `updates_mpa` is the demonstration version of the application.
++ `tests` is an offshoot branch of updates_mpa of Feature testing that will be merged into the development branch shortly.
++ `fe` is the initial single page application using [VueJS](https://vuejs.org) version that was initially in development.
+ 
+
 #### Basic Installation
 In order to complete an installation of this application, you may want to start with the following:
 
