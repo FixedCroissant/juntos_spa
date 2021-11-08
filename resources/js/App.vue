@@ -260,7 +260,7 @@
                 this.$store.commit('isLoggedOut');
 
                 //Logout Of Google (Client Call for Signing out Doesn't appropriately work with Socialite.)
-                this.logoutOfGoogle();
+                //this.logoutOfGoogle();
 
             }
 

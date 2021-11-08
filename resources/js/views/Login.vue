@@ -53,9 +53,9 @@ offset-md="3"
       </v-row>
 
       <v-row>
-        <v-col cols="12" lg="6" md="6" sm="6" xs="6" offset-md="4" offset-sm="3" offset-xs="5" >
+        <!--<v-col cols="12" lg="6" md="6" sm="6" xs="6" offset-md="4" offset-sm="3" offset-xs="5" >
           <v-btn style="margin-left:15px" v-on:click="loginGoogle" type="button">Login with Google</v-btn>
-        </v-col>
+        </v-col>-->
       </v-row>
     </v-container>    
   </v-form>
@@ -87,6 +87,7 @@ offset-md="3"
         v=>!!v || 'Password is required.'
       ]
     }),
+    
     
     mounted() {
             console.log('Login Component mounted!!')
@@ -225,7 +226,11 @@ offset-md="3"
                     this.$store.commit('saveToken',response.data.access_token)
                     this.$store.commit('saveUser',response.data.user);
                     this.$store.commit('saveRole',response.data.roles);
-                    this.updateAbility(response.data.roles);
+                    
+                    //Causes issues on first page load.
+                    //this.updateAbility(response.data.roles);
+                    
+                    
                     this.$store.dispatch('setAuthenticated');
                     }
                                 else if(response.data.message){
@@ -243,6 +248,9 @@ offset-md="3"
                                 }
                             })}
               catch(err){
+                //write to log.
+                console.log('error processing');
+                console.log(err);
                 alert(err);
               }
       }

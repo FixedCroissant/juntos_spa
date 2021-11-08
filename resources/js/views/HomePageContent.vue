@@ -9,10 +9,10 @@
 </template>
 
 <script>
- import DemoModal from '../components/DemoModal.vue';
+ 
     export default {
      components:{
-                DemoModal
+                
         }
     }
 </script>
