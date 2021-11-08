@@ -24,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        
+        //Force HTTPS if used on a production environment
+        if(config('app.env') === 'production') {
+            \URL::forceScheme('https');
+        }
+        
+        
         //Fix access violation: 1071 Specified key was too long error when migrating.
         Schema::defaultStringLength(191);
     }
