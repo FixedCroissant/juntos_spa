@@ -42,38 +42,13 @@ Vue.use(VueAxios, axios);
 //globally register can component.
 import { Can } from '@casl/vue';
 
+import {Ability} from '@casl/ability';
+const ability = new Ability();
+//Add ability into vue.
+Vue.use(abilitiesPlugin,ability);
+
+
 Vue.component('Can', Can);
-
-//Get User
-//using local storage.
-const user = JSON.parse(localStorage.getItem('vuex'));
-
-
-//Check if null, if so redirect to login.
-if(user==null || user==undefined){
-  //Go back to the homepage to login.
-  router.push({name: 'home'});
-}
-else if(user.ROLES==null || user.ROLES==undefined){
-  router.push({name:'home'});
-}
-
-else
-{
-  const ability = defineAbilityFor(user.ROLES);
-  //Utilize our abilities that we setup in /config/ability.js
-  //If added from the user above.
-   Vue.use(abilitiesPlugin, ability);
-   //If testing in the ability plugin, keep as a function like this ability().
-   //Vue.use(abilitiesPlugin, ability());
-  //temp end -- end handle castle abilties.
-}
-
-
-
-
-
-
 
 
 
@@ -86,6 +61,7 @@ Vue.filter('formatDate', function(value) {
       return moment(String(value)).format('MM/DD/YYYY')
   }
 });
+
 
 
 //Create new Vue Application

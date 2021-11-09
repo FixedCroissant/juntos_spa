@@ -90,8 +90,8 @@ offset-md="3"
     
     
     mounted() {
-            console.log('Login Component mounted!!')
-            console.log(process.env.MIX_API_URL)
+            //console.log('Login Component mounted!!');
+            //console.log(process.env.MIX_API_URL);
 
             //Allow popup to happen for Google.
              window.addEventListener('message', this.onMessage, false);            
@@ -227,9 +227,7 @@ offset-md="3"
                     this.$store.commit('saveUser',response.data.user);
                     this.$store.commit('saveRole',response.data.roles);
                     
-                    //Causes issues on first page load.
-                    //this.updateAbility(response.data.roles);
-                    
+                    this.updateAbility(response.data.roles);                    
                     
                     this.$store.dispatch('setAuthenticated');
                     }
@@ -250,8 +248,7 @@ offset-md="3"
               catch(err){
                 //write to log.
                 console.log('error processing');
-                console.log(err);
-                alert(err);
+                //console.log(err);
               }
       }
     }
